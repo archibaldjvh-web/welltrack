@@ -2,112 +2,58 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>WellTrack — Promoter Portal</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0a0d0f;--surface:#111518;--surface2:#181d21;--border:#222930;--border2:#2d3640;--accent:#e8a020;--adim:rgba(232,160,32,.12);--green:#4ade80;--gdim:rgba(74,222,128,.12);--blue:#38bdf8;--bdim:rgba(56,189,248,.12);--red:#f87171;--rdim:rgba(248,113,113,.12);--purple:#a855f7;--pdim:rgba(168,85,247,.12);--text:#e2e8f0;--text2:#94a3b8;--muted:#4a5568;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
-
-/* AUTH */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
 .auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
-.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:40px;width:380px;max-width:100%;}
-.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--accent);margin-bottom:4px;}
-.auth-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;}
-.auth-desc{font-size:12px;color:var(--text2);margin-bottom:28px;line-height:1.6;}
+.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px 28px;width:100%;max-width:380px;}
+.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px;color:var(--accent);line-height:1;}
+.auth-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;margin-top:3px;}
+.auth-desc{font-size:12px;color:var(--text2);margin-bottom:24px;line-height:1.7;}
 .auth-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
-.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:11px 14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;margin-bottom:14px;transition:border-color .15s;}
+.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;margin-bottom:14px;transition:border-color .15s;-webkit-appearance:none;}
 .auth-input:focus{border-color:var(--accent);}
-.auth-btn{width:100%;padding:12px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .15s;margin-top:4px;}
-.auth-btn:hover{background:#ffb733;}
-.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:14px;display:none;}
-.auth-signup-link{text-align:center;margin-top:16px;font-size:12px;color:var(--muted);}
-.auth-signup-link span{color:var(--accent);cursor:pointer;}
-.auth-signup-link span:hover{text-decoration:underline;}
-
-/* APP */
+.auth-btn{width:100%;padding:15px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;margin-top:4px;}
+.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:12px;display:none;padding:10px;background:var(--rdim);border-radius:8px;line-height:1.5;}
+.auth-switch{text-align:center;margin-top:16px;font-size:12px;color:var(--muted);}
+.auth-switch span{color:var(--accent);cursor:pointer;}
 .app{display:none;}
-
-/* HEADER */
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
 .header-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);}
-.header-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:2px;}
-.header-right{display:flex;align-items:center;gap:16px;}
-.header-user{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);}
-.logout-btn{padding:6px 14px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:4px;cursor:pointer;transition:all .15s;}
-.logout-btn:hover{border-color:var(--red);color:var(--red);}
-
-/* CONTENT */
-.content{padding:28px 32px;max-width:1100px;margin:0 auto;}
-
-/* BANNER */
-.welcome-banner{background:linear-gradient(135deg,rgba(232,160,32,.12),rgba(232,160,32,.04));border:1px solid rgba(232,160,32,.2);border-radius:8px;padding:24px 28px;margin-bottom:28px;position:relative;overflow:hidden;}
-.welcome-banner::before{content:'';position:absolute;right:-40px;top:-40px;width:180px;height:180px;background:radial-gradient(circle,rgba(232,160,32,.1),transparent 70%);border-radius:50%;}
-.welcome-title{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:3px;color:var(--accent);text-transform:uppercase;margin-bottom:4px;}
-.welcome-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;}
-.welcome-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px;}
-
-/* DEAL CARDS */
-.deals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-bottom:32px;}
-.deal-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative;}
-.deal-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.4);}
-.deal-card-accent{height:3px;width:100%;}
-.deal-card-body{padding:20px;}
-.dc-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:2px;}
-.dc-location{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:16px;}
-.dc-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
-.dc-stat-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.header-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.header-right{display:flex;align-items:center;gap:10px;}
+.header-user{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.logout-icon{width:34px;height:34px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:16px;}
+.content{padding:16px;}
+.welcome-banner{background:linear-gradient(135deg,rgba(232,160,32,.12),rgba(232,160,32,.04));border:1px solid rgba(232,160,32,.2);border-radius:14px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden;}
+.welcome-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(232,160,32,.1),transparent 70%);border-radius:50%;}
+.welcome-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:4px;}
+.welcome-name{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;line-height:1.1;}
+.welcome-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:4px;}
+.deal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .2s;}
+.deal-card:active{transform:scale(.98);}
+.deal-card-accent{height:3px;}
+.deal-card-body{padding:16px;}
+.dc-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;line-height:1.1;}
+.dc-loc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin:3px 0 14px;}
+.dc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.dc-stat-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
 .dc-stat-value{font-size:13px;font-weight:500;}
-.dc-progress{margin-bottom:16px;}
-.dc-progress-label{display:flex;justify-content:space-between;margin-bottom:5px;}
-.dc-progress-label span{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
-.dc-progress-pct{color:var(--accent) !important;}
+.progress-label{display:flex;justify-content:space-between;margin-bottom:5px;}
 .progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:2px;background:var(--accent);transition:width .6s ease;}
-.dc-latest{border-top:1px solid var(--border);padding-top:14px;}
-.dc-latest-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.dc-update-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;font-size:11px;color:var(--text2);line-height:1.5;}
+.progress-fill{height:100%;border-radius:2px;background:var(--accent);}
+.progress-pct{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);}
+.progress-amt{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
+.dc-updates{border-top:1px solid var(--border);padding:12px 16px;background:var(--surface2);}
+.dc-updates-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.dc-update-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px;font-size:11px;color:var(--text2);line-height:1.5;}
 .dc-update-row:last-child{margin-bottom:0;}
-
-/* DEAL DETAIL */
-.back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;margin-bottom:20px;padding:6px 12px;border:1px solid var(--border);border-radius:4px;background:var(--surface);transition:all .15s;}
-.back-btn:hover{color:var(--text);border-color:var(--border2);}
-.deal-detail-header{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:24px 28px;margin-bottom:24px;}
-.ddh-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:2px;margin-bottom:4px;}
-.ddh-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:14px;}
-.ddh-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
-.tag{padding:4px 10px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid var(--border);color:var(--text2);}
-.ddh-raise-row{display:flex;align-items:center;gap:32px;}
-.ddh-raise-block{}
-.ddh-raise-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.ddh-raise-value{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--accent);}
-.ddh-raise-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
-
-/* TABS */
-.detail-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:24px;}
-.detail-tab{padding:10px 20px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;}
-.detail-tab:hover{color:var(--text);}
-.detail-tab.active{color:var(--accent);border-bottom-color:var(--accent);}
-.tab-content{display:none;}
-.tab-content.active{display:block;}
-
-/* UPDATES TIMELINE */
-.update-timeline-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);}
-.update-timeline-item:last-child{border-bottom:none;}
-.utl-left{width:80px;flex-shrink:0;}
-.utl-date{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
-.utl-time{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);opacity:.6;margin-top:2px;}
-.utl-bar{width:1px;background:var(--border2);margin:0 16px;position:relative;flex-shrink:0;}
-.utl-bar::before{content:'';position:absolute;top:4px;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;border:1px solid var(--border2);background:var(--surface);margin-left:-3px;}
-.utl-body{flex:1;}
-.utl-type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
-.utl-text{font-size:13px;line-height:1.7;color:var(--text2);}
-
-/* STATUS BADGE */
-.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;}
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;}
 .status-dot{width:5px;height:5px;border-radius:50%;}
 .s-drilling{background:var(--gdim);color:var(--green);}
 .s-drilling .status-dot{background:var(--green);animation:blink 1.4s infinite;}
@@ -120,35 +66,37 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .s-planning{background:var(--pdim);color:var(--purple);}
 .s-planning .status-dot{background:var(--purple);}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
-
-/* DOC TABLE */
-.doc-table{width:100%;border-collapse:collapse;}
-.doc-table th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:10px 16px;border-bottom:1px solid var(--border);text-align:left;background:var(--surface2);}
-.doc-table td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:12px;}
-.doc-table tr:last-child td{border-bottom:none;}
-.doc-ext{display:inline-flex;align-items:center;justify-content:center;width:34px;height:38px;border-radius:3px;font-family:'Bebas Neue',sans-serif;font-size:10px;}
-.ext-pdf{background:var(--rdim);color:var(--red);border:1px solid rgba(248,113,113,.2);}
-.ext-png{background:var(--adim);color:var(--accent);border:1px solid rgba(232,160,32,.2);}
-.ext-xlsx{background:var(--gdim);color:var(--green);border:1px solid rgba(74,222,128,.2);}
-.ext-kml{background:var(--gdim);color:var(--green);border:1px solid rgba(74,222,128,.2);}
-.ext-dwg{background:var(--bdim);color:var(--blue);border:1px solid rgba(56,189,248,.2);}
-
-/* PANELS */
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
-.panel-head{padding:13px 20px;border-bottom:1px solid var(--border);background:var(--surface2);}
-.panel-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;}
-
-/* LOADING / EMPTY */
-.loading{display:flex;align-items:center;justify-content:center;padding:60px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;gap:10px;}
+.back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;margin-bottom:16px;padding:9px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);}
+.deal-detail-header{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px;}
+.ddh-name{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;}
+.ddh-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin:4px 0 12px;}
+.ddh-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.tag{padding:4px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid var(--border);color:var(--text2);}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;}
+.tab{padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+.uli{display:flex;gap:10px;padding:14px 0;border-bottom:1px solid var(--border);}
+.uli:last-child{border-bottom:none;}
+.uli-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.u-drill{background:var(--gdim);}
+.u-doc{background:var(--bdim);}
+.u-reg{background:var(--pdim);}
+.u-fin{background:var(--adim);}
+.uli-type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
+.uli-text{font-size:13px;line-height:1.7;color:var(--text2);}
+.uli-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border);}
+.info-row:last-child{border-bottom:none;}
+.info-label{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.info-value{font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:right;}
+.loading{display:flex;align-items:center;justify-content:center;padding:50px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;gap:10px;}
 .spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.empty{padding:32px;text-align:center;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;}
-
-/* VIEW TOGGLE */
-.deals-view{display:block;}
-.deals-view.hidden{display:none;}
-.detail-view{display:none;}
-.detail-view.open{display:block;}
+.empty{padding:40px 16px;text-align:center;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2;}
+@media(min-width:600px){.content{padding:20px 24px;max-width:720px;margin:0 auto;}.dc-stats{grid-template-columns:repeat(4,1fr);}}
 </style>
 </head>
 <body>
@@ -160,21 +108,21 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     <div class="auth-sub">Promoter Portal</div>
     <div class="auth-desc" id="auth-desc">Sign in to view your assigned deals and updates.</div>
     <div class="auth-error" id="auth-error"></div>
-    <div id="auth-form">
+    <div id="login-form">
       <label class="auth-label">Email</label>
-      <input class="auth-input" type="email" id="login-email" placeholder="your@email.com"/>
+      <input class="auth-input" type="email" id="le" placeholder="your@email.com" autocomplete="email"/>
       <label class="auth-label">Password</label>
-      <input class="auth-input" type="password" id="login-password" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
+      <input class="auth-input" type="password" id="lp" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
       <button class="auth-btn" onclick="doLogin()">Sign In</button>
-      <div class="auth-signup-link">First time? <span onclick="showSignup()">Create your account</span></div>
+      <div class="auth-switch">First time? <span onclick="showSignup()">Create account</span></div>
     </div>
     <div id="signup-form" style="display:none;">
       <label class="auth-label">Email</label>
-      <input class="auth-input" type="email" id="signup-email" placeholder="your@email.com"/>
+      <input class="auth-input" type="email" id="se" placeholder="your@email.com" autocomplete="email"/>
       <label class="auth-label">Password</label>
-      <input class="auth-input" type="password" id="signup-password" placeholder="Choose a password (8+ chars)"/>
+      <input class="auth-input" type="password" id="sp" placeholder="Choose a password (8+ chars)" autocomplete="new-password"/>
       <button class="auth-btn" onclick="doSignup()">Create Account</button>
-      <div class="auth-signup-link"><span onclick="showLogin()">← Back to sign in</span></div>
+      <div class="auth-switch"><span onclick="showLogin()">← Back to sign in</span></div>
     </div>
   </div>
 </div>
@@ -188,300 +136,152 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
     </div>
     <div class="header-right">
       <div class="header-user" id="header-user"></div>
-      <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+      <div class="logout-icon" onclick="doLogout()">⎋</div>
     </div>
   </div>
 
-  <div class="content">
-    <!-- DEALS LIST VIEW -->
-    <div class="deals-view" id="deals-view">
+  <div class="content" id="app-content">
+    <!-- DEALS LIST -->
+    <div id="deals-view">
       <div class="welcome-banner">
-        <div class="welcome-title">Welcome Back</div>
-        <div class="welcome-name" id="promoter-display-name">Promoter</div>
-        <div class="welcome-sub">Your assigned deals are shown below. Updates are posted in real time by your deal lead.</div>
+        <div class="welcome-label">Welcome Back</div>
+        <div class="welcome-name" id="welcome-name">Promoter</div>
+        <div class="welcome-sub">Your assigned deals — updated in real time</div>
       </div>
-      <div id="deals-loading" class="loading"><div class="spinner"></div>Loading your deals…</div>
-      <div id="deals-grid" class="deals-grid" style="display:none;"></div>
-      <div id="no-deals" class="empty" style="display:none;">No deals have been assigned to your account yet. Contact your deal lead.</div>
+      <div class="loading" id="deals-loading"><div class="spinner"></div>Loading your deals…</div>
+      <div id="deals-list" style="display:none;"></div>
+      <div class="empty" id="no-deals" style="display:none;">No deals have been assigned yet.<br>Contact your deal lead.</div>
     </div>
-
-    <!-- DEAL DETAIL VIEW -->
-    <div class="detail-view" id="detail-view">
-      <div class="back-btn" onclick="backToDeals()">← All Deals</div>
-      <div id="detail-content"></div>
-    </div>
+    <!-- DETAIL VIEW (injected dynamically) -->
   </div>
 </div>
 
 <script>
-const SUPABASE_URL = 'https://zeqaimztqcxcdpccksyw.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InplcWFpbXp0cWN4Y2RwY2Nrc3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTg4OTIsImV4cCI6MjA4ODIzNDg5Mn0.rnoeOvHJaGxds1tT1q4QpLrLXxZn5Z5Hou6_02WGExQ';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const SB_URL='https://zeqaimztqcxcdpccksyw.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InplcWFpbXp0cWN4Y2RwY2Nrc3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTg4OTIsImV4cCI6MjA4ODIzNDg5Mn0.rnoeOvHJaGxds1tT1q4QpLrLXxZn5Z5Hou6_02WGExQ';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let user=null,myPromoter=null;
 
-let currentUser = null;
-let myPromoter = null;
-
-// ── AUTH ──
-async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-password').value;
-  if (!email || !pass) { showError('Enter your email and password.'); return; }
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-  if (error) { showError(error.message); return; }
-  currentUser = data.user;
-  await loadApp();
+async function doLogin(){
+  const e=document.getElementById('le').value.trim(),p=document.getElementById('lp').value;
+  clearErr();if(!e||!p){showErr('Enter email and password.');return;}
+  const{data,error}=await sb.auth.signInWithPassword({email:e,password:p});
+  if(error){showErr(error.message);return;}
+  user=data.user;await loadApp();
 }
 
-async function doSignup() {
-  const email = document.getElementById('signup-email').value.trim();
-  const pass = document.getElementById('signup-password').value;
-  if (!email || !pass) { showError('Enter your email and password.'); return; }
-  if (pass.length < 8) { showError('Password must be at least 8 characters.'); return; }
-  const { data, error } = await sb.auth.signUp({ email, password: pass });
-  if (error) { showError(error.message); return; }
-  // Link to existing promoter record if email matches
-  if (data.user) {
-    await sb.from('promoters').update({ user_id: data.user.id }).eq('email', email).is('user_id', null);
-  }
-  document.getElementById('auth-desc').textContent = 'Account created! Check your email to confirm, then sign in.';
+async function doSignup(){
+  const e=document.getElementById('se').value.trim(),p=document.getElementById('sp').value;
+  clearErr();if(!e||!p){showErr('Enter email and password.');return;}
+  if(p.length<8){showErr('Password must be at least 8 characters.');return;}
+  const{data,error}=await sb.auth.signUp({email:e,password:p});
+  if(error){showErr(error.message);return;}
+  if(data.user){await sb.from('promoters').update({user_id:data.user.id}).eq('email',e).is('user_id',null);}
+  document.getElementById('auth-desc').textContent='Account created! Check your email to confirm, then sign in.';
   showLogin();
 }
 
-function showSignup() {
-  document.getElementById('auth-form').style.display = 'none';
-  document.getElementById('signup-form').style.display = 'block';
-  clearError();
-}
+function showSignup(){document.getElementById('login-form').style.display='none';document.getElementById('signup-form').style.display='block';clearErr();}
+function showLogin(){document.getElementById('signup-form').style.display='none';document.getElementById('login-form').style.display='block';clearErr();}
+function showErr(m){const e=document.getElementById('auth-error');e.textContent=m;e.style.display='block';}
+function clearErr(){document.getElementById('auth-error').style.display='none';}
+async function doLogout(){await sb.auth.signOut();document.getElementById('app').style.display='none';document.getElementById('auth-screen').style.display='flex';}
 
-function showLogin() {
-  document.getElementById('signup-form').style.display = 'none';
-  document.getElementById('auth-form').style.display = 'block';
-  clearError();
-}
-
-function showError(msg) { const e = document.getElementById('auth-error'); e.textContent = msg; e.style.display = 'block'; }
-function clearError() { document.getElementById('auth-error').style.display = 'none'; }
-
-async function doLogout() {
-  await sb.auth.signOut();
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-}
-
-async function loadApp() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('header-user').textContent = currentUser.email;
-
-  // Get promoter record
-  const { data: promoter } = await sb.from('promoters').select('*').eq('user_id', currentUser.id).single();
-  myPromoter = promoter;
-
-  if (myPromoter) {
-    document.getElementById('promoter-display-name').textContent = myPromoter.name + (myPromoter.company ? ' · ' + myPromoter.company : '');
-  }
-
+async function loadApp(){
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('header-user').textContent=user.email;
+  const{data:p}=await sb.from('promoters').select('*').eq('user_id',user.id).single();
+  myPromoter=p;
+  if(myPromoter)document.getElementById('welcome-name').textContent=myPromoter.name+(myPromoter.company?' · '+myPromoter.company:'');
   await loadDeals();
 }
 
-// ── DEALS ──
-async function loadDeals() {
-  document.getElementById('deals-loading').style.display = 'flex';
-  document.getElementById('deals-grid').style.display = 'none';
-  document.getElementById('no-deals').style.display = 'none';
-
-  if (!myPromoter) {
-    document.getElementById('deals-loading').style.display = 'none';
-    document.getElementById('no-deals').style.display = 'block';
-    document.getElementById('no-deals').textContent = 'Your account is not linked to a promoter profile yet. Contact your deal lead.';
-    return;
-  }
-
-  // Get assigned deals via RLS
-  const { data: deals, error } = await sb.from('deals').select('*').order('updated_at', { ascending: false });
-
-  document.getElementById('deals-loading').style.display = 'none';
-
-  if (!deals || !deals.length) {
-    document.getElementById('no-deals').style.display = 'block';
-    return;
-  }
-
-  document.getElementById('deals-grid').style.display = 'grid';
-  await renderDealCards(deals);
+async function loadDeals(){
+  document.getElementById('deals-loading').style.display='flex';
+  document.getElementById('deals-list').style.display='none';
+  document.getElementById('no-deals').style.display='none';
+  if(!myPromoter){document.getElementById('deals-loading').style.display='none';document.getElementById('no-deals').style.display='block';document.getElementById('no-deals').textContent='Your account is not linked to a promoter profile yet.\nContact your deal lead.';return;}
+  const{data:deals}=await sb.from('deals').select('*').order('updated_at',{ascending:false});
+  document.getElementById('deals-loading').style.display='none';
+  if(!deals||!deals.length){document.getElementById('no-deals').style.display='block';return;}
+  document.getElementById('deals-list').style.display='block';
+  await renderDeals(deals);
 }
 
-async function renderDealCards(deals) {
-  // Fetch latest update per deal
-  const dealIds = deals.map(d => d.id);
-  const { data: allUpdates } = await sb.from('updates').select('*').in('deal_id', dealIds).order('created_at', { ascending: false });
-
-  const colors = { planning: 'var(--purple)', fundraising: 'var(--accent)', permitted: 'var(--blue)', drilling: 'var(--green)', completed: '#64748b' };
-  const icons = { drilling: '▲', documents: '⊟', regulatory: '◎', financial: '$' };
-  const typeColors = { drilling: 'var(--green)', documents: 'var(--blue)', regulatory: 'var(--purple)', financial: 'var(--accent)' };
-
-  document.getElementById('deals-grid').innerHTML = deals.map(d => {
-    const p = d.raise_target > 0 ? Math.min(100, Math.round((d.raise_committed / d.raise_target) * 100)) : 0;
-    const dealUpdates = (allUpdates || []).filter(u => u.deal_id === d.id).slice(0, 2);
-    const color = colors[d.status] || 'var(--muted)';
-
-    return `<div class="deal-card" onclick="openDealDetail('${d.id}')">
+async function renderDeals(deals){
+  const ids=deals.map(d=>d.id);
+  const{data:updates}=await sb.from('updates').select('*').in('deal_id',ids).order('created_at',{ascending:false});
+  const colors={planning:'var(--purple)',fundraising:'var(--accent)',permitted:'var(--blue)',drilling:'var(--green)',completed:'#64748b'};
+  const icons={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
+  const tColors={drilling:'var(--green)',documents:'var(--blue)',regulatory:'var(--purple)',financial:'var(--accent)'};
+  document.getElementById('deals-list').innerHTML=deals.map(d=>{
+    const p=d.raise_target>0?Math.min(100,Math.round((d.raise_committed/d.raise_target)*100)):0;
+    const du=(updates||[]).filter(u=>u.deal_id===d.id).slice(0,2);
+    const color=colors[d.status]||'var(--muted)';
+    return`<div class="deal-card" onclick="openDetail('${d.id}')">
       <div class="deal-card-accent" style="background:${color};"></div>
       <div class="deal-card-body">
         <div class="dc-name">${d.name}</div>
-        <div class="dc-location">${d.location || ''}</div>
+        <div class="dc-loc">${d.location||''}</div>
         <div class="dc-stats">
-          <div><div class="dc-stat-label">Status</div><div>${statusBadge(d.status)}</div></div>
-          <div><div class="dc-stat-label">Target Depth</div><div class="dc-stat-value" style="font-family:'IBM Plex Mono',monospace;font-size:12px;">${d.target_depth || '—'}</div></div>
-          <div><div class="dc-stat-label">Raise Target</div><div class="dc-stat-value" style="font-family:'IBM Plex Mono',monospace;font-size:12px;">${fmt(d.raise_target)}</div></div>
-          <div><div class="dc-stat-label">Committed</div><div class="dc-stat-value" style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;">${fmt(d.raise_committed)}</div></div>
+          <div><div class="dc-stat-label">Status</div>${sBadge(d.status)}</div>
+          <div><div class="dc-stat-label">Depth</div><div class="dc-stat-value" style="font-family:'IBM Plex Mono',monospace;font-size:11px;">${d.target_depth||'—'}</div></div>
+          <div><div class="dc-stat-label">Raise Target</div><div class="dc-stat-value" style="font-family:'IBM Plex Mono',monospace;font-size:11px;">${fmt(d.raise_target)}</div></div>
+          <div><div class="dc-stat-label">Committed</div><div class="dc-stat-value" style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;">${fmt(d.raise_committed)}</div></div>
         </div>
-        <div class="dc-progress">
-          <div class="dc-progress-label">
-            <span>${fmt(d.raise_committed)} raised</span>
-            <span class="dc-progress-pct">${p}%</span>
-          </div>
-          <div class="progress-bar"><div class="progress-fill" style="width:${p}%;"></div></div>
-        </div>
-        ${dealUpdates.length ? `
-        <div class="dc-latest">
-          <div class="dc-latest-label">Latest Updates</div>
-          ${dealUpdates.map(u => `
-            <div class="dc-update-row">
-              <span style="color:${typeColors[u.update_type]||'var(--muted)'};">${icons[u.update_type]||'•'}</span>
-              <span>${u.message.length > 90 ? u.message.slice(0, 90) + '…' : u.message}</span>
-            </div>`).join('')}
-        </div>` : ''}
+        <div class="progress-label"><span class="progress-amt">${fmt(d.raise_committed)} raised</span><span class="progress-pct">${p}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${p}%"></div></div>
       </div>
+      ${du.length?`<div class="dc-updates"><div class="dc-updates-label">Latest Updates</div>${du.map(u=>`<div class="dc-update-row"><span style="color:${tColors[u.update_type]||'var(--muted)'};">${icons[u.update_type]||'•'}</span><span>${u.message.length>80?u.message.slice(0,80)+'…':u.message}</span></div>`).join('')}</div>`:''}
     </div>`;
   }).join('');
 }
 
-// ── DEAL DETAIL ──
-async function openDealDetail(dealId) {
-  document.getElementById('deals-view').classList.add('hidden');
-  document.getElementById('detail-view').classList.add('open');
-  document.getElementById('detail-content').innerHTML = '<div class="loading"><div class="spinner"></div>Loading…</div>';
-
-  const { data: deal } = await sb.from('deals').select('*').eq('id', dealId).single();
-  const { data: updates } = await sb.from('updates').select('*').eq('deal_id', dealId).order('created_at', { ascending: false });
-  const { data: docs } = await sb.from('documents').select('*').eq('deal_id', dealId).order('created_at', { ascending: false });
-
-  const p = deal.raise_target > 0 ? Math.min(100, Math.round((deal.raise_committed / deal.raise_target) * 100)) : 0;
-  const typeColors = { drilling: 'var(--green)', documents: 'var(--blue)', regulatory: 'var(--purple)', financial: 'var(--accent)' };
-  const typeLabels = { drilling: 'Drilling Progress', documents: 'New Documents', regulatory: 'Regulatory', financial: 'Financial' };
-
-  const updateLog = updates && updates.length ? updates.map(u => `
-    <div class="update-timeline-item">
-      <div class="utl-left">
-        <div class="utl-date">${new Date(u.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
-        <div class="utl-time">${new Date(u.created_at).toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})}</div>
-      </div>
-      <div class="utl-bar"></div>
-      <div class="utl-body">
-        <div class="utl-type" style="color:${typeColors[u.update_type]||'var(--muted)'};">${typeLabels[u.update_type]||u.update_type}</div>
-        <div class="utl-text">${u.message}</div>
-      </div>
-    </div>`).join('') : '<div class="empty">No updates posted yet.</div>';
-
-  const docRows = docs && docs.length ? docs.map(d => {
-    const ext = d.file_type || (d.name.split('.').pop()||'file').toLowerCase();
-    return `<tr>
-      <td><div class="doc-ext ext-${ext}">${ext.toUpperCase()}</div></td>
-      <td style="font-size:12px;">${d.name}</td>
-      <td style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);">${d.doc_type||''}</td>
-      <td style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);">${new Date(d.created_at).toLocaleDateString()}</td>
-      ${d.url ? `<td><a href="${d.url}" target="_blank" style="color:var(--blue);font-family:'IBM Plex Mono',monospace;font-size:10px;">↓ Download</a></td>` : '<td></td>'}
-    </tr>`;
-  }).join('') : '<tr><td colspan="5" style="padding:20px;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);">No documents uploaded yet.</td></tr>';
-
-  document.getElementById('detail-content').innerHTML = `
+async function openDetail(dealId){
+  document.getElementById('deals-view').style.display='none';
+  const old=document.getElementById('detail-view');if(old)old.remove();
+  const div=document.createElement('div');div.id='detail-view';
+  div.innerHTML='<div class="loading"><div class="spinner"></div>Loading…</div>';
+  document.getElementById('app-content').appendChild(div);
+  window.scrollTo(0,0);
+  const{data:d}=await sb.from('deals').select('*').eq('id',dealId).single();
+  const{data:updates}=await sb.from('updates').select('*').eq('deal_id',dealId).order('created_at',{ascending:false});
+  const{data:docs}=await sb.from('documents').select('*').eq('deal_id',dealId).order('created_at',{ascending:false});
+  const p=d.raise_target>0?Math.min(100,Math.round((d.raise_committed/d.raise_target)*100)):0;
+  const tColors={drilling:'var(--green)',documents:'var(--blue)',regulatory:'var(--purple)',financial:'var(--accent)'};
+  const tLabels={drilling:'Drilling Progress',documents:'New Documents',regulatory:'Regulatory',financial:'Financial'};
+  const icons={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
+  const cls={drilling:'u-drill',documents:'u-doc',regulatory:'u-reg',financial:'u-fin'};
+  const updateHTML=updates&&updates.length?updates.map(u=>`<div class="uli"><div class="uli-icon ${cls[u.update_type]||''}" style="color:${tColors[u.update_type]||'var(--muted)'};">${icons[u.update_type]||'•'}</div><div><div class="uli-type" style="color:${tColors[u.update_type]||'var(--muted)'};">${tLabels[u.update_type]||u.update_type}</div><div class="uli-text">${u.message}</div><div class="uli-time">${new Date(u.created_at).toLocaleString()}</div></div></div>`).join(''):'<div class="empty">No updates posted yet.</div>';
+  div.innerHTML=`
+    <div class="back-btn" onclick="backToDeals()">← All Deals</div>
     <div class="deal-detail-header">
-      <div class="ddh-title">${deal.name}</div>
-      <div class="ddh-meta">${deal.location || ''} ${deal.api_number ? '· API# ' + deal.api_number : ''} ${deal.operator ? '· ' + deal.operator : ''}</div>
-      <div class="ddh-tags">
-        ${deal.formation ? `<span class="tag">${deal.formation}</span>` : ''}
-        ${statusBadge(deal.status)}
-        ${deal.target_depth ? `<span class="tag">TD: ${deal.target_depth}</span>` : ''}
-      </div>
-      <div class="ddh-raise-row">
-        <div class="ddh-raise-block">
-          <div class="ddh-raise-label">Raise Target</div>
-          <div class="ddh-raise-value">${p}%</div>
-          <div class="ddh-raise-sub">${fmt(deal.raise_committed)} of ${fmt(deal.raise_target)}</div>
-        </div>
-        <div style="flex:1;max-width:300px;">
-          <div class="progress-bar" style="height:6px;"><div class="progress-fill" style="width:${p}%;"></div></div>
-        </div>
-      </div>
+      <div class="ddh-name">${d.name}</div>
+      <div class="ddh-meta">${d.location||''} ${d.api_number?'· API# '+d.api_number:''} ${d.operator?'· '+d.operator:''}</div>
+      <div class="ddh-tags">${d.formation?`<span class="tag">${d.formation}</span>`:''}${sBadge(d.status)}${d.target_depth?`<span class="tag">TD: ${d.target_depth}</span>`:''}</div>
+      <div class="progress-label"><span class="progress-amt">${fmt(d.raise_committed)} of ${fmt(d.raise_target)}</span><span class="progress-pct">${p}%</span></div>
+      <div class="progress-bar" style="height:5px;"><div class="progress-fill" style="width:${p}%"></div></div>
     </div>
-
-    <div class="detail-tabs">
-      <div class="detail-tab active" onclick="switchTab(this,'dtab-updates')">Updates</div>
-      <div class="detail-tab" onclick="switchTab(this,'dtab-docs')">Documents</div>
-      <div class="detail-tab" onclick="switchTab(this,'dtab-info')">Deal Info</div>
-    </div>
-
-    <div class="tab-content active" id="dtab-updates">
-      ${updateLog}
-    </div>
-
-    <div class="tab-content" id="dtab-docs">
-      <div class="panel">
-        <table class="doc-table">
-          <thead><tr><th style="width:50px;"></th><th>File</th><th>Type</th><th>Date</th><th></th></tr></thead>
-          <tbody>${docRows}</tbody>
-        </table>
-      </div>
-    </div>
-
+    <div class="tabs"><div class="tab active" onclick="switchTab(this,'dtab-updates')">Updates</div><div class="tab" onclick="switchTab(this,'dtab-info')">Deal Info</div>${docs&&docs.length?'<div class="tab" onclick="switchTab(this,\'dtab-docs\')">Documents</div>':''}</div>
+    <div class="tab-content active" id="dtab-updates">${updateHTML}</div>
     <div class="tab-content" id="dtab-info">
       <div class="panel">
-        <div style="padding:0;">
-          ${[['Deal Name',deal.name],['Location',deal.location||'—'],['Formation',deal.formation||'—'],['Operator',deal.operator||'—'],['API Number',deal.api_number||'—'],['Target Depth',deal.target_depth||'—'],['Raise Target',fmt(deal.raise_target)],['Amount Committed',fmt(deal.raise_committed)]].map(([l,v])=>`
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border);">
-            <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;">${l}</span>
-            <span style="font-size:13px;font-family:'IBM Plex Mono',monospace;">${v}</span>
-          </div>`).join('')}
-          ${deal.notes ? `<div style="padding:16px 20px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;">Notes</div><div style="font-size:13px;line-height:1.7;color:var(--text2);">${deal.notes}</div></div>` : ''}
-        </div>
+        ${[['Deal Name',d.name],['Location',d.location||'—'],['Formation',d.formation||'—'],['Operator',d.operator||'—'],['API Number',d.api_number||'—'],['Target Depth',d.target_depth||'—'],['Raise Target',fmt(d.raise_target)],['Committed',fmt(d.raise_committed)]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-value">${v}</span></div>`).join('')}
+        ${d.notes?`<div style="padding:14px 16px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Notes</div><div style="font-size:13px;line-height:1.7;color:var(--text2);">${d.notes}</div></div>`:''}
       </div>
     </div>
+    ${docs&&docs.length?`<div class="tab-content" id="dtab-docs"><div class="panel">${docs.map(doc=>{const ext=(doc.file_type||doc.name.split('.').pop()||'file').toLowerCase();const extColors={pdf:'var(--red)',png:'var(--accent)',xlsx:'var(--green)',kml:'var(--green)',dwg:'var(--blue)'};return`<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;"><div style="width:36px;height:42px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:10px;color:${extColors[ext]||'var(--text2)'};background:rgba(255,255,255,.05);border:1px solid var(--border);flex-shrink:0;">${ext.toUpperCase()}</div><div style="flex:1;overflow:hidden;"><div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${doc.name}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;">${new Date(doc.created_at).toLocaleDateString()}</div></div>${doc.url?`<a href="${doc.url}" target="_blank" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);white-space:nowrap;">↓ Get</a>`:''}</div>`;}).join('')}</div></div>`:''}
   `;
 }
 
-function backToDeals() {
-  document.getElementById('deals-view').classList.remove('hidden');
-  document.getElementById('detail-view').classList.remove('open');
-}
+function backToDeals(){const d=document.getElementById('detail-view');if(d)d.remove();document.getElementById('deals-view').style.display='block';window.scrollTo(0,0);}
+function switchTab(el,tid){el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById(tid).classList.add('active');}
+function fmt(n){if(!n)return'$0';if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1000)return'$'+Math.round(n/1000)+'K';return'$'+n;}
+function sBadge(s){const m={drilling:['Drilling','s-drilling'],fundraising:['Fundraising','s-fundraising'],permitted:['Permitted','s-permitted'],completed:['Completed','s-completed'],planning:['Planning','s-planning']};const[l,c]=m[s]||['Unknown',''];return`<span class="status-badge ${c}"><span class="status-dot"></span>${l}</span>`;}
 
-function switchTab(el, tabId) {
-  document.querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById(tabId).classList.add('active');
-}
-
-// ── HELPERS ──
-function fmt(n) { if (!n) return '$0'; if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M'; if (n >= 1000) return '$' + Math.round(n / 1000) + 'K'; return '$' + n; }
-
-function statusBadge(s) {
-  const m = { drilling: ['Drilling', 's-drilling'], fundraising: ['Fundraising', 's-fundraising'], permitted: ['Permitted', 's-permitted'], completed: ['Completed', 's-completed'], planning: ['Planning', 's-planning'] };
-  const [l, c] = m[s] || ['Unknown', ''];
-  return `<span class="status-badge ${c}"><span class="status-dot"></span>${l}</span>`;
-}
-
-// ── INIT ──
-sb.auth.getSession().then(({ data: { session } }) => {
-  if (session) { currentUser = session.user; loadApp(); }
-});
-
-sb.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_OUT') {
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('auth-screen').style.display = 'flex';
-  }
-});
+sb.auth.getSession().then(({data:{session}})=>{if(session){user=session.user;loadApp();}});
+sb.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){document.getElementById('app').style.display='none';document.getElementById('auth-screen').style.display='flex';}});
 </script>
 </body>
 </html>
