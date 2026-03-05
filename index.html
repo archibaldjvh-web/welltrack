@@ -2,103 +2,70 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>WellTrack Pro — Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0d0f;--surface:#111518;--surface2:#181d21;--surface3:#1e2428;--border:#222930;--border2:#2d3640;--accent:#e8a020;--adim:rgba(232,160,32,.12);--green:#4ade80;--gdim:rgba(74,222,128,.12);--blue:#38bdf8;--bdim:rgba(56,189,248,.12);--red:#f87171;--rdim:rgba(248,113,113,.12);--purple:#a855f7;--pdim:rgba(168,85,247,.12);--text:#e2e8f0;--text2:#94a3b8;--muted:#4a5568;}
-*{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;}
-
-/* AUTH SCREEN */
+:root{--bg:#0a0d0f;--surface:#111518;--surface2:#181d21;--border:#222930;--border2:#2d3640;--accent:#e8a020;--adim:rgba(232,160,32,.12);--green:#4ade80;--gdim:rgba(74,222,128,.12);--blue:#38bdf8;--bdim:rgba(56,189,248,.12);--red:#f87171;--rdim:rgba(248,113,113,.12);--purple:#a855f7;--pdim:rgba(168,85,247,.12);--text:#e2e8f0;--text2:#94a3b8;--muted:#4a5568;--nav-h:64px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
 .auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
-.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:40px;width:380px;max-width:100%;}
-.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--accent);margin-bottom:4px;}
-.auth-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:32px;}
+.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px 28px;width:100%;max-width:380px;}
+.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px;color:var(--accent);line-height:1;}
+.auth-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:28px;margin-top:3px;}
 .auth-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
-.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:11px 14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;margin-bottom:14px;transition:border-color .15s;}
+.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;margin-bottom:14px;transition:border-color .15s;-webkit-appearance:none;}
 .auth-input:focus{border-color:var(--accent);}
-.auth-btn{width:100%;padding:12px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .15s;margin-top:4px;}
-.auth-btn:hover{background:#ffb733;}
-.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:14px;display:none;}
-
-/* APP */
-.app{display:none;}
-.shell{display:flex;min-height:100vh;}
-
-/* SIDEBAR */
-.sidebar{width:220px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;}
-.logo{padding:22px 20px 18px;border-bottom:1px solid var(--border);}
-.logo-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:var(--accent);}
-.logo-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:3px;}
-nav{padding:14px 0;flex:1;}
-.nav-section{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:10px 20px 5px;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;color:var(--text2);transition:all .15s;font-size:13px;border-left:2px solid transparent;}
-.nav-item:hover{color:var(--text);background:rgba(255,255,255,.03);}
-.nav-item.active{color:var(--accent);border-left-color:var(--accent);background:var(--adim);}
-.nav-icon{font-size:13px;width:18px;text-align:center;}
-.nav-badge{margin-left:auto;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;padding:2px 6px;border-radius:10px;}
-.sidebar-footer{padding:14px 20px;border-top:1px solid var(--border);}
-.user-chip{display:flex;align-items:center;gap:10px;}
-.avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#c06000);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:13px;color:#000;flex-shrink:0;}
-.user-name{font-size:12px;font-weight:500;}
-.user-role{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);}
-.logout-btn{margin-top:10px;width:100%;padding:7px;background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:4px;cursor:pointer;transition:all .15s;}
-.logout-btn:hover{border-color:var(--red);color:var(--red);}
-
-/* MAIN */
-.main{flex:1;overflow-y:auto;}
-.topbar{padding:18px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface);position:sticky;top:0;z-index:50;}
-.page-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;}
-.topbar-actions{display:flex;gap:10px;}
-.content{padding:26px 32px;}
-
-/* BUTTONS */
-.btn{padding:8px 16px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s;}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
-.btn-ghost:hover{border-color:var(--text2);color:var(--text);}
-.btn-primary{background:var(--accent);color:#000;font-weight:600;}
-.btn-primary:hover{background:#ffb733;}
-.btn-sm{padding:5px 10px;font-size:10px;}
-.btn-danger{background:var(--rdim);border:1px solid var(--red);color:var(--red);}
-.btn-green{background:var(--gdim);border:1px solid var(--green);color:var(--green);}
-
-/* VIEWS */
+.auth-btn{width:100%;padding:15px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;margin-top:4px;}
+.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:12px;display:none;line-height:1.5;padding:10px;background:var(--rdim);border-radius:8px;}
+.app{display:none;min-height:100vh;padding-bottom:calc(var(--nav-h) + 8px);}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);}
+.topbar-right{display:flex;gap:8px;align-items:center;}
+.topbar-user{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.logout-icon{width:34px;height:34px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:16px;}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--muted);transition:color .15s;padding:8px 4px;border:none;background:none;}
+.bn-item.active{color:var(--accent);}
+.bn-icon{font-size:20px;line-height:1;}
+.bn-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;}
+.content{padding:16px;}
 .view{display:none;}
 .view.active{display:block;}
-
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:18px 20px;position:relative;overflow:hidden;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;}
 .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
 .stat-card.gold::after{background:var(--accent);}
 .stat-card.green::after{background:var(--green);}
 .stat-card.blue::after{background:var(--blue);}
 .stat-card.red::after{background:var(--red);}
-.stat-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.stat-value{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:1px;line-height:1;}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;line-height:1;}
 .stat-card.gold .stat-value{color:var(--accent);}
 .stat-card.green .stat-value{color:var(--green);}
 .stat-card.blue .stat-value{color:var(--blue);}
 .stat-card.red .stat-value{color:var(--red);}
-.stat-sub{font-size:11px;color:var(--muted);margin-top:6px;}
-
-/* TABLE */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;}
-.data-table{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:26px;}
-.table-head{padding:11px 20px;border-bottom:1px solid var(--border);background:var(--surface2);display:grid;}
-.th{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
-.table-row{padding:14px 20px;border-bottom:1px solid var(--border);display:grid;align-items:center;transition:background .12s;animation:fadeUp .25s ease forwards;opacity:0;}
-.table-row:last-child{border-bottom:none;}
-.table-row:hover{background:rgba(255,255,255,.02);}
-@keyframes fadeUp{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
-.mono{font-family:'IBM Plex Mono',monospace;font-size:12px;}
-
-/* STATUS */
-.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;}
+.stat-sub{font-size:10px;color:var(--muted);margin-top:4px;}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:8px;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;}
+.btn{padding:10px 16px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
+.btn-primary{background:var(--accent);color:#000;font-weight:600;}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-sm{padding:7px 13px;font-size:10px;}
+.btn-full{width:100%;justify-content:center;}
+.deal-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px;cursor:pointer;}
+.deal-card-inner{padding:16px;}
+.deal-card-row1{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;}
+.deal-card-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;line-height:1.1;flex:1;margin-right:10px;}
+.deal-card-loc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:12px;}
+.progress-label{display:flex;justify-content:space-between;margin-bottom:5px;}
+.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:2px;background:var(--accent);}
+.progress-pct{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);}
+.progress-amt{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
+.deal-card-footer{padding:10px 16px;border-top:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between;}
+.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;}
 .status-dot{width:5px;height:5px;border-radius:50%;}
 .s-drilling{background:var(--gdim);color:var(--green);}
 .s-drilling .status-dot{background:var(--green);animation:blink 1.4s infinite;}
@@ -111,642 +78,416 @@ nav{padding:14px 0;flex:1;}
 .s-planning{background:var(--pdim);color:var(--purple);}
 .s-planning .status-dot{background:var(--purple);}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
-
-/* PROGRESS */
-.progress-bar{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:2px;background:var(--accent);transition:width .6s ease;}
-
-/* PANELS */
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:6px;overflow:hidden;margin-bottom:20px;}
-.panel-head{padding:13px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2);}
+.action-btns{display:flex;gap:6px;}
+.icon-btn{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+.panel-head{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2);}
 .panel-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:100;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(6px);}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:8px;width:640px;max-width:96vw;max-height:88vh;overflow-y:auto;transform:translateY(16px);transition:transform .2s;}
-.modal-overlay.open .modal{transform:translateY(0);}
-.modal-head{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:1;}
-.modal-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;}
-.modal-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px 8px;line-height:1;}
-.modal-close:hover{color:var(--text);}
-.modal-body{padding:24px;}
-.modal-footer{padding:14px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;position:sticky;bottom:0;background:var(--surface);}
+.update-item{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
+.update-item:last-child{border-bottom:none;}
+.update-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.u-drill{background:var(--gdim);}
+.u-doc{background:var(--bdim);}
+.u-reg{background:var(--pdim);}
+.u-fin{background:var(--adim);}
+.update-deal{font-size:10px;font-weight:600;color:var(--accent);font-family:'IBM Plex Mono',monospace;}
+.update-text{font-size:12px;margin-top:2px;line-height:1.5;}
+.update-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.promoter-row{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.promoter-row:last-child{border-bottom:none;}
+.promoter-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:14px;color:#000;flex-shrink:0;}
+.promoter-name{font-weight:500;font-size:13px;}
+.promoter-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;}
+.promoter-actions{margin-left:auto;display:flex;gap:6px;}
+.access-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;}
+.access-card-head{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--surface2);}
+.access-chips{padding:12px 16px;display:flex;flex-wrap:wrap;gap:6px;}
+.deal-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--adim);border:1px solid rgba(232,160,32,.2);color:var(--accent);}
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px);}
+.sheet-overlay.open{opacity:1;pointer-events:all;}
+.sheet{background:var(--surface);border-radius:24px 24px 0 0;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
+.sheet-overlay.open .sheet{transform:translateY(0);}
+.sheet-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0;}
+.sheet-head{padding:16px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.sheet-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;}
+.sheet-close{background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;padding:2px 6px;line-height:1;}
+.sheet-body{padding:20px;}
+.sheet-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;gap:10px;}
+.sheet-footer .btn{flex:1;justify-content:center;}
 .field{margin-bottom:16px;}
 .field label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
-.field input,.field select,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:9px 12px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:13px;outline:none;transition:border-color .15s;}
+.field input,.field select,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;transition:border-color .15s;-webkit-appearance:none;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
-.field textarea{resize:vertical;min-height:80px;}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.modal-section{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;color:var(--muted);margin:20px 0 12px;border-bottom:1px solid var(--border);padding-bottom:8px;}
+.field textarea{resize:vertical;min-height:90px;font-size:14px;}
 select option{background:var(--surface2);}
-
-/* ACCESS CHECKBOXES */
-.access-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.access-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color .15s;}
-.access-item:hover{border-color:var(--border2);}
-.access-item.checked{border-color:var(--accent);background:var(--adim);}
-.access-item input[type=checkbox]{accent-color:var(--accent);width:14px;height:14px;}
-.access-item-name{font-size:12px;font-weight:500;}
-.access-item-loc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
-
-/* UPDATE TYPE PILLS */
-.type-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
-.type-pill{padding:5px 12px;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;border:1px solid var(--border);color:var(--muted);text-transform:uppercase;transition:all .12s;}
+.type-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.type-pill{padding:10px 12px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;border:1px solid var(--border);color:var(--muted);text-transform:uppercase;text-align:center;}
 .type-pill.sel-drill{border-color:var(--green);color:var(--green);background:var(--gdim);}
 .type-pill.sel-doc{border-color:var(--blue);color:var(--blue);background:var(--bdim);}
 .type-pill.sel-reg{border-color:var(--purple);color:var(--purple);background:var(--pdim);}
 .type-pill.sel-fin{border-color:var(--accent);color:var(--accent);background:var(--adim);}
-
-/* PROMOTER CHIPS */
-.promoter-chip-list{display:flex;flex-wrap:wrap;gap:6px;}
-.promoter-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--surface2);border:1px solid var(--border);color:var(--text2);}
-.promoter-dot{width:6px;height:6px;border-radius:50%;}
-
-/* SHARE LINK BOX */
-.share-box{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);word-break:break-all;cursor:pointer;transition:border-color .15s;}
-.share-box:hover{border-color:var(--blue);}
-
-/* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--surface);border:1px solid var(--accent);border-radius:6px;padding:12px 20px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);z-index:200;transform:translateY(80px);opacity:0;transition:all .3s ease;}
-.toast.show{transform:translateY(0);opacity:1;}
-
-/* LOADING */
+.access-check-list{display:flex;flex-direction:column;gap:8px;}
+.access-item{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;cursor:pointer;}
+.access-item.checked{border-color:var(--accent);background:var(--adim);}
+.access-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0;}
+.access-item-name{font-size:13px;font-weight:500;}
+.access-item-loc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
+.update-form-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
 .loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;gap:10px;}
 .spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-.empty-state{padding:32px;text-align:center;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;}
-
-/* Action icon btns */
-.action-btns{display:flex;gap:5px;}
-.icon-btn{width:28px;height:28px;border-radius:4px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:11px;transition:all .12s;}
-.icon-btn:hover{border-color:var(--accent);color:var(--accent);}
-.icon-btn.danger:hover{border-color:var(--red);color:var(--red);}
+.empty{padding:32px 16px;text-align:center;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.8;}
+.toast{position:fixed;bottom:calc(var(--nav-h) + 12px);left:16px;right:16px;background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:14px 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);z-index:300;transform:translateY(20px);opacity:0;transition:all .3s ease;text-align:center;}
+.toast.show{transform:translateY(0);opacity:1;}
+.back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;margin-bottom:16px;padding:9px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);}
+.deal-detail-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
+.ddh-name{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;}
+.ddh-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin:4px 0 12px;}
+.ddh-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.tag{padding:4px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid var(--border);color:var(--text2);}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto;}
+.tab{padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);}
+.info-row:last-child{border-bottom:none;}
+.info-label{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.info-value{font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:right;color:var(--text);}
+.uli{display:flex;gap:10px;padding:13px 0;border-bottom:1px solid var(--border);}
+.uli:last-child{border-bottom:none;}
+.uli-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.uli-type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
+.uli-text{font-size:13px;line-height:1.6;color:var(--text2);}
+.uli-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+@media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr);}.content{padding:20px 24px;}.type-pills{grid-template-columns:repeat(4,1fr);}}
 </style>
 </head>
 <body>
-
-<!-- ─── AUTH SCREEN ─── -->
 <div class="auth-screen" id="auth-screen">
   <div class="auth-card">
     <div class="auth-logo">WellTrack</div>
     <div class="auth-sub">Admin Portal</div>
     <div class="auth-error" id="auth-error"></div>
     <label class="auth-label">Email</label>
-    <input class="auth-input" type="email" id="login-email" placeholder="admin@yourcompany.com" />
+    <input class="auth-input" type="email" id="login-email" placeholder="admin@yourcompany.com" autocomplete="email"/>
     <label class="auth-label">Password</label>
-    <input class="auth-input" type="password" id="login-password" placeholder="••••••••••" onkeydown="if(event.key==='Enter')doLogin()" />
+    <input class="auth-input" type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
     <button class="auth-btn" onclick="doLogin()">Sign In</button>
   </div>
 </div>
 
-<!-- ─── APP ─── -->
 <div class="app" id="app">
-<div class="shell">
-
-  <aside class="sidebar">
-    <div class="logo">
-      <div class="logo-title">WellTrack</div>
-      <div class="logo-sub">Admin · Deal Suite</div>
+  <div class="topbar">
+    <div class="topbar-logo">WellTrack</div>
+    <div class="topbar-right">
+      <div class="topbar-user" id="topbar-user"></div>
+      <div class="logout-icon" onclick="doLogout()">⎋</div>
     </div>
-    <nav>
-      <div class="nav-section">Overview</div>
-      <div class="nav-item active" onclick="showView('dashboard',this)"><span class="nav-icon">◈</span> Dashboard</div>
-      <div class="nav-item" onclick="showView('deals',this)"><span class="nav-icon">⬡</span> All Deals <span class="nav-badge" id="nav-deals-count">0</span></div>
-      <div class="nav-section">Operations</div>
-      <div class="nav-item" onclick="showView('updates',this)"><span class="nav-icon">✉</span> Post Updates</div>
-      <div class="nav-section">Promoters</div>
-      <div class="nav-item" onclick="showView('promoters',this)"><span class="nav-icon">↗</span> Manage Promoters <span class="nav-badge" id="nav-promoter-count">0</span></div>
-      <div class="nav-item" onclick="showView('access',this)"><span class="nav-icon">🔑</span> Deal Access</div>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="user-chip">
-        <div class="avatar" id="admin-avatar">A</div>
-        <div><div class="user-name" id="admin-name">Admin</div><div class="user-role">Administrator</div></div>
+  </div>
+  <div class="content" id="app-content">
+    <!-- DASHBOARD -->
+    <div class="view active" id="view-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card gold"><div class="stat-label">Total Deals</div><div class="stat-value" id="stat-deals">—</div></div>
+        <div class="stat-card green"><div class="stat-label">Drilling</div><div class="stat-value" id="stat-drilling">—</div></div>
+        <div class="stat-card blue"><div class="stat-label">Promoters</div><div class="stat-value" id="stat-promoters">—</div></div>
+        <div class="stat-card red"><div class="stat-label">Fundraising</div><div class="stat-value" id="stat-fundraising">—</div></div>
       </div>
-      <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+      <div class="section-header"><div class="section-title">Deals</div><button class="btn btn-primary btn-sm" onclick="openNewDeal()">+ New</button></div>
+      <div id="dash-deals"></div>
+      <div class="section-header"><div class="section-title">Recent Updates</div><button class="btn btn-ghost btn-sm" onclick="showView('updates')">Post →</button></div>
+      <div id="dash-updates"></div>
     </div>
-  </aside>
-
-  <div class="main">
-    <div class="topbar">
-      <div class="page-title" id="topbar-title">Dashboard</div>
-      <div class="topbar-actions">
-        <button class="btn btn-ghost" onclick="showView('promoters',null)">+ Add Promoter</button>
-        <button class="btn btn-primary" onclick="openNewDeal()">+ New Deal</button>
-      </div>
+    <!-- ALL DEALS -->
+    <div class="view" id="view-deals">
+      <div class="section-header"><div class="section-title">All Deals</div><button class="btn btn-primary btn-sm" onclick="openNewDeal()">+ New Deal</button></div>
+      <div id="all-deals-list"></div>
     </div>
-
-    <div class="content">
-
-      <!-- DASHBOARD -->
-      <div class="view active" id="view-dashboard">
-        <div class="stats-row" id="dash-stats">
-          <div class="stat-card gold"><div class="stat-label">Total Deals</div><div class="stat-value" id="stat-deals">—</div></div>
-          <div class="stat-card green"><div class="stat-label">Drilling</div><div class="stat-value" id="stat-drilling">—</div></div>
-          <div class="stat-card blue"><div class="stat-label">Promoters</div><div class="stat-value" id="stat-promoters">—</div></div>
-          <div class="stat-card red"><div class="stat-label">Fundraising</div><div class="stat-value" id="stat-fundraising">—</div></div>
-        </div>
-        <div class="section-header"><div class="section-title">Recent Deals</div><button class="btn btn-ghost btn-sm" onclick="showView('deals',null)">View All →</button></div>
-        <div id="dash-deals-table"></div>
-        <div class="section-header" style="margin-top:10px;"><div class="section-title">Recent Updates</div><button class="btn btn-ghost btn-sm" onclick="openPostUpdate()">+ Post Update</button></div>
-        <div id="dash-updates"></div>
-      </div>
-
-      <!-- ALL DEALS -->
-      <div class="view" id="view-deals">
-        <div class="section-header">
-          <div class="section-title">All Deals</div>
-          <button class="btn btn-primary" onclick="openNewDeal()">+ New Deal</button>
-        </div>
-        <div id="deals-table"></div>
-      </div>
-
-      <!-- UPDATES -->
-      <div class="view" id="view-updates">
-        <div class="section-header"><div class="section-title">Post Update</div></div>
-        <div class="panel">
-          <div class="panel-head"><div class="panel-title">New Update</div></div>
-          <div style="padding:24px;">
-            <div class="field"><label>Deal</label><select id="update-deal-select"><option value="">Select a deal…</option></select></div>
-            <div class="field"><label>Update Type</label>
-              <div class="type-pills">
-                <div class="type-pill sel-drill" onclick="selectUpdateType(this,'drilling')">▲ Drilling Progress</div>
-                <div class="type-pill" onclick="selectUpdateType(this,'documents')">⊟ New Documents</div>
-                <div class="type-pill" onclick="selectUpdateType(this,'regulatory')">◎ Regulatory</div>
-                <div class="type-pill" onclick="selectUpdateType(this,'financial')">$ Financial</div>
-              </div>
-            </div>
-            <div class="field"><label>Message</label><textarea id="update-message" rows="5" placeholder="Write update for promoters assigned to this deal…"></textarea></div>
-            <button class="btn btn-primary" onclick="postUpdate()">Post Update</button>
+    <!-- POST UPDATE -->
+    <div class="view" id="view-updates">
+      <div class="section-header"><div class="section-title">Post Update</div></div>
+      <div class="update-form-card">
+        <div class="field"><label>Deal</label><select id="update-deal-select"><option value="">Select a deal…</option></select></div>
+        <div class="field"><label>Update Type</label>
+          <div class="type-pills">
+            <div class="type-pill sel-drill" onclick="selectUpdateType(this,'drilling')">▲ Drilling</div>
+            <div class="type-pill" onclick="selectUpdateType(this,'documents')">⊟ Docs</div>
+            <div class="type-pill" onclick="selectUpdateType(this,'regulatory')">◎ Regulatory</div>
+            <div class="type-pill" onclick="selectUpdateType(this,'financial')">$ Financial</div>
           </div>
         </div>
-        <div class="section-header"><div class="section-title">Update History</div></div>
-        <div id="updates-history"></div>
+        <div class="field"><label>Message</label><textarea id="update-message" rows="4" placeholder="Write update for promoters…"></textarea></div>
+        <button class="btn btn-primary btn-full" onclick="postUpdate()">Post Update</button>
       </div>
+      <div class="section-header"><div class="section-title">History</div></div>
+      <div id="updates-history"></div>
+    </div>
+    <!-- PROMOTERS -->
+    <div class="view" id="view-promoters">
+      <div class="section-header"><div class="section-title">Promoters</div><button class="btn btn-primary btn-sm" onclick="openNewPromoter()">+ Add</button></div>
+      <div id="promoters-list"></div>
+      <div class="section-header" style="margin-top:8px;"><div class="section-title">Deal Access</div></div>
+      <div id="access-panel"></div>
+    </div>
+  </div>
+  <nav class="bottom-nav">
+    <button class="bn-item active" onclick="showView('dashboard',this)"><span class="bn-icon">◈</span><span class="bn-label">Home</span></button>
+    <button class="bn-item" onclick="showView('deals',this)"><span class="bn-icon">⬡</span><span class="bn-label">Deals</span></button>
+    <button class="bn-item" onclick="showView('updates',this)"><span class="bn-icon">✉</span><span class="bn-label">Updates</span></button>
+    <button class="bn-item" onclick="showView('promoters',this)"><span class="bn-icon">↗</span><span class="bn-label">Promoters</span></button>
+  </nav>
+</div>
 
-      <!-- PROMOTERS -->
-      <div class="view" id="view-promoters">
-        <div class="section-header">
-          <div class="section-title">Promoters</div>
-          <button class="btn btn-primary" onclick="openNewPromoter()">+ Add Promoter</button>
-        </div>
-        <div id="promoters-table"></div>
-      </div>
-
-      <!-- ACCESS CONTROL -->
-      <div class="view" id="view-access">
-        <div class="section-header"><div class="section-title">Deal Access Control</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);">Assign deals to promoters</div></div>
-        <div id="access-panel"></div>
-      </div>
-
+<!-- BOTTOM SHEET -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div class="sheet-title" id="sheet-title"></div>
+      <button class="sheet-close" onclick="closeSheet()">✕</button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+    <div class="sheet-footer">
+      <button class="btn btn-ghost" onclick="closeSheet()">Cancel</button>
+      <button class="btn btn-primary" id="sheet-save-btn">Save</button>
     </div>
   </div>
 </div>
-</div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="modal-head">
-      <div class="modal-title" id="modal-title">Modal</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body" id="modal-body"></div>
-    <div class="modal-footer" id="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="modal-save-btn">Save</button>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-const SUPABASE_URL = 'https://zeqaimztqcxcdpccksyw.supabase.co';
-const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InplcWFpbXp0cWN4Y2RwY2Nrc3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTg4OTIsImV4cCI6MjA4ODIzNDg5Mn0.rnoeOvHJaGxds1tT1q4QpLrLXxZn5Z5Hou6_02WGExQ';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const SB_URL='https://zeqaimztqcxcdpccksyw.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InplcWFpbXp0cWN4Y2RwY2Nrc3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTg4OTIsImV4cCI6MjA4ODIzNDg5Mn0.rnoeOvHJaGxds1tT1q4QpLrLXxZn5Z5Hou6_02WGExQ';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+let user=null,deals=[],promoters=[],updateType='drilling';
+const PC=['#e8a020','#4ade80','#38bdf8','#f87171','#a855f7','#fb923c'];
 
-let currentUser = null;
-let allDeals = [];
-let allPromoters = [];
-let selectedUpdateType = 'drilling';
-
-// ── AUTH ──
-async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass = document.getElementById('login-password').value;
-  const errEl = document.getElementById('auth-error');
-  errEl.style.display = 'none';
-  if (!email || !pass) { showAuthError('Please enter email and password.'); return; }
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-  if (error) { showAuthError(error.message); return; }
-  // Check admin
-  const { data: adminRow } = await sb.from('admin_users').select('id').single();
-  if (!adminRow) { showAuthError('Access denied. Not an admin account.'); await sb.auth.signOut(); return; }
-  currentUser = data.user;
-  showApp();
+async function doLogin(){
+  const e=document.getElementById('login-email').value.trim(),p=document.getElementById('login-password').value;
+  const err=document.getElementById('auth-error');err.style.display='none';
+  if(!e||!p){showErr('Enter email and password.');return;}
+  const{data,error}=await sb.auth.signInWithPassword({email:e,password:p});
+  if(error){showErr(error.message);return;}
+  const{data:a}=await sb.from('admin_users').select('id').single();
+  if(!a){showErr('Not an admin account.');await sb.auth.signOut();return;}
+  user=data.user;showApp();
 }
-
-function showAuthError(msg) {
-  const el = document.getElementById('auth-error');
-  el.textContent = msg;
-  el.style.display = 'block';
-}
-
-async function doLogout() {
-  await sb.auth.signOut();
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
-}
-
-async function showApp() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  const initials = (currentUser.email||'A').slice(0,2).toUpperCase();
-  document.getElementById('admin-avatar').textContent = initials;
-  document.getElementById('admin-name').textContent = currentUser.email;
+function showErr(m){const e=document.getElementById('auth-error');e.textContent=m;e.style.display='block';}
+async function doLogout(){await sb.auth.signOut();document.getElementById('app').style.display='none';document.getElementById('auth-screen').style.display='flex';}
+async function showApp(){
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('topbar-user').textContent=user.email;
   await loadAll();
 }
+async function loadAll(){await Promise.all([loadDeals(),loadPromoters()]);renderDashboard();}
+async function loadDeals(){const{data}=await sb.from('deals').select('*').order('created_at',{ascending:false});deals=data||[];populateDealSelect();}
+async function loadPromoters(){const{data}=await sb.from('promoters').select('*').order('created_at',{ascending:false});promoters=data||[];}
+function populateDealSelect(){const s=document.getElementById('update-deal-select');if(!s)return;s.innerHTML='<option value="">Select a deal…</option>'+deals.map(d=>`<option value="${d.id}">${d.name}</option>`).join('');}
 
-// ── DATA ──
-async function loadAll() {
-  await Promise.all([loadDeals(), loadPromoters()]);
-  renderDashboard();
+function showView(name,navEl){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const v=document.getElementById('view-'+name);if(v)v.classList.add('active');
+  if(navEl){document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');}
+  // Remove any temp detail view
+  const tmp=document.getElementById('view-detail-tmp');if(tmp)tmp.remove();
+  if(name==='deals')renderDealsList('all-deals-list',deals);
+  if(name==='promoters'){renderPromotersList();renderAccessPanel();}
+  if(name==='updates'){renderUpdatesHistory();populateDealSelect();}
+  window.scrollTo(0,0);
 }
 
-async function loadDeals() {
-  const { data } = await sb.from('deals').select('*').order('created_at', { ascending: false });
-  allDeals = data || [];
-  document.getElementById('nav-deals-count').textContent = allDeals.length;
-  populateDealSelect();
-}
+function fmt(n){if(!n)return'$0';if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1000)return'$'+Math.round(n/1000)+'K';return'$'+n;}
+function pct(r,t){return t>0?Math.min(100,Math.round((r/t)*100)):0;}
+function sBadge(s){const m={drilling:['Drilling','s-drilling'],fundraising:['Fundraising','s-fundraising'],permitted:['Permitted','s-permitted'],completed:['Completed','s-completed'],planning:['Planning','s-planning']};const[l,c]=m[s]||['Unknown',''];return`<span class="status-badge ${c}"><span class="status-dot"></span>${l}</span>`;}
 
-async function loadPromoters() {
-  const { data } = await sb.from('promoters').select('*').order('created_at', { ascending: false });
-  allPromoters = data || [];
-  document.getElementById('nav-promoter-count').textContent = allPromoters.length;
-}
-
-function populateDealSelect() {
-  const sel = document.getElementById('update-deal-select');
-  if (!sel) return;
-  sel.innerHTML = '<option value="">Select a deal…</option>' + allDeals.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
-}
-
-// ── VIEWS ──
-function showView(name, navEl) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
-  const titles = { dashboard: 'Dashboard', deals: 'All Deals', updates: 'Post Update', promoters: 'Promoters', access: 'Deal Access' };
-  document.getElementById('topbar-title').textContent = titles[name] || name;
-  if (navEl) { document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); navEl.classList.add('active'); }
-  if (name === 'deals') renderDealsTable();
-  if (name === 'promoters') renderPromotersTable();
-  if (name === 'access') renderAccessPanel();
-  if (name === 'updates') { renderUpdatesHistory(); populateDealSelect(); }
-}
-
-// ── DASHBOARD ──
-function renderDashboard() {
-  document.getElementById('stat-deals').textContent = allDeals.length;
-  document.getElementById('stat-drilling').textContent = allDeals.filter(d => d.status === 'drilling').length;
-  document.getElementById('stat-promoters').textContent = allPromoters.length;
-  document.getElementById('stat-fundraising').textContent = allDeals.filter(d => d.status === 'fundraising').length;
-  renderDealsTableInto('dash-deals-table', allDeals.slice(0, 5));
+function renderDashboard(){
+  document.getElementById('stat-deals').textContent=deals.length;
+  document.getElementById('stat-drilling').textContent=deals.filter(d=>d.status==='drilling').length;
+  document.getElementById('stat-promoters').textContent=promoters.length;
+  document.getElementById('stat-fundraising').textContent=deals.filter(d=>d.status==='fundraising').length;
+  renderDealsList('dash-deals',deals.slice(0,5));
   renderRecentUpdates();
 }
 
-function statusBadge(s) {
-  const m = { drilling: ['Drilling', 's-drilling'], fundraising: ['Fundraising', 's-fundraising'], permitted: ['Permitted', 's-permitted'], completed: ['Completed', 's-completed'], planning: ['Planning', 's-planning'] };
-  const [l, c] = m[s] || ['Unknown', ''];
-  return `<span class="status-badge ${c}"><span class="status-dot"></span>${l}</span>`;
-}
-
-function fmt(n) { if (!n) return '$0'; if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M'; if (n >= 1000) return '$' + Math.round(n / 1000) + 'K'; return '$' + n; }
-function pct(r, t) { return t > 0 ? Math.min(100, Math.round((r / t) * 100)) : 0; }
-
-function renderDealsTableInto(containerId, deals) {
-  const el = document.getElementById(containerId);
-  if (!deals.length) { el.innerHTML = '<div class="empty-state">No deals yet. Add your first deal.</div>'; return; }
-  el.innerHTML = `
-    <div class="data-table">
-      <div class="table-head" style="grid-template-columns:2fr 1fr 1fr 1.2fr 80px;">
-        <div class="th">Deal</div><div class="th">Status</div><div class="th">Raise Progress</div><div class="th">Updated</div><div class="th"></div>
+function renderDealsList(cid,list){
+  const el=document.getElementById(cid);
+  if(!list.length){el.innerHTML='<div class="empty">No deals yet. Tap + New to start.</div>';return;}
+  el.innerHTML=list.map(d=>{
+    const p=pct(d.raise_committed,d.raise_target);
+    return`<div class="deal-card" onclick="openDealDetail('${d.id}')">
+      <div class="deal-card-inner">
+        <div class="deal-card-row1"><div class="deal-card-name">${d.name}</div>${sBadge(d.status)}</div>
+        <div class="deal-card-loc">${d.location||''}</div>
+        <div class="progress-label"><span class="progress-amt">${fmt(d.raise_committed)} / ${fmt(d.raise_target)}</span><span class="progress-pct">${p}%</span></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${p}%"></div></div>
       </div>
-      ${deals.map(d => `
-        <div class="table-row" style="grid-template-columns:2fr 1fr 1fr 1.2fr 80px;">
-          <div><div style="font-weight:500;">${d.name}</div><div class="mono" style="font-size:10px;color:var(--muted);margin-top:2px;">${d.location || ''}</div></div>
-          <div>${statusBadge(d.status)}</div>
-          <div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-              <span class="mono" style="font-size:10px;color:var(--muted);">${fmt(d.raise_committed)} / ${fmt(d.raise_target)}</span>
-              <span class="mono" style="font-size:10px;color:var(--accent);">${pct(d.raise_committed, d.raise_target)}%</span>
-            </div>
-            <div class="progress-bar"><div class="progress-fill" style="width:${pct(d.raise_committed, d.raise_target)}%"></div></div>
-          </div>
-          <div class="mono" style="font-size:10px;color:var(--muted);">${new Date(d.updated_at || d.created_at).toLocaleDateString()}</div>
-          <div class="action-btns">
-            <div class="icon-btn" onclick="openEditDeal('${d.id}')" title="Edit">✎</div>
-            <div class="icon-btn danger" onclick="deleteDeal('${d.id}')" title="Delete">✕</div>
-          </div>
-        </div>`).join('')}
+      <div class="deal-card-footer">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);">${d.target_depth||'—'}</span>
+        <div class="action-btns" onclick="event.stopPropagation()">
+          <div class="icon-btn" onclick="openEditDeal('${d.id}')">✎</div>
+          <div class="icon-btn" onclick="deleteDeal('${d.id}')" style="color:var(--red);">✕</div>
+        </div>
+      </div>
     </div>`;
-}
-
-function renderDealsTable() { renderDealsTableInto('deals-table', allDeals); }
-
-async function renderRecentUpdates() {
-  const { data } = await sb.from('updates').select('*, deals(name)').order('created_at', { ascending: false }).limit(5);
-  const el = document.getElementById('dash-updates');
-  if (!data || !data.length) { el.innerHTML = '<div class="empty-state">No updates posted yet.</div>'; return; }
-  const icons = { drilling: '▲', documents: '⊟', regulatory: '◎', financial: '$' };
-  const colors = { drilling: 'var(--green)', documents: 'var(--blue)', regulatory: 'var(--purple)', financial: 'var(--accent)' };
-  el.innerHTML = `<div class="panel"><div style="padding:0;">${data.map(u => `
-    <div style="padding:13px 20px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;">
-      <div style="width:28px;height:28px;border-radius:4px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;color:${colors[u.update_type] || 'var(--muted)'};">${icons[u.update_type] || '•'}</div>
-      <div style="flex:1;">
-        <div style="font-size:10px;font-weight:600;color:var(--accent);font-family:'IBM Plex Mono',monospace;">${u.deals?.name || 'Unknown Deal'}</div>
-        <div style="font-size:12px;margin-top:2px;line-height:1.5;">${u.message}</div>
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;">${new Date(u.created_at).toLocaleString()}</div>
-      </div>
-    </div>`).join('')}</div></div>`;
-}
-
-async function renderUpdatesHistory() {
-  const { data } = await sb.from('updates').select('*, deals(name)').order('created_at', { ascending: false });
-  const el = document.getElementById('updates-history');
-  if (!data || !data.length) { el.innerHTML = '<div class="empty-state">No updates posted yet.</div>'; return; }
-  const icons = { drilling: '▲', documents: '⊟', regulatory: '◎', financial: '$' };
-  el.innerHTML = `<div class="panel"><div style="padding:0;">${data.map(u => `
-    <div style="padding:13px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;">
-      <div style="display:flex;gap:12px;">
-        <div style="font-size:14px;">${icons[u.update_type] || '•'}</div>
-        <div>
-          <div style="font-size:10px;color:var(--accent);font-family:'IBM Plex Mono',monospace;">${u.deals?.name || ''} · ${u.update_type}</div>
-          <div style="font-size:12px;margin-top:3px;line-height:1.5;">${u.message}</div>
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;">${new Date(u.created_at).toLocaleString()}</div>
-        </div>
-      </div>
-      <div class="icon-btn danger" onclick="deleteUpdate('${u.id}')">✕</div>
-    </div>`).join('')}</div></div>`;
-}
-
-// ── PROMOTERS TABLE ──
-function renderPromotersTable() {
-  const el = document.getElementById('promoters-table');
-  if (!allPromoters.length) { el.innerHTML = '<div class="empty-state">No promoters added yet.</div>'; return; }
-  el.innerHTML = `
-    <div class="data-table">
-      <div class="table-head" style="grid-template-columns:1.5fr 1.5fr 1fr 100px;">
-        <div class="th">Name / Company</div><div class="th">Email</div><div class="th">Portal Link</div><div class="th"></div>
-      </div>
-      ${allPromoters.map(p => `
-        <div class="table-row" style="grid-template-columns:1.5fr 1.5fr 1fr 100px;">
-          <div><div style="font-weight:500;">${p.name}</div><div class="mono" style="font-size:10px;color:var(--muted);margin-top:2px;">${p.company || ''}</div></div>
-          <div class="mono" style="font-size:12px;">${p.email}</div>
-          <div><span class="share-box" onclick="copyPromoterLink('${p.id}')">Copy Link</span></div>
-          <div class="action-btns">
-            <div class="icon-btn" onclick="openAssignDeals('${p.id}','${p.name}')" title="Assign Deals">🔑</div>
-            <div class="icon-btn danger" onclick="deletePromoter('${p.id}')" title="Delete">✕</div>
-          </div>
-        </div>`).join('')}
-    </div>`;
-}
-
-// ── ACCESS PANEL ──
-async function renderAccessPanel() {
-  const el = document.getElementById('access-panel');
-  el.innerHTML = '<div class="loading"><div class="spinner"></div>Loading…</div>';
-  const { data: accessRows } = await sb.from('deal_access').select('deal_id, promoter_id, promoters(name,company), deals(name)');
-  if (!allPromoters.length) { el.innerHTML = '<div class="empty-state">Add promoters first.</div>'; return; }
-  el.innerHTML = allPromoters.map(p => {
-    const assigned = (accessRows || []).filter(a => a.promoter_id === p.id);
-    return `
-      <div class="panel" style="margin-bottom:16px;">
-        <div class="panel-head">
-          <div class="panel-title">${p.name} <span style="font-size:12px;font-weight:400;color:var(--muted);font-family:'IBM Plex Sans',sans-serif;">${p.company ? '— ' + p.company : ''}</span></div>
-          <button class="btn btn-primary btn-sm" onclick="openAssignDeals('${p.id}','${p.name}')">Manage Access</button>
-        </div>
-        <div style="padding:16px 20px;">
-          ${assigned.length ? `<div class="promoter-chip-list">${assigned.map(a => `<div class="promoter-chip"><div class="promoter-dot" style="background:var(--accent);"></div>${a.deals?.name || 'Unknown'}</div>`).join('')}</div>` : '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);">No deals assigned yet.</div>'}
-        </div>
-      </div>`;
   }).join('');
 }
 
-// ── MODALS ──
-function openNewDeal() {
-  document.getElementById('modal-title').textContent = 'New Deal';
-  document.getElementById('modal-body').innerHTML = `
-    <div class="field-row"><div class="field"><label>Deal Name</label><input id="f-name" placeholder="e.g. Permian Basin #10"/></div><div class="field"><label>Location</label><input id="f-loc" placeholder="County, State"/></div></div>
-    <div class="field-row"><div class="field"><label>Formation</label><input id="f-form" placeholder="e.g. Wolfcamp A"/></div><div class="field"><label>Operator</label><input id="f-oper" placeholder="Company name"/></div></div>
-    <div class="field-row"><div class="field"><label>API Number</label><input id="f-api" placeholder="XX-XXX-XXXXX"/></div><div class="field"><label>Status</label><select id="f-status"><option>planning</option><option>fundraising</option><option>permitted</option><option>drilling</option><option>completed</option></select></div></div>
-    <div class="field-row"><div class="field"><label>Target Depth</label><input id="f-depth" placeholder="e.g. 9,500 ft"/></div><div class="field"></div></div>
-    <div class="field-row"><div class="field"><label>Raise Target ($)</label><input id="f-target" type="number" placeholder="2000000"/></div><div class="field"><label>Committed ($)</label><input id="f-committed" type="number" placeholder="0"/></div></div>
-    <div class="field"><label>Notes</label><textarea id="f-notes" placeholder="Deal notes, structure, context…"></textarea></div>`;
-  document.getElementById('modal-save-btn').onclick = saveDeal;
-  document.getElementById('modal-save-btn').textContent = 'Create Deal';
-  document.getElementById('modal-overlay').classList.add('open');
+async function renderRecentUpdates(){
+  const{data}=await sb.from('updates').select('*,deals(name)').order('created_at',{ascending:false}).limit(4);
+  const el=document.getElementById('dash-updates');
+  if(!data||!data.length){el.innerHTML='<div class="empty">No updates yet.</div>';return;}
+  const ic={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
+  const cl={drilling:'u-drill',documents:'u-doc',regulatory:'u-reg',financial:'u-fin'};
+  el.innerHTML=`<div class="panel">${data.map(u=>`<div class="update-item"><div class="update-icon ${cl[u.update_type]||''}">${ic[u.update_type]||'•'}</div><div><div class="update-deal">${u.deals?.name||''}</div><div class="update-text">${u.message}</div><div class="update-time">${new Date(u.created_at).toLocaleDateString()}</div></div></div>`).join('')}</div>`;
 }
 
-async function saveDeal() {
-  const payload = {
-    name: document.getElementById('f-name').value,
-    location: document.getElementById('f-loc').value,
-    formation: document.getElementById('f-form').value,
-    operator: document.getElementById('f-oper').value,
-    api_number: document.getElementById('f-api').value,
-    status: document.getElementById('f-status').value,
-    target_depth: document.getElementById('f-depth').value,
-    raise_target: parseFloat(document.getElementById('f-target').value) || 0,
-    raise_committed: parseFloat(document.getElementById('f-committed').value) || 0,
-    notes: document.getElementById('f-notes').value,
-    updated_at: new Date().toISOString()
-  };
-  if (!payload.name) { toast('Deal name is required.'); return; }
-  const { error } = await sb.from('deals').insert(payload);
-  if (error) { toast('Error: ' + error.message); return; }
-  closeModal(); await loadDeals(); renderDashboard(); toast('✓ Deal created');
+async function renderUpdatesHistory(){
+  const{data}=await sb.from('updates').select('*,deals(name)').order('created_at',{ascending:false});
+  const el=document.getElementById('updates-history');
+  if(!data||!data.length){el.innerHTML='<div class="empty">No updates yet.</div>';return;}
+  const ic={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
+  const cl={drilling:'u-drill',documents:'u-doc',regulatory:'u-reg',financial:'u-fin'};
+  el.innerHTML=`<div class="panel">${data.map(u=>`<div class="update-item"><div class="update-icon ${cl[u.update_type]||''}">${ic[u.update_type]||'•'}</div><div style="flex:1;"><div class="update-deal">${u.deals?.name||''} · ${u.update_type}</div><div class="update-text">${u.message}</div><div class="update-time">${new Date(u.created_at).toLocaleString()}</div></div><div class="icon-btn" onclick="deleteUpdate('${u.id}')" style="color:var(--red);flex-shrink:0;margin-left:8px;">✕</div></div>`).join('')}</div>`;
 }
 
-async function openEditDeal(id) {
-  const d = allDeals.find(x => x.id === id);
-  document.getElementById('modal-title').textContent = 'Edit Deal';
-  document.getElementById('modal-body').innerHTML = `
-    <div class="field-row"><div class="field"><label>Deal Name</label><input id="f-name" value="${d.name || ''}"/></div><div class="field"><label>Location</label><input id="f-loc" value="${d.location || ''}"/></div></div>
-    <div class="field-row"><div class="field"><label>Formation</label><input id="f-form" value="${d.formation || ''}"/></div><div class="field"><label>Operator</label><input id="f-oper" value="${d.operator || ''}"/></div></div>
-    <div class="field-row"><div class="field"><label>API Number</label><input id="f-api" value="${d.api_number || ''}"/></div><div class="field"><label>Status</label><select id="f-status">${['planning','fundraising','permitted','drilling','completed'].map(s=>`<option${d.status===s?' selected':''}>${s}</option>`).join('')}</select></div></div>
-    <div class="field-row"><div class="field"><label>Target Depth</label><input id="f-depth" value="${d.target_depth || ''}"/></div><div class="field"></div></div>
-    <div class="field-row"><div class="field"><label>Raise Target ($)</label><input id="f-target" type="number" value="${d.raise_target || 0}"/></div><div class="field"><label>Committed ($)</label><input id="f-committed" type="number" value="${d.raise_committed || 0}"/></div></div>
-    <div class="field"><label>Notes</label><textarea id="f-notes">${d.notes || ''}</textarea></div>`;
-  document.getElementById('modal-save-btn').onclick = () => updateDeal(id);
-  document.getElementById('modal-save-btn').textContent = 'Save Changes';
-  document.getElementById('modal-overlay').classList.add('open');
+function openDealDetail(id){
+  const d=deals.find(x=>x.id===id);if(!d)return;
+  const prev=document.querySelector('.view.active')?.id||'view-dashboard';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const p=pct(d.raise_committed,d.raise_target);
+  const div=document.createElement('div');
+  div.className='view active';div.id='view-detail-tmp';
+  div.innerHTML=`
+    <div class="back-btn" onclick="closeDetail('${prev}')">← Back</div>
+    <div class="deal-detail-header">
+      <div class="ddh-name">${d.name}</div>
+      <div class="ddh-meta">${d.location||''} ${d.api_number?'· API# '+d.api_number:''}</div>
+      <div class="ddh-tags">${d.formation?`<span class="tag">${d.formation}</span>`:''}${sBadge(d.status)}${d.target_depth?`<span class="tag">${d.target_depth}</span>`:''}</div>
+      <div class="progress-label"><span class="progress-amt">${fmt(d.raise_committed)} / ${fmt(d.raise_target)}</span><span class="progress-pct">${p}%</span></div>
+      <div class="progress-bar" style="height:5px;margin-bottom:14px;"><div class="progress-fill" style="width:${p}%"></div></div>
+      <button class="btn btn-primary btn-full" onclick="jumpToUpdate('${d.id}')">✉ Post Update</button>
+    </div>
+    <div class="tabs"><div class="tab active" onclick="switchTab(this,'dtab-info')">Info</div><div class="tab" onclick="switchTab(this,'dtab-updates')">Updates</div></div>
+    <div class="tab-content active" id="dtab-info">
+      <div class="panel"><div style="padding:0 16px;">
+        ${[['Formation',d.formation||'—'],['Operator',d.operator||'—'],['API#',d.api_number||'—'],['Depth',d.target_depth||'—'],['Target',fmt(d.raise_target)],['Committed',fmt(d.raise_committed)],['Status',d.status]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-value">${v}</span></div>`).join('')}
+      </div></div>
+      ${d.notes?`<div class="panel"><div class="panel-head"><div class="panel-title">Notes</div></div><div style="padding:14px 16px;font-size:13px;line-height:1.7;color:var(--text2);">${d.notes}</div></div>`:''}
+    </div>
+    <div class="tab-content" id="dtab-updates"><div class="loading" id="dul"><div class="spinner"></div>Loading…</div></div>`;
+  document.getElementById('app-content').appendChild(div);
+  window.scrollTo(0,0);
+  loadDealUpdates(id);
 }
 
-async function updateDeal(id) {
-  const payload = {
-    name: document.getElementById('f-name').value,
-    location: document.getElementById('f-loc').value,
-    formation: document.getElementById('f-form').value,
-    operator: document.getElementById('f-oper').value,
-    api_number: document.getElementById('f-api').value,
-    status: document.getElementById('f-status').value,
-    target_depth: document.getElementById('f-depth').value,
-    raise_target: parseFloat(document.getElementById('f-target').value) || 0,
-    raise_committed: parseFloat(document.getElementById('f-committed').value) || 0,
-    notes: document.getElementById('f-notes').value,
-    updated_at: new Date().toISOString()
-  };
-  const { error } = await sb.from('deals').update(payload).eq('id', id);
-  if (error) { toast('Error: ' + error.message); return; }
-  closeModal(); await loadDeals(); renderDashboard(); toast('✓ Deal updated');
+async function loadDealUpdates(dealId){
+  const{data}=await sb.from('updates').select('*').eq('deal_id',dealId).order('created_at',{ascending:false});
+  const el=document.getElementById('dtab-updates');if(!el)return;
+  const tc={drilling:'var(--green)',documents:'var(--blue)',regulatory:'var(--purple)',financial:'var(--accent)'};
+  const tl={drilling:'Drilling',documents:'Documents',regulatory:'Regulatory',financial:'Financial'};
+  const ic={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
+  const cl={drilling:'u-drill',documents:'u-doc',regulatory:'u-reg',financial:'u-fin'};
+  if(!data||!data.length){el.innerHTML='<div class="empty">No updates yet.</div>';return;}
+  el.innerHTML=data.map(u=>`<div class="uli"><div class="uli-icon ${cl[u.update_type]||''}" style="color:${tc[u.update_type]||'var(--muted)'};">${ic[u.update_type]||'•'}</div><div><div class="uli-type" style="color:${tc[u.update_type]||'var(--muted)'};">${tl[u.update_type]||u.update_type}</div><div class="uli-text">${u.message}</div><div class="uli-time">${new Date(u.created_at).toLocaleString()}</div></div></div>`).join('');
 }
 
-async function deleteDeal(id) {
-  if (!confirm('Delete this deal? This cannot be undone.')) return;
-  await sb.from('deals').delete().eq('id', id);
-  await loadDeals(); renderDashboard(); renderDealsTable(); toast('Deal deleted');
+function closeDetail(prev){const t=document.getElementById('view-detail-tmp');if(t)t.remove();const p=document.getElementById(prev||'view-dashboard');if(p)p.classList.add('active');window.scrollTo(0,0);}
+function jumpToUpdate(dealId){closeDetail('view-dashboard');showView('updates',document.querySelector('.bn-item:nth-child(3)'));setTimeout(()=>{const s=document.getElementById('update-deal-select');if(s)s.value=dealId;},100);}
+
+// DEAL FORMS
+function dealFormHTML(d){
+  return`<div class="field"><label>Deal Name</label><input id="fn" value="${d.name||''}" placeholder="e.g. Permian Basin #10"/></div>
+    <div class="field"><label>Location</label><input id="fl" value="${d.location||''}" placeholder="County, State"/></div>
+    <div class="field"><label>Formation</label><input id="ff" value="${d.formation||''}" placeholder="e.g. Wolfcamp A"/></div>
+    <div class="field"><label>Operator</label><input id="fo" value="${d.operator||''}" placeholder="Company name"/></div>
+    <div class="field"><label>API Number</label><input id="fa" value="${d.api_number||''}" placeholder="XX-XXX-XXXXX"/></div>
+    <div class="field"><label>Status</label><select id="fs">${['planning','fundraising','permitted','drilling','completed'].map(s=>`<option${d.status===s?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="field"><label>Target Depth</label><input id="fd" value="${d.target_depth||''}" placeholder="e.g. 9,500 ft"/></div>
+    <div class="field"><label>Raise Target ($)</label><input id="ft" type="number" value="${d.raise_target||''}" placeholder="2000000"/></div>
+    <div class="field"><label>Amount Committed ($)</label><input id="fc" type="number" value="${d.raise_committed||''}" placeholder="0"/></div>
+    <div class="field"><label>Notes</label><textarea id="fno">${d.notes||''}</textarea></div>`;
+}
+function openNewDeal(){document.getElementById('sheet-title').textContent='New Deal';document.getElementById('sheet-body').innerHTML=dealFormHTML({});document.getElementById('sheet-save-btn').onclick=saveDeal;document.getElementById('sheet-save-btn').textContent='Create Deal';openSheet();}
+function openEditDeal(id){const d=deals.find(x=>x.id===id);document.getElementById('sheet-title').textContent='Edit Deal';document.getElementById('sheet-body').innerHTML=dealFormHTML(d);document.getElementById('sheet-save-btn').onclick=()=>updateDeal(id);document.getElementById('sheet-save-btn').textContent='Save';openSheet();}
+function dealPayload(){return{name:g('fn'),location:g('fl'),formation:g('ff'),operator:g('fo'),api_number:g('fa'),status:g('fs'),target_depth:g('fd'),raise_target:parseFloat(g('ft'))||0,raise_committed:parseFloat(g('fc'))||0,notes:g('fno'),updated_at:new Date().toISOString()};}
+async function saveDeal(){const p=dealPayload();if(!p.name){toast('Name required.');return;}const{error}=await sb.from('deals').insert(p);if(error){toast('Error: '+error.message);return;}closeSheet();await loadDeals();renderDashboard();toast('✓ Deal created');}
+async function updateDeal(id){const p=dealPayload();const{error}=await sb.from('deals').update(p).eq('id',id);if(error){toast('Error: '+error.message);return;}closeSheet();await loadDeals();renderDashboard();toast('✓ Updated');}
+async function deleteDeal(id){if(!confirm('Delete this deal?'))return;await sb.from('deals').delete().eq('id',id);await loadDeals();renderDashboard();renderDealsList('all-deals-list',deals);toast('Deleted');}
+
+// PROMOTERS
+function renderPromotersList(){
+  const el=document.getElementById('promoters-list');
+  if(!promoters.length){el.innerHTML='<div class="empty">No promoters yet.</div>';return;}
+  el.innerHTML=`<div class="panel">${promoters.map((p,i)=>`<div class="promoter-row"><div class="promoter-avatar" style="background:${PC[i%PC.length]}">${(p.name||'?').slice(0,2).toUpperCase()}</div><div style="flex:1;overflow:hidden;"><div class="promoter-name">${p.name}</div><div class="promoter-meta">${p.company||''}</div><div class="promoter-meta">${p.email}</div></div><div class="promoter-actions"><div class="icon-btn" onclick="copyPromoterLink()">🔗</div><div class="icon-btn" onclick="openAssignDeals('${p.id}','${p.name}')" style="color:var(--accent);">🔑</div><div class="icon-btn" onclick="deletePromoter('${p.id}')" style="color:var(--red);">✕</div></div></div>`).join('')}</div>`;
+}
+async function renderAccessPanel(){
+  const{data:ar}=await sb.from('deal_access').select('deal_id,promoter_id,deals(name)');
+  const el=document.getElementById('access-panel');
+  if(!promoters.length){el.innerHTML='';return;}
+  el.innerHTML=promoters.map((p,i)=>{
+    const asgn=(ar||[]).filter(a=>a.promoter_id===p.id);
+    return`<div class="access-card"><div class="access-card-head"><div style="display:flex;align-items:center;gap:10px;"><div class="promoter-avatar" style="background:${PC[i%PC.length]};width:32px;height:32px;font-size:12px;">${(p.name||'?').slice(0,2).toUpperCase()}</div><div><div style="font-weight:500;font-size:13px;">${p.name}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);">${asgn.length} deal${asgn.length!==1?'s':''}</div></div></div><button class="btn btn-ghost btn-sm" onclick="openAssignDeals('${p.id}','${p.name}')">Manage</button></div><div class="access-chips">${asgn.length?asgn.map(a=>`<div class="deal-chip">⬡ ${a.deals?.name||'Deal'}</div>`).join(''):'<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);">No deals assigned</div>'}</div></div>`;
+  }).join('');
+}
+function openNewPromoter(){
+  document.getElementById('sheet-title').textContent='Add Promoter';
+  document.getElementById('sheet-body').innerHTML=`<div class="field"><label>Full Name</label><input id="pn" placeholder="John Smith"/></div><div class="field"><label>Company</label><input id="pc" placeholder="Firm name"/></div><div class="field"><label>Email</label><input id="pe" type="email" placeholder="promoter@firm.com"/></div><div class="field"><label>Temporary Password</label><input id="pp" type="password" placeholder="Min 8 characters"/></div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;">Send them the promoter.html link — they'll sign up and only see assigned deals.</div>`;
+  document.getElementById('sheet-save-btn').onclick=savePromoter;
+  document.getElementById('sheet-save-btn').textContent='Add Promoter';
+  openSheet();
+}
+async function savePromoter(){
+  const name=g('pn'),company=g('pc'),email=g('pe'),pass=g('pp');
+  if(!name||!email||!pass){toast('Name, email & password required.');return;}
+  const{data:sd}=await sb.auth.signUp({email,password:pass});
+  const userId=sd?.user?.id||null;
+  const{error}=await sb.from('promoters').insert({name,company,email,user_id:userId});
+  if(error){toast('Error: '+error.message);return;}
+  closeSheet();await loadPromoters();renderPromotersList();renderAccessPanel();toast('✓ Promoter added');
+}
+async function deletePromoter(id){if(!confirm('Remove this promoter?'))return;await sb.from('deal_access').delete().eq('promoter_id',id);await sb.from('promoters').delete().eq('id',id);await loadPromoters();renderPromotersList();renderAccessPanel();toast('Removed');}
+async function openAssignDeals(pid,pname){
+  const{data:cur}=await sb.from('deal_access').select('deal_id').eq('promoter_id',pid);
+  const asgnd=(cur||[]).map(a=>a.deal_id);
+  document.getElementById('sheet-title').textContent=pname;
+  document.getElementById('sheet-body').innerHTML=`<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:14px;">Select deals this promoter can see.</div><div class="access-check-list">${deals.map(d=>`<div class="access-item${asgnd.includes(d.id)?' checked':''}" onclick="toggleAccess(this,'${d.id}')"><input type="checkbox" ${asgnd.includes(d.id)?'checked':''} onclick="event.stopPropagation()"/><div><div class="access-item-name">${d.name}</div><div class="access-item-loc">${d.location||''} · ${d.status}</div></div></div>`).join('')}</div>`;
+  document.getElementById('sheet-save-btn').onclick=()=>saveAccess(pid);
+  document.getElementById('sheet-save-btn').textContent='Save Access';
+  openSheet();
+}
+function toggleAccess(el){el.classList.toggle('checked');el.querySelector('input').checked=el.classList.contains('checked');}
+async function saveAccess(pid){
+  const items=document.querySelectorAll('.access-check-list .access-item');
+  const grant=[];
+  items.forEach(item=>{if(item.classList.contains('checked')){const m=item.getAttribute('onclick').match(/'([a-f0-9-]{36})'/);if(m)grant.push(m[1]);}});
+  await sb.from('deal_access').delete().eq('promoter_id',pid);
+  if(grant.length)await sb.from('deal_access').insert(grant.map(did=>({deal_id:did,promoter_id:pid})));
+  closeSheet();renderAccessPanel();toast('✓ Access saved');
 }
 
-// PROMOTER MODAL
-function openNewPromoter() {
-  document.getElementById('modal-title').textContent = 'Add Promoter';
-  document.getElementById('modal-body').innerHTML = `
-    <div class="field-row"><div class="field"><label>Full Name</label><input id="p-name" placeholder="John Smith"/></div><div class="field"><label>Company</label><input id="p-company" placeholder="Firm name"/></div></div>
-    <div class="field"><label>Email Address</label><input id="p-email" type="email" placeholder="promoter@firm.com"/></div>
-    <div class="field"><label>Temporary Password</label><input id="p-pass" type="password" placeholder="They can change this after first login"/></div>
-    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:12px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-top:4px;">
-      This will create a login for the promoter portal at <span style="color:var(--blue);">promoter.html</span>. They will only see deals you assign to them.
-    </div>`;
-  document.getElementById('modal-save-btn').onclick = savePromoter;
-  document.getElementById('modal-save-btn').textContent = 'Create Promoter';
-  document.getElementById('modal-overlay').classList.add('open');
+// UPDATE
+function selectUpdateType(el,type){updateType=type;document.querySelectorAll('.type-pill').forEach(p=>p.className='type-pill');const cls={drilling:'sel-drill',documents:'sel-doc',regulatory:'sel-reg',financial:'sel-fin'};el.classList.add(cls[type]||'sel-drill');}
+async function postUpdate(){
+  const dealId=document.getElementById('update-deal-select').value;
+  const message=document.getElementById('update-message').value.trim();
+  if(!dealId){toast('Select a deal.');return;}if(!message){toast('Enter a message.');return;}
+  const{error}=await sb.from('updates').insert({deal_id:dealId,update_type:updateType,message});
+  if(error){toast('Error: '+error.message);return;}
+  document.getElementById('update-message').value='';renderUpdatesHistory();renderRecentUpdates();toast('✓ Update posted');
 }
+async function deleteUpdate(id){if(!confirm('Delete?'))return;await sb.from('updates').delete().eq('id',id);renderUpdatesHistory();toast('Deleted');}
+function copyPromoterLink(){const base=window.location.href.replace('index.html','').replace(/\/$/,'');navigator.clipboard.writeText(base+'/promoter.html').catch(()=>{});toast('🔗 Link copied');}
 
-async function savePromoter() {
-  const name = document.getElementById('p-name').value;
-  const company = document.getElementById('p-company').value;
-  const email = document.getElementById('p-email').value;
-  const pass = document.getElementById('p-pass').value;
-  if (!name || !email || !pass) { toast('Name, email and password are required.'); return; }
-  // Create auth user
-  const { data: authData, error: authErr } = await sb.auth.admin ? 
-    { data: null, error: { message: 'Use service key for admin operations' } } :
-    await createPromoterViaSignup(email, pass);
-  // Fallback: create promoter record only, send invite manually
-  const { error } = await sb.from('promoters').insert({ name, company, email, user_id: null });
-  if (error) { toast('Error: ' + error.message); return; }
-  closeModal(); await loadPromoters(); renderPromotersTable(); 
-  toast('✓ Promoter added. Have them sign up at promoter.html with this email.');
-}
+// UTILS
+function openSheet(){document.getElementById('sheet-overlay').classList.add('open');}
+function closeSheet(){document.getElementById('sheet-overlay').classList.remove('open');}
+function switchTab(el,tid){el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById(tid).classList.add('active');}
+function g(id){const el=document.getElementById(id);return el?el.value:'';}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-async function createPromoterViaSignup(email, pass) {
-  return await sb.auth.signUp({ email, password: pass });
-}
-
-async function deletePromoter(id) {
-  if (!confirm('Remove this promoter? Their access will be revoked.')) return;
-  await sb.from('deal_access').delete().eq('promoter_id', id);
-  await sb.from('promoters').delete().eq('id', id);
-  await loadPromoters(); renderPromotersTable(); toast('Promoter removed');
-}
-
-// ASSIGN DEALS MODAL
-async function openAssignDeals(promoterId, promoterName) {
-  const { data: currentAccess } = await sb.from('deal_access').select('deal_id').eq('promoter_id', promoterId);
-  const assignedIds = (currentAccess || []).map(a => a.deal_id);
-  document.getElementById('modal-title').textContent = `Assign Deals — ${promoterName}`;
-  document.getElementById('modal-body').innerHTML = `
-    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:16px;">Check the deals this promoter can see in their portal.</div>
-    <div class="access-grid" id="access-checkboxes">
-      ${allDeals.map(d => `
-        <div class="access-item${assignedIds.includes(d.id) ? ' checked' : ''}" onclick="toggleAccess(this,'${d.id}')">
-          <input type="checkbox" ${assignedIds.includes(d.id) ? 'checked' : ''} onclick="event.stopPropagation()"/>
-          <div><div class="access-item-name">${d.name}</div><div class="access-item-loc">${d.location || ''} · ${d.status}</div></div>
-        </div>`).join('')}
-    </div>`;
-  document.getElementById('modal-save-btn').onclick = () => saveAccess(promoterId);
-  document.getElementById('modal-save-btn').textContent = 'Save Access';
-  document.getElementById('modal-overlay').classList.add('open');
-}
-
-function toggleAccess(el, dealId) {
-  el.classList.toggle('checked');
-  el.querySelector('input').checked = el.classList.contains('checked');
-}
-
-async function saveAccess(promoterId) {
-  const checked = [...document.querySelectorAll('#access-checkboxes .access-item.checked')];
-  const dealIds = checked.map(el => el.querySelector('input').getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || el.onclick?.toString()?.match(/'([^']+)'/)?.[1]).filter(Boolean);
-  // Re-collect from data attributes
-  const items = document.querySelectorAll('#access-checkboxes .access-item');
-  const toGrant = [];
-  items.forEach(item => {
-    if (item.classList.contains('checked')) {
-      const onclick = item.getAttribute('onclick');
-      const match = onclick.match(/'([a-f0-9-]{36})'/);
-      if (match) toGrant.push(match[1]);
-    }
-  });
-  // Delete all current, re-insert
-  await sb.from('deal_access').delete().eq('promoter_id', promoterId);
-  if (toGrant.length) {
-    await sb.from('deal_access').insert(toGrant.map(did => ({ deal_id: did, promoter_id: promoterId })));
-  }
-  closeModal(); renderAccessPanel(); toast('✓ Access updated');
-}
-
-// POST UPDATE
-function selectUpdateType(el, type) {
-  selectedUpdateType = type;
-  document.querySelectorAll('.type-pill').forEach(p => p.className = 'type-pill');
-  const cls = { drilling: 'sel-drill', documents: 'sel-doc', regulatory: 'sel-reg', financial: 'sel-fin' };
-  el.classList.add(cls[type] || 'sel-drill');
-}
-
-async function postUpdate() {
-  const dealId = document.getElementById('update-deal-select').value;
-  const message = document.getElementById('update-message').value.trim();
-  if (!dealId) { toast('Select a deal.'); return; }
-  if (!message) { toast('Enter an update message.'); return; }
-  const { error } = await sb.from('updates').insert({ deal_id: dealId, update_type: selectedUpdateType, message });
-  if (error) { toast('Error: ' + error.message); return; }
-  document.getElementById('update-message').value = '';
-  await renderUpdatesHistory();
-  toast('✓ Update posted — visible to assigned promoters');
-}
-
-async function deleteUpdate(id) {
-  if (!confirm('Delete this update?')) return;
-  await sb.from('updates').delete().eq('id', id);
-  renderUpdatesHistory(); toast('Update deleted');
-}
-
-function openPostUpdate() { showView('updates', null); }
-
-// COPY PROMOTER LINK
-function copyPromoterLink(promoterId) {
-  const base = window.location.href.replace('index.html', '').replace(/\/$/, '');
-  const link = `${base}/promoter.html`;
-  navigator.clipboard.writeText(link).catch(() => {});
-  toast('🔗 Portal link copied — share promoter.html URL with them');
-}
-
-function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
-
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3500);
-}
-
-// ── INIT ──
-sb.auth.getSession().then(({ data: { session } }) => {
-  if (session) { currentUser = session.user; showApp(); }
-});
+sb.auth.getSession().then(({data:{session}})=>{if(session){user=session.user;showApp();}});
 </script>
 </body>
 </html>
