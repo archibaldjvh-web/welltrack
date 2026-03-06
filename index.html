@@ -10,160 +10,235 @@
 :root{--bg:#0a0d0f;--surface:#111518;--surface2:#181d21;--border:#222930;--border2:#2d3640;--accent:#e8a020;--adim:rgba(232,160,32,.12);--green:#4ade80;--gdim:rgba(74,222,128,.12);--blue:#38bdf8;--bdim:rgba(56,189,248,.12);--red:#f87171;--rdim:rgba(248,113,113,.12);--purple:#a855f7;--pdim:rgba(168,85,247,.12);--text:#e2e8f0;--text2:#94a3b8;--muted:#4a5568;--nav-h:64px;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
+
+/* AUTH */
 .auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
 .auth-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px 28px;width:100%;max-width:380px;}
-.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px;color:var(--accent);line-height:1;}
+.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--accent);line-height:1;}
 .auth-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:28px;margin-top:3px;}
-.auth-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
-.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;margin-bottom:14px;transition:border-color .15s;-webkit-appearance:none;}
+.auth-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);display:block;margin-bottom:8px;font-weight:500;}
+.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:15px 14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;margin-bottom:16px;transition:border-color .15s;-webkit-appearance:none;}
 .auth-input:focus{border-color:var(--accent);}
-.auth-btn{width:100%;padding:15px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;margin-top:4px;}
-.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:12px;display:none;line-height:1.5;padding:10px;background:var(--rdim);border-radius:8px;}
-.app{display:none;min-height:100vh;padding-bottom:calc(var(--nav-h) + 8px);}
-.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);}
+.auth-btn{width:100%;padding:16px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;margin-top:4px;}
+.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:14px;display:none;padding:12px;background:var(--rdim);border-radius:8px;line-height:1.6;}
+
+/* APP */
+.app{display:none;min-height:100vh;padding-bottom:calc(var(--nav-h) + 10px);}
+
+/* TOPBAR */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.topbar-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--accent);}
 .topbar-right{display:flex;gap:8px;align-items:center;}
-.topbar-user{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.logout-icon{width:34px;height:34px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:16px;}
+.topbar-email{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.logout-btn{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:16px;}
+
+/* BOTTOM NAV */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom);}
-.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--muted);transition:color .15s;padding:8px 4px;border:none;background:none;}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;color:var(--muted);border:none;background:none;padding:6px 4px;}
 .bn-item.active{color:var(--accent);}
-.bn-icon{font-size:20px;line-height:1;}
-.bn-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;}
+.bn-icon{font-size:22px;line-height:1;}
+.bn-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;}
+
+/* CONTENT */
 .content{padding:16px;}
 .view{display:none;}
 .view.active{display:block;}
+
+/* STATS */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;}
-.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;position:relative;overflow:hidden;}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
 .stat-card.gold::after{background:var(--accent);}
 .stat-card.green::after{background:var(--green);}
 .stat-card.blue::after{background:var(--blue);}
 .stat-card.red::after{background:var(--red);}
-.stat-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
-.stat-value{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;line-height:1;}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:8px;font-weight:500;}
+.stat-value{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:1px;line-height:1;}
 .stat-card.gold .stat-value{color:var(--accent);}
 .stat-card.green .stat-value{color:var(--green);}
 .stat-card.blue .stat-value{color:var(--blue);}
 .stat-card.red .stat-value{color:var(--red);}
-.stat-sub{font-size:10px;color:var(--muted);margin-top:4px;}
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:8px;}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;}
-.btn{padding:10px 16px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s;display:inline-flex;align-items:center;gap:6px;}
-.btn-primary{background:var(--accent);color:#000;font-weight:600;}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
-.btn-sm{padding:7px 13px;font-size:10px;}
+.stat-sub{font-size:11px;color:var(--text2);margin-top:5px;}
+
+/* SECTION */
+.sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;margin-top:10px;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:var(--text);}
+
+/* BUTTONS */
+.btn{padding:10px 16px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:6px;font-weight:600;}
+.btn-primary{background:var(--accent);color:#000;}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text2);}
+.btn-sm{padding:8px 13px;font-size:10px;}
 .btn-full{width:100%;justify-content:center;}
-.deal-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px;cursor:pointer;}
-.deal-card-inner{padding:16px;}
-.deal-card-row1{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;}
-.deal-card-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;line-height:1.1;flex:1;margin-right:10px;}
-.deal-card-loc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:12px;}
-.progress-label{display:flex;justify-content:space-between;margin-bottom:5px;}
-.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:2px;background:var(--accent);}
-.progress-pct{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);}
-.progress-amt{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
-.deal-card-footer{padding:10px 16px;border-top:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between;}
-.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;}
-.status-dot{width:5px;height:5px;border-radius:50%;}
+.btn-green{background:var(--gdim);border:1px solid var(--green);color:var(--green);}
+
+/* DEAL CARDS */
+.deal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px;cursor:pointer;}
+.deal-card:active{opacity:.85;}
+.dc-inner{padding:16px;}
+.dc-row1{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:3px;}
+.dc-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;line-height:1.1;color:var(--text);}
+.dc-loc{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin-bottom:14px;}
+.prog-label{display:flex;justify-content:space-between;margin-bottom:6px;}
+.prog-bar{height:5px;background:var(--border2);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:3px;background:var(--accent);}
+.prog-pct{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);font-weight:600;}
+.prog-amt{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);}
+.dc-footer{padding:10px 16px;border-top:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between;}
+.dc-depth{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);}
+.dc-actions{display:flex;gap:6px;}
+
+/* STATUS */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;}
+.bdot{width:5px;height:5px;border-radius:50%;}
 .s-drilling{background:var(--gdim);color:var(--green);}
-.s-drilling .status-dot{background:var(--green);animation:blink 1.4s infinite;}
+.s-drilling .bdot{background:var(--green);animation:blink 1.4s infinite;}
 .s-fundraising{background:var(--adim);color:var(--accent);}
-.s-fundraising .status-dot{background:var(--accent);}
+.s-fundraising .bdot{background:var(--accent);}
 .s-permitted{background:var(--bdim);color:var(--blue);}
-.s-permitted .status-dot{background:var(--blue);}
-.s-completed{background:rgba(100,116,139,.12);color:#64748b;}
-.s-completed .status-dot{background:#64748b;}
+.s-permitted .bdot{background:var(--blue);}
+.s-completed{background:rgba(100,116,139,.15);color:#94a3b8;}
+.s-completed .bdot{background:#94a3b8;}
 .s-planning{background:var(--pdim);color:var(--purple);}
-.s-planning .status-dot{background:var(--purple);}
+.s-planning .bdot{background:var(--purple);}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
-.action-btns{display:flex;gap:6px;}
-.icon-btn{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:14px;}
+
+/* ICON BTN */
+.ibtn{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:14px;}
+
+/* PANEL */
 .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
-.panel-head{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2);}
-.panel-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;}
-.update-item{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;gap:10px;align-items:flex-start;}
-.update-item:last-child{border-bottom:none;}
-.update-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.panel-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2);}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;color:var(--text);}
+
+/* UPDATE ITEMS */
+.uitem{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:flex-start;}
+.uitem:last-child{border-bottom:none;}
+.uicon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
 .u-drill{background:var(--gdim);}
 .u-doc{background:var(--bdim);}
 .u-reg{background:var(--pdim);}
 .u-fin{background:var(--adim);}
-.update-deal{font-size:10px;font-weight:600;color:var(--accent);font-family:'IBM Plex Mono',monospace;}
-.update-text{font-size:12px;margin-top:2px;line-height:1.5;}
-.update-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
-.promoter-row{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
-.promoter-row:last-child{border-bottom:none;}
-.promoter-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:14px;color:#000;flex-shrink:0;}
-.promoter-name{font-weight:500;font-size:13px;}
-.promoter-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;}
-.promoter-actions{margin-left:auto;display:flex;gap:6px;}
-.access-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;}
-.access-card-head{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--surface2);}
-.access-chips{padding:12px 16px;display:flex;flex-wrap:wrap;gap:6px;}
-.deal-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--adim);border:1px solid rgba(232,160,32,.2);color:var(--accent);}
-.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(4px);}
+.udeal{font-size:11px;font-weight:600;color:var(--accent);font-family:'IBM Plex Mono',monospace;}
+.utext{font-size:13px;margin-top:3px;line-height:1.5;color:var(--text);}
+.utime{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:3px;}
+
+/* PROMOTER */
+.prow{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.prow:last-child{border-bottom:none;}
+.pavatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:15px;color:#000;flex-shrink:0;}
+.pname{font-weight:600;font-size:14px;color:var(--text);}
+.pmeta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:2px;}
+.pactions{margin-left:auto;display:flex;gap:6px;}
+
+/* ACCESS */
+.acard{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;}
+.ahead{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--surface2);}
+.achips{padding:12px 16px;display:flex;flex-wrap:wrap;gap:6px;}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--adim);border:1px solid rgba(232,160,32,.25);color:var(--accent);}
+
+/* SHEET */
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(6px);}
 .sheet-overlay.open{opacity:1;pointer-events:all;}
-.sheet{background:var(--surface);border-radius:24px 24px 0 0;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
+.sheet{background:var(--surface);border-radius:24px 24px 0 0;width:100%;max-height:93vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
 .sheet-overlay.open .sheet{transform:translateY(0);}
 .sheet-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0;}
 .sheet-head{padding:16px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.sheet-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;}
-.sheet-close{background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;padding:2px 6px;line-height:1;}
+.sheet-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--text);}
+.sheet-x{background:none;border:none;color:var(--text2);font-size:24px;cursor:pointer;line-height:1;padding:2px 6px;}
 .sheet-body{padding:20px;}
 .sheet-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;gap:10px;}
 .sheet-footer .btn{flex:1;justify-content:center;}
-.field{margin-bottom:16px;}
-.field label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
-.field input,.field select,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;transition:border-color .15s;-webkit-appearance:none;}
+
+/* FIELDS */
+.field{margin-bottom:18px;}
+.field label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);display:block;margin-bottom:8px;font-weight:500;}
+.field input,.field select,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;transition:border-color .15s;-webkit-appearance:none;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
 .field textarea{resize:vertical;min-height:90px;font-size:14px;}
 select option{background:var(--surface2);}
-.type-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-.type-pill{padding:10px 12px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;border:1px solid var(--border);color:var(--muted);text-transform:uppercase;text-align:center;}
-.type-pill.sel-drill{border-color:var(--green);color:var(--green);background:var(--gdim);}
-.type-pill.sel-doc{border-color:var(--blue);color:var(--blue);background:var(--bdim);}
-.type-pill.sel-reg{border-color:var(--purple);color:var(--purple);background:var(--pdim);}
-.type-pill.sel-fin{border-color:var(--accent);color:var(--accent);background:var(--adim);}
-.access-check-list{display:flex;flex-direction:column;gap:8px;}
-.access-item{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;cursor:pointer;}
-.access-item.checked{border-color:var(--accent);background:var(--adim);}
-.access-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0;}
-.access-item-name{font-size:13px;font-weight:500;}
-.access-item-loc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
-.update-form-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
-.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;gap:10px;}
-.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg);}}
-.empty{padding:32px 16px;text-align:center;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.8;}
-.toast{position:fixed;bottom:calc(var(--nav-h) + 12px);left:16px;right:16px;background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:14px 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);z-index:300;transform:translateY(20px);opacity:0;transition:all .3s ease;text-align:center;}
-.toast.show{transform:translateY(0);opacity:1;}
-.back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;margin-bottom:16px;padding:9px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);}
-.deal-detail-header{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
-.ddh-name{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;}
-.ddh-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin:4px 0 12px;}
-.ddh-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.tag{padding:4px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid var(--border);color:var(--text2);}
+
+/* TYPE PILLS */
+.type-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.tpill{padding:11px 12px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;border:1px solid var(--border2);color:var(--text2);text-transform:uppercase;text-align:center;font-weight:500;}
+.tpill.sel-drill{border-color:var(--green);color:var(--green);background:var(--gdim);}
+.tpill.sel-doc{border-color:var(--blue);color:var(--blue);background:var(--bdim);}
+.tpill.sel-reg{border-color:var(--purple);color:var(--purple);background:var(--pdim);}
+.tpill.sel-fin{border-color:var(--accent);color:var(--accent);background:var(--adim);}
+
+/* ACCESS CHECKS */
+.acheck-list{display:flex;flex-direction:column;gap:8px;}
+.acheck-item{display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;cursor:pointer;}
+.acheck-item.checked{border-color:var(--accent);background:var(--adim);}
+.acheck-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);flex-shrink:0;}
+.acheck-name{font-size:13px;font-weight:500;color:var(--text);}
+.acheck-loc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--border2);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface2);margin-bottom:14px;}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:var(--adim);}
+.upload-zone input[type=file]{display:none;}
+.upload-icon{font-size:32px;margin-bottom:8px;color:var(--text2);}
+.upload-label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2);line-height:1.6;}
+.upload-label span{color:var(--accent);}
+.upload-progress{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px;display:none;}
+.upload-progress-bar{height:6px;background:var(--border2);border-radius:3px;overflow:hidden;margin-top:8px;}
+.upload-progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .3s ease;width:0%;}
+.upload-filename{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);}
+
+/* DOCS TABLE */
+.doc-row{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.doc-row:last-child{border-bottom:none;}
+.doc-ext{width:36px;height:42px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:10px;flex-shrink:0;letter-spacing:.5px;}
+.ext-pdf{background:var(--rdim);color:var(--red);border:1px solid rgba(248,113,113,.25);}
+.ext-png,.ext-jpg,.ext-jpeg{background:var(--adim);color:var(--accent);border:1px solid rgba(232,160,32,.25);}
+.ext-xlsx,.ext-csv,.ext-kml{background:var(--gdim);color:var(--green);border:1px solid rgba(74,222,128,.25);}
+.ext-dwg,.ext-dxf{background:var(--bdim);color:var(--blue);border:1px solid rgba(56,189,248,.25);}
+.ext-other{background:var(--pdim);color:var(--purple);border:1px solid rgba(168,85,247,.25);}
+.doc-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.doc-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:2px;}
+.doc-del{margin-left:auto;flex-shrink:0;}
+
+/* INFO ROWS */
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border);}
+.info-row:last-child{border-bottom:none;}
+.info-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;}
+.info-val{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text);text-align:right;}
+
+/* TABS */
 .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto;}
-.tab{padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;}
+.tab{padding:11px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;white-space:nowrap;font-weight:500;}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
-.info-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);}
-.info-row:last-child{border-bottom:none;}
-.info-label{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-.info-value{font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:right;color:var(--text);}
-.uli{display:flex;gap:10px;padding:13px 0;border-bottom:1px solid var(--border);}
+
+/* UPDATE LOG */
+.uli{display:flex;gap:10px;padding:14px 0;border-bottom:1px solid var(--border);}
 .uli:last-child{border-bottom:none;}
-.uli-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
-.uli-type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
-.uli-text{font-size:13px;line-height:1.6;color:var(--text2);}
-.uli-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.uli-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.uli-type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;font-weight:600;}
+.uli-text{font-size:13px;line-height:1.6;color:var(--text);}
+.uli-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:3px;}
+
+/* MISC */
+.back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2);cursor:pointer;margin-bottom:16px;padding:10px 14px;border:1px solid var(--border2);border-radius:10px;background:var(--surface);font-weight:500;}
+.tag{padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid var(--border2);color:var(--text2);}
+.ddh-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--text);}
+.ddh-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin:5px 0 14px;}
+.ddh-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--text2);font-family:'IBM Plex Mono',monospace;font-size:12px;gap:10px;}
+.spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty{padding:32px 16px;text-align:center;color:var(--text2);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2;}
+.toast{position:fixed;bottom:calc(var(--nav-h) + 12px);left:16px;right:16px;background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:14px 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);z-index:500;transform:translateY(20px);opacity:0;transition:all .3s ease;text-align:center;font-weight:600;}
+.toast.show{transform:translateY(0);opacity:1;}
+.update-form-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px;}
 @media(min-width:600px){.stats-grid{grid-template-columns:repeat(4,1fr);}.content{padding:20px 24px;}.type-pills{grid-template-columns:repeat(4,1fr);}}
 </style>
 </head>
 <body>
+
+<!-- AUTH -->
 <div class="auth-screen" id="auth-screen">
   <div class="auth-card">
     <div class="auth-logo">WellTrack</div>
@@ -177,14 +252,16 @@ select option{background:var(--surface2);}
   </div>
 </div>
 
+<!-- APP -->
 <div class="app" id="app">
   <div class="topbar">
     <div class="topbar-logo">WellTrack</div>
     <div class="topbar-right">
-      <div class="topbar-user" id="topbar-user"></div>
-      <div class="logout-icon" onclick="doLogout()">⎋</div>
+      <div class="topbar-email" id="topbar-email"></div>
+      <div class="logout-btn" onclick="doLogout()">⎋</div>
     </div>
   </div>
+
   <div class="content" id="app-content">
     <!-- DASHBOARD -->
     <div class="view active" id="view-dashboard">
@@ -194,43 +271,47 @@ select option{background:var(--surface2);}
         <div class="stat-card blue"><div class="stat-label">Promoters</div><div class="stat-value" id="stat-promoters">—</div></div>
         <div class="stat-card red"><div class="stat-label">Fundraising</div><div class="stat-value" id="stat-fundraising">—</div></div>
       </div>
-      <div class="section-header"><div class="section-title">Deals</div><button class="btn btn-primary btn-sm" onclick="openNewDeal()">+ New</button></div>
+      <div class="sec-header"><div class="sec-title">Deals</div><button class="btn btn-primary btn-sm" onclick="openNewDeal()">+ New Deal</button></div>
       <div id="dash-deals"></div>
-      <div class="section-header"><div class="section-title">Recent Updates</div><button class="btn btn-ghost btn-sm" onclick="showView('updates')">Post →</button></div>
+      <div class="sec-header"><div class="sec-title">Recent Updates</div><button class="btn btn-ghost btn-sm" onclick="showView('updates')">Post →</button></div>
       <div id="dash-updates"></div>
     </div>
+
     <!-- ALL DEALS -->
     <div class="view" id="view-deals">
-      <div class="section-header"><div class="section-title">All Deals</div><button class="btn btn-primary btn-sm" onclick="openNewDeal()">+ New Deal</button></div>
-      <div id="all-deals-list"></div>
+      <div class="sec-header"><div class="sec-title">All Deals</div><button class="btn btn-primary btn-sm" onclick="openNewDeal()">+ New Deal</button></div>
+      <div id="all-deals"></div>
     </div>
-    <!-- POST UPDATE -->
+
+    <!-- UPDATES -->
     <div class="view" id="view-updates">
-      <div class="section-header"><div class="section-title">Post Update</div></div>
+      <div class="sec-header"><div class="sec-title">Post Update</div></div>
       <div class="update-form-card">
-        <div class="field"><label>Deal</label><select id="update-deal-select"><option value="">Select a deal…</option></select></div>
-        <div class="field"><label>Update Type</label>
+        <div class="field"><label>Deal</label><select id="update-deal"><option value="">Select a deal…</option></select></div>
+        <div class="field"><label>Type</label>
           <div class="type-pills">
-            <div class="type-pill sel-drill" onclick="selectUpdateType(this,'drilling')">▲ Drilling</div>
-            <div class="type-pill" onclick="selectUpdateType(this,'documents')">⊟ Docs</div>
-            <div class="type-pill" onclick="selectUpdateType(this,'regulatory')">◎ Regulatory</div>
-            <div class="type-pill" onclick="selectUpdateType(this,'financial')">$ Financial</div>
+            <div class="tpill sel-drill" onclick="setUpdateType(this,'drilling')">▲ Drilling</div>
+            <div class="tpill" onclick="setUpdateType(this,'documents')">⊟ Docs</div>
+            <div class="tpill" onclick="setUpdateType(this,'regulatory')">◎ Regulatory</div>
+            <div class="tpill" onclick="setUpdateType(this,'financial')">$ Financial</div>
           </div>
         </div>
-        <div class="field"><label>Message</label><textarea id="update-message" rows="4" placeholder="Write update for promoters…"></textarea></div>
+        <div class="field"><label>Message</label><textarea id="update-msg" rows="4" placeholder="Write your update for promoters…"></textarea></div>
         <button class="btn btn-primary btn-full" onclick="postUpdate()">Post Update</button>
       </div>
-      <div class="section-header"><div class="section-title">History</div></div>
+      <div class="sec-header"><div class="sec-title">History</div></div>
       <div id="updates-history"></div>
     </div>
+
     <!-- PROMOTERS -->
     <div class="view" id="view-promoters">
-      <div class="section-header"><div class="section-title">Promoters</div><button class="btn btn-primary btn-sm" onclick="openNewPromoter()">+ Add</button></div>
+      <div class="sec-header"><div class="sec-title">Promoters</div><button class="btn btn-primary btn-sm" onclick="openNewPromoter()">+ Add</button></div>
       <div id="promoters-list"></div>
-      <div class="section-header" style="margin-top:8px;"><div class="section-title">Deal Access</div></div>
+      <div class="sec-header" style="margin-top:6px;"><div class="sec-title">Deal Access</div></div>
       <div id="access-panel"></div>
     </div>
   </div>
+
   <nav class="bottom-nav">
     <button class="bn-item active" onclick="showView('dashboard',this)"><span class="bn-icon">◈</span><span class="bn-label">Home</span></button>
     <button class="bn-item" onclick="showView('deals',this)"><span class="bn-icon">⬡</span><span class="bn-label">Deals</span></button>
@@ -239,95 +320,105 @@ select option{background:var(--surface2);}
   </nav>
 </div>
 
-<!-- BOTTOM SHEET -->
+<!-- SHEET -->
 <div class="sheet-overlay" id="sheet-overlay" onclick="if(event.target===this)closeSheet()">
   <div class="sheet">
     <div class="sheet-handle"></div>
     <div class="sheet-head">
       <div class="sheet-title" id="sheet-title"></div>
-      <button class="sheet-close" onclick="closeSheet()">✕</button>
+      <button class="sheet-x" onclick="closeSheet()">✕</button>
     </div>
     <div class="sheet-body" id="sheet-body"></div>
-    <div class="sheet-footer">
+    <div class="sheet-footer" id="sheet-footer">
       <button class="btn btn-ghost" onclick="closeSheet()">Cancel</button>
-      <button class="btn btn-primary" id="sheet-save-btn">Save</button>
+      <button class="btn btn-primary" id="sheet-save">Save</button>
     </div>
   </div>
 </div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 const SB_URL='https://zeqaimztqcxcdpccksyw.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InplcWFpbXp0cWN4Y2RwY2Nrc3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTg4OTIsImV4cCI6MjA4ODIzNDg5Mn0.rnoeOvHJaGxds1tT1q4QpLrLXxZn5Z5Hou6_02WGExQ';
 const sb=supabase.createClient(SB_URL,SB_KEY);
-let user=null,deals=[],promoters=[],updateType='drilling';
 const PC=['#e8a020','#4ade80','#38bdf8','#f87171','#a855f7','#fb923c'];
+let user=null,deals=[],promoters=[],updateType='drilling';
 
+// ── AUTH ──
 async function doLogin(){
-  const e=document.getElementById('login-email').value.trim(),p=document.getElementById('login-password').value;
+  const e=g('login-email'),p=g('login-password');
   const err=document.getElementById('auth-error');err.style.display='none';
-  if(!e||!p){showErr('Enter email and password.');return;}
+  if(!e||!p){showAuthErr('Enter email and password.');return;}
   const{data,error}=await sb.auth.signInWithPassword({email:e,password:p});
-  if(error){showErr(error.message);return;}
+  if(error){showAuthErr(error.message);return;}
   const{data:a}=await sb.from('admin_users').select('id').single();
-  if(!a){showErr('Not an admin account.');await sb.auth.signOut();return;}
+  if(!a){showAuthErr('Not an admin account.');await sb.auth.signOut();return;}
   user=data.user;showApp();
 }
-function showErr(m){const e=document.getElementById('auth-error');e.textContent=m;e.style.display='block';}
+function showAuthErr(m){const e=document.getElementById('auth-error');e.textContent=m;e.style.display='block';}
 async function doLogout(){await sb.auth.signOut();document.getElementById('app').style.display='none';document.getElementById('auth-screen').style.display='flex';}
 async function showApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('app').style.display='block';
-  document.getElementById('topbar-user').textContent=user.email;
+  document.getElementById('topbar-email').textContent=user.email;
   await loadAll();
 }
-async function loadAll(){await Promise.all([loadDeals(),loadPromoters()]);renderDashboard();}
-async function loadDeals(){const{data}=await sb.from('deals').select('*').order('created_at',{ascending:false});deals=data||[];populateDealSelect();}
-async function loadPromoters(){const{data}=await sb.from('promoters').select('*').order('created_at',{ascending:false});promoters=data||[];}
-function populateDealSelect(){const s=document.getElementById('update-deal-select');if(!s)return;s.innerHTML='<option value="">Select a deal…</option>'+deals.map(d=>`<option value="${d.id}">${d.name}</option>`).join('');}
 
+// ── DATA ──
+async function loadAll(){await Promise.all([loadDeals(),loadPromoters()]);renderDashboard();}
+async function loadDeals(){const{data}=await sb.from('deals').select('*').order('created_at',{ascending:false});deals=data||[];fillDealSelect();}
+async function loadPromoters(){const{data}=await sb.from('promoters').select('*').order('created_at',{ascending:false});promoters=data||[];}
+function fillDealSelect(){const s=document.getElementById('update-deal');if(!s)return;s.innerHTML='<option value="">Select a deal…</option>'+deals.map(d=>`<option value="${d.id}">${d.name}</option>`).join('');}
+
+// ── VIEWS ──
 function showView(name,navEl){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const v=document.getElementById('view-'+name);if(v)v.classList.add('active');
-  if(navEl){document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');}
-  // Remove any temp detail view
   const tmp=document.getElementById('view-detail-tmp');if(tmp)tmp.remove();
-  if(name==='deals')renderDealsList('all-deals-list',deals);
-  if(name==='promoters'){renderPromotersList();renderAccessPanel();}
-  if(name==='updates'){renderUpdatesHistory();populateDealSelect();}
+  if(navEl){document.querySelectorAll('.bn-item').forEach(n=>n.classList.remove('active'));navEl.classList.add('active');}
+  if(name==='deals')renderDealList('all-deals',deals);
+  if(name==='promoters'){renderPromoters();renderAccess();}
+  if(name==='updates'){renderUpdatesHistory();fillDealSelect();}
   window.scrollTo(0,0);
 }
 
+// ── HELPERS ──
 function fmt(n){if(!n)return'$0';if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1000)return'$'+Math.round(n/1000)+'K';return'$'+n;}
 function pct(r,t){return t>0?Math.min(100,Math.round((r/t)*100)):0;}
-function sBadge(s){const m={drilling:['Drilling','s-drilling'],fundraising:['Fundraising','s-fundraising'],permitted:['Permitted','s-permitted'],completed:['Completed','s-completed'],planning:['Planning','s-planning']};const[l,c]=m[s]||['Unknown',''];return`<span class="status-badge ${c}"><span class="status-dot"></span>${l}</span>`;}
+function badge(s){const m={drilling:['Drilling','s-drilling'],fundraising:['Fundraising','s-fundraising'],permitted:['Permitted','s-permitted'],completed:['Completed','s-completed'],planning:['Planning','s-planning']};const[l,c]=m[s]||['Unknown',''];return`<span class="badge ${c}"><span class="bdot"></span>${l}</span>`;}
+function extClass(ext){const m={pdf:'ext-pdf',png:'ext-png',jpg:'ext-jpg',jpeg:'ext-jpeg',xlsx:'ext-xlsx',csv:'ext-csv',kml:'ext-kml',dwg:'ext-dwg',dxf:'ext-dxf'};return m[ext]||'ext-other';}
+function getExt(name){return(name.split('.').pop()||'file').toLowerCase();}
+function g(id){const e=document.getElementById(id);return e?e.value:'';}
 
+// ── DASHBOARD ──
 function renderDashboard(){
   document.getElementById('stat-deals').textContent=deals.length;
   document.getElementById('stat-drilling').textContent=deals.filter(d=>d.status==='drilling').length;
   document.getElementById('stat-promoters').textContent=promoters.length;
   document.getElementById('stat-fundraising').textContent=deals.filter(d=>d.status==='fundraising').length;
-  renderDealsList('dash-deals',deals.slice(0,5));
+  renderDealList('dash-deals',deals.slice(0,5));
   renderRecentUpdates();
 }
 
-function renderDealsList(cid,list){
-  const el=document.getElementById(cid);
-  if(!list.length){el.innerHTML='<div class="empty">No deals yet. Tap + New to start.</div>';return;}
+function renderDealList(cid,list){
+  const el=document.getElementById(cid);if(!el)return;
+  if(!list.length){el.innerHTML='<div class="empty">No deals yet.<br>Tap + New Deal to start.</div>';return;}
   el.innerHTML=list.map(d=>{
     const p=pct(d.raise_committed,d.raise_target);
     return`<div class="deal-card" onclick="openDealDetail('${d.id}')">
-      <div class="deal-card-inner">
-        <div class="deal-card-row1"><div class="deal-card-name">${d.name}</div>${sBadge(d.status)}</div>
-        <div class="deal-card-loc">${d.location||''}</div>
-        <div class="progress-label"><span class="progress-amt">${fmt(d.raise_committed)} / ${fmt(d.raise_target)}</span><span class="progress-pct">${p}%</span></div>
-        <div class="progress-bar"><div class="progress-fill" style="width:${p}%"></div></div>
+      <div class="dc-inner">
+        <div class="dc-row1"><div class="dc-name">${d.name}</div>${badge(d.status)}</div>
+        <div class="dc-loc">${d.location||''}</div>
+        <div class="prog-label"><span class="prog-amt">${fmt(d.raise_committed)} / ${fmt(d.raise_target)}</span><span class="prog-pct">${p}%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${p}%"></div></div>
       </div>
-      <div class="deal-card-footer">
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);">${d.target_depth||'—'}</span>
-        <div class="action-btns" onclick="event.stopPropagation()">
-          <div class="icon-btn" onclick="openEditDeal('${d.id}')">✎</div>
-          <div class="icon-btn" onclick="deleteDeal('${d.id}')" style="color:var(--red);">✕</div>
+      <div class="dc-footer">
+        <span class="dc-depth">${d.target_depth||'—'}</span>
+        <div class="dc-actions" onclick="event.stopPropagation()">
+          <div class="ibtn" onclick="openUploadDoc('${d.id}','${d.name.replace(/'/g,"\\'")}')">📎</div>
+          <div class="ibtn" onclick="openEditDeal('${d.id}')">✎</div>
+          <div class="ibtn" onclick="deleteDeal('${d.id}')" style="color:var(--red);">✕</div>
         </div>
       </div>
     </div>`;
@@ -335,48 +426,62 @@ function renderDealsList(cid,list){
 }
 
 async function renderRecentUpdates(){
-  const{data}=await sb.from('updates').select('*,deals(name)').order('created_at',{ascending:false}).limit(4);
-  const el=document.getElementById('dash-updates');
+  const{data}=await sb.from('updates').select('*,deals(name)').order('created_at',{ascending:false}).limit(5);
+  const el=document.getElementById('dash-updates');if(!el)return;
   if(!data||!data.length){el.innerHTML='<div class="empty">No updates yet.</div>';return;}
+  el.innerHTML=`<div class="panel">${data.map(u=>updateItemHTML(u)).join('')}</div>`;
+}
+
+function updateItemHTML(u){
   const ic={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
   const cl={drilling:'u-drill',documents:'u-doc',regulatory:'u-reg',financial:'u-fin'};
-  el.innerHTML=`<div class="panel">${data.map(u=>`<div class="update-item"><div class="update-icon ${cl[u.update_type]||''}">${ic[u.update_type]||'•'}</div><div><div class="update-deal">${u.deals?.name||''}</div><div class="update-text">${u.message}</div><div class="update-time">${new Date(u.created_at).toLocaleDateString()}</div></div></div>`).join('')}</div>`;
+  return`<div class="uitem"><div class="uicon ${cl[u.update_type]||''}">${ic[u.update_type]||'•'}</div><div style="flex:1;"><div class="udeal">${u.deals?.name||''}</div><div class="utext">${u.message}</div><div class="utime">${new Date(u.created_at).toLocaleDateString()}</div></div></div>`;
 }
 
 async function renderUpdatesHistory(){
   const{data}=await sb.from('updates').select('*,deals(name)').order('created_at',{ascending:false});
-  const el=document.getElementById('updates-history');
-  if(!data||!data.length){el.innerHTML='<div class="empty">No updates yet.</div>';return;}
+  const el=document.getElementById('updates-history');if(!el)return;
   const ic={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
   const cl={drilling:'u-drill',documents:'u-doc',regulatory:'u-reg',financial:'u-fin'};
-  el.innerHTML=`<div class="panel">${data.map(u=>`<div class="update-item"><div class="update-icon ${cl[u.update_type]||''}">${ic[u.update_type]||'•'}</div><div style="flex:1;"><div class="update-deal">${u.deals?.name||''} · ${u.update_type}</div><div class="update-text">${u.message}</div><div class="update-time">${new Date(u.created_at).toLocaleString()}</div></div><div class="icon-btn" onclick="deleteUpdate('${u.id}')" style="color:var(--red);flex-shrink:0;margin-left:8px;">✕</div></div>`).join('')}</div>`;
+  if(!data||!data.length){el.innerHTML='<div class="empty">No updates yet.</div>';return;}
+  el.innerHTML=`<div class="panel">${data.map(u=>`<div class="uitem"><div class="uicon ${cl[u.update_type]||''}">${ic[u.update_type]||'•'}</div><div style="flex:1;"><div class="udeal">${u.deals?.name||''} · ${u.update_type}</div><div class="utext">${u.message}</div><div class="utime">${new Date(u.created_at).toLocaleString()}</div></div><div class="ibtn" onclick="deleteUpdate('${u.id}')" style="color:var(--red);flex-shrink:0;margin-left:8px;">✕</div></div>`).join('')}</div>`;
 }
 
+// ── DEAL DETAIL ──
 function openDealDetail(id){
   const d=deals.find(x=>x.id===id);if(!d)return;
   const prev=document.querySelector('.view.active')?.id||'view-dashboard';
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   const p=pct(d.raise_committed,d.raise_target);
-  const div=document.createElement('div');
-  div.className='view active';div.id='view-detail-tmp';
+  const div=document.createElement('div');div.className='view active';div.id='view-detail-tmp';
   div.innerHTML=`
     <div class="back-btn" onclick="closeDetail('${prev}')">← Back</div>
-    <div class="deal-detail-header">
-      <div class="ddh-name">${d.name}</div>
-      <div class="ddh-meta">${d.location||''} ${d.api_number?'· API# '+d.api_number:''}</div>
-      <div class="ddh-tags">${d.formation?`<span class="tag">${d.formation}</span>`:''}${sBadge(d.status)}${d.target_depth?`<span class="tag">${d.target_depth}</span>`:''}</div>
-      <div class="progress-label"><span class="progress-amt">${fmt(d.raise_committed)} / ${fmt(d.raise_target)}</span><span class="progress-pct">${p}%</span></div>
-      <div class="progress-bar" style="height:5px;margin-bottom:14px;"><div class="progress-fill" style="width:${p}%"></div></div>
-      <button class="btn btn-primary btn-full" onclick="jumpToUpdate('${d.id}')">✉ Post Update</button>
+    <div class="panel" style="margin-bottom:16px;">
+      <div style="padding:18px;">
+        <div class="ddh-name">${d.name}</div>
+        <div class="ddh-meta">${d.location||''} ${d.api_number?'· API# '+d.api_number:''}</div>
+        <div class="ddh-tags">${d.formation?`<span class="tag">${d.formation}</span>`:''}${badge(d.status)}${d.target_depth?`<span class="tag">${d.target_depth}</span>`:''}</div>
+        <div class="prog-label"><span class="prog-amt">${fmt(d.raise_committed)} / ${fmt(d.raise_target)}</span><span class="prog-pct">${p}%</span></div>
+        <div class="prog-bar" style="height:6px;margin-bottom:16px;"><div class="prog-fill" style="width:${p}%"></div></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="jumpUpdate('${d.id}')">✉ Post Update</button>
+          <button class="btn btn-green btn-sm" style="flex:1;justify-content:center;" onclick="openUploadDoc('${d.id}','${d.name.replace(/'/g,"\\'")}')">📎 Upload Doc</button>
+        </div>
+      </div>
     </div>
-    <div class="tabs"><div class="tab active" onclick="switchTab(this,'dtab-info')">Info</div><div class="tab" onclick="switchTab(this,'dtab-updates')">Updates</div></div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'dtab-info')">Info</div>
+      <div class="tab" onclick="switchTab(this,'dtab-updates')">Updates</div>
+      <div class="tab" onclick="switchTab(this,'dtab-docs');loadDocs('${d.id}')">Documents</div>
+    </div>
     <div class="tab-content active" id="dtab-info">
       <div class="panel"><div style="padding:0 16px;">
-        ${[['Formation',d.formation||'—'],['Operator',d.operator||'—'],['API#',d.api_number||'—'],['Depth',d.target_depth||'—'],['Target',fmt(d.raise_target)],['Committed',fmt(d.raise_committed)],['Status',d.status]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-value">${v}</span></div>`).join('')}
+        ${[['Formation',d.formation||'—'],['Operator',d.operator||'—'],['API Number',d.api_number||'—'],['Target Depth',d.target_depth||'—'],['Raise Target',fmt(d.raise_target)],['Committed',fmt(d.raise_committed)],['Status',d.status]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-val">${v}</span></div>`).join('')}
       </div></div>
-      ${d.notes?`<div class="panel"><div class="panel-head"><div class="panel-title">Notes</div></div><div style="padding:14px 16px;font-size:13px;line-height:1.7;color:var(--text2);">${d.notes}</div></div>`:''}
+      ${d.notes?`<div class="panel"><div class="panel-head"><div class="panel-title">Notes</div></div><div style="padding:14px 16px;font-size:13px;line-height:1.7;color:var(--text);">${d.notes}</div></div>`:''}
     </div>
-    <div class="tab-content" id="dtab-updates"><div class="loading" id="dul"><div class="spinner"></div>Loading…</div></div>`;
+    <div class="tab-content" id="dtab-updates"><div class="loading" id="detu"><div class="spinner"></div>Loading…</div></div>
+    <div class="tab-content" id="dtab-docs"><div class="loading"><div class="spinner"></div>Loading…</div></div>`;
   document.getElementById('app-content').appendChild(div);
   window.scrollTo(0,0);
   loadDealUpdates(id);
@@ -390,53 +495,155 @@ async function loadDealUpdates(dealId){
   const ic={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
   const cl={drilling:'u-drill',documents:'u-doc',regulatory:'u-reg',financial:'u-fin'};
   if(!data||!data.length){el.innerHTML='<div class="empty">No updates yet.</div>';return;}
-  el.innerHTML=data.map(u=>`<div class="uli"><div class="uli-icon ${cl[u.update_type]||''}" style="color:${tc[u.update_type]||'var(--muted)'};">${ic[u.update_type]||'•'}</div><div><div class="uli-type" style="color:${tc[u.update_type]||'var(--muted)'};">${tl[u.update_type]||u.update_type}</div><div class="uli-text">${u.message}</div><div class="uli-time">${new Date(u.created_at).toLocaleString()}</div></div></div>`).join('');
+  el.innerHTML=data.map(u=>`<div class="uli"><div class="uli-icon ${cl[u.update_type]||''}" style="color:${tc[u.update_type]||'var(--text2)'};">${ic[u.update_type]||'•'}</div><div><div class="uli-type" style="color:${tc[u.update_type]||'var(--text2)'};">${tl[u.update_type]||u.update_type}</div><div class="uli-text">${u.message}</div><div class="uli-time">${new Date(u.created_at).toLocaleString()}</div></div></div>`).join('');
+}
+
+async function loadDocs(dealId){
+  const el=document.getElementById('dtab-docs');if(!el)return;
+  const{data}=await sb.from('documents').select('*').eq('deal_id',dealId).order('created_at',{ascending:false});
+  if(!data||!data.length){el.innerHTML=`<div class="empty">No documents yet.<br><button class="btn btn-green btn-sm" style="margin-top:12px;" onclick="openUploadDoc('${dealId}','')">📎 Upload First Document</button></div>`;return;}
+  el.innerHTML=`<div style="display:flex;justify-content:flex-end;margin-bottom:10px;"><button class="btn btn-green btn-sm" onclick="openUploadDoc('${dealId}','')">📎 Upload Doc</button></div><div class="panel">${data.map(doc=>{const ext=getExt(doc.name);return`<div class="doc-row"><div class="doc-ext ${extClass(ext)}">${ext.toUpperCase()}</div><div style="flex:1;overflow:hidden;"><div class="doc-name">${doc.name}</div><div class="doc-meta">${doc.doc_type||''} · ${new Date(doc.created_at).toLocaleDateString()}</div></div>${doc.url?`<a href="${doc.url}" target="_blank" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);margin-left:8px;white-space:nowrap;font-weight:600;">↓ Open</a>`:''}<div class="ibtn doc-del" onclick="deleteDoc('${doc.id}','${doc.file_path||''}','${dealId}')" style="color:var(--red);margin-left:6px;">✕</div></div>`;}).join('')}</div>`;
 }
 
 function closeDetail(prev){const t=document.getElementById('view-detail-tmp');if(t)t.remove();const p=document.getElementById(prev||'view-dashboard');if(p)p.classList.add('active');window.scrollTo(0,0);}
-function jumpToUpdate(dealId){closeDetail('view-dashboard');showView('updates',document.querySelector('.bn-item:nth-child(3)'));setTimeout(()=>{const s=document.getElementById('update-deal-select');if(s)s.value=dealId;},100);}
+function jumpUpdate(dealId){closeDetail('view-dashboard');showView('updates',document.querySelector('.bn-item:nth-child(3)'));setTimeout(()=>{const s=document.getElementById('update-deal');if(s)s.value=dealId;},150);}
 
-// DEAL FORMS
+// ── DOCUMENT UPLOAD ──
+function openUploadDoc(dealId,dealName){
+  document.getElementById('sheet-title').textContent='Upload Document';
+  document.getElementById('sheet-body').innerHTML=`
+    <div class="field"><label>Deal</label>
+      <select id="upload-deal-id">${deals.map(d=>`<option value="${d.id}"${d.id===dealId?' selected':''}>${d.name}</option>`).join('')}</select>
+    </div>
+    <div class="field"><label>Document Type</label>
+      <select id="upload-doc-type">
+        <option>Executive Summary</option>
+        <option>Isopach Map</option>
+        <option>Cross Section</option>
+        <option>Well Path</option>
+        <option>AFE Budget</option>
+        <option>Permit</option>
+        <option>Drilling Report</option>
+        <option>Financial Update</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+      <input type="file" id="file-input" onchange="fileSelected(this)" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.csv,.dwg,.dxf,.kml,.doc,.docx"/>
+      <div class="upload-icon">📁</div>
+      <div class="upload-label">Tap to browse files<br><span>or drag and drop here</span><br><br>PDF, PNG, JPG, XLSX, DWG, KML supported</div>
+    </div>
+    <div class="upload-progress" id="upload-progress">
+      <div class="upload-filename" id="upload-filename">Uploading…</div>
+      <div class="upload-progress-bar"><div class="upload-progress-fill" id="upload-progress-fill"></div></div>
+    </div>`;
+  document.getElementById('sheet-save').style.display='none';
+  document.getElementById('sheet-overlay').classList.add('open');
+}
+
+function dragOver(e){e.preventDefault();document.getElementById('upload-zone').classList.add('dragover');}
+function dragLeave(e){document.getElementById('upload-zone').classList.remove('dragover');}
+function dropFile(e){e.preventDefault();document.getElementById('upload-zone').classList.remove('dragover');const f=e.dataTransfer.files[0];if(f)uploadFile(f);}
+function fileSelected(input){if(input.files[0])uploadFile(input.files[0]);}
+
+async function uploadFile(file){
+  const dealId=g('upload-deal-id');
+  const docType=g('upload-doc-type');
+  if(!dealId){toast('Select a deal first.');return;}
+
+  // Show progress
+  const prog=document.getElementById('upload-progress');
+  const fill=document.getElementById('upload-progress-fill');
+  const fname=document.getElementById('upload-filename');
+  prog.style.display='block';
+  fname.textContent=file.name;
+  fill.style.width='10%';
+
+  // Upload to Supabase storage
+  const filePath=`${dealId}/${Date.now()}_${file.name}`;
+  fill.style.width='40%';
+
+  const{data:storageData,error:storageErr}=await sb.storage.from('documents').upload(filePath,file,{cacheControl:'3600',upsert:false});
+  if(storageErr){toast('Upload failed: '+storageErr.message);prog.style.display='none';return;}
+  fill.style.width='75%';
+
+  // Get public URL
+  const{data:urlData}=sb.storage.from('documents').getPublicUrl(filePath);
+  const publicUrl=urlData?.publicUrl||'';
+  fill.style.width='90%';
+
+  // Save to documents table
+  const{error:dbErr}=await sb.from('documents').insert({
+    deal_id:dealId,
+    name:file.name,
+    file_type:file.name.split('.').pop().toLowerCase(),
+    doc_type:docType,
+    file_size:formatFileSize(file.size),
+    url:publicUrl,
+    file_path:filePath
+  });
+
+  if(dbErr){toast('DB error: '+dbErr.message);prog.style.display='none';return;}
+  fill.style.width='100%';
+
+  setTimeout(()=>{
+    closeSheet();
+    document.getElementById('sheet-save').style.display='';
+    toast('✓ Document uploaded successfully');
+    // Refresh docs tab if open
+    const docsTab=document.getElementById('dtab-docs');
+    if(docsTab&&docsTab.classList.contains('active'))loadDocs(dealId);
+  },400);
+}
+
+function formatFileSize(bytes){if(bytes>=1e6)return(bytes/1e6).toFixed(1)+' MB';if(bytes>=1000)return Math.round(bytes/1000)+' KB';return bytes+' B';}
+
+async function deleteDoc(docId,filePath,dealId){
+  if(!confirm('Delete this document?'))return;
+  if(filePath)await sb.storage.from('documents').remove([filePath]);
+  await sb.from('documents').delete().eq('id',docId);
+  loadDocs(dealId);toast('Document deleted');
+}
+
+// ── DEAL FORMS ──
 function dealFormHTML(d){
   return`<div class="field"><label>Deal Name</label><input id="fn" value="${d.name||''}" placeholder="e.g. Permian Basin #10"/></div>
     <div class="field"><label>Location</label><input id="fl" value="${d.location||''}" placeholder="County, State"/></div>
     <div class="field"><label>Formation</label><input id="ff" value="${d.formation||''}" placeholder="e.g. Wolfcamp A"/></div>
     <div class="field"><label>Operator</label><input id="fo" value="${d.operator||''}" placeholder="Company name"/></div>
     <div class="field"><label>API Number</label><input id="fa" value="${d.api_number||''}" placeholder="XX-XXX-XXXXX"/></div>
-    <div class="field"><label>Status</label><select id="fs">${['planning','fundraising','permitted','drilling','completed'].map(s=>`<option${d.status===s?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="field"><label>Status</label><select id="fs">${['planning','fundraising','permitted','drilling','completed'].map(s=>`<option${(d.status||'planning')===s?' selected':''}>${s}</option>`).join('')}</select></div>
     <div class="field"><label>Target Depth</label><input id="fd" value="${d.target_depth||''}" placeholder="e.g. 9,500 ft"/></div>
     <div class="field"><label>Raise Target ($)</label><input id="ft" type="number" value="${d.raise_target||''}" placeholder="2000000"/></div>
     <div class="field"><label>Amount Committed ($)</label><input id="fc" type="number" value="${d.raise_committed||''}" placeholder="0"/></div>
     <div class="field"><label>Notes</label><textarea id="fno">${d.notes||''}</textarea></div>`;
 }
-function openNewDeal(){document.getElementById('sheet-title').textContent='New Deal';document.getElementById('sheet-body').innerHTML=dealFormHTML({});document.getElementById('sheet-save-btn').onclick=saveDeal;document.getElementById('sheet-save-btn').textContent='Create Deal';openSheet();}
-function openEditDeal(id){const d=deals.find(x=>x.id===id);document.getElementById('sheet-title').textContent='Edit Deal';document.getElementById('sheet-body').innerHTML=dealFormHTML(d);document.getElementById('sheet-save-btn').onclick=()=>updateDeal(id);document.getElementById('sheet-save-btn').textContent='Save';openSheet();}
+function openNewDeal(){document.getElementById('sheet-title').textContent='New Deal';document.getElementById('sheet-body').innerHTML=dealFormHTML({});document.getElementById('sheet-save').onclick=saveDeal;document.getElementById('sheet-save').textContent='Create Deal';document.getElementById('sheet-save').style.display='';openSheet();}
+function openEditDeal(id){const d=deals.find(x=>x.id===id);document.getElementById('sheet-title').textContent='Edit Deal';document.getElementById('sheet-body').innerHTML=dealFormHTML(d);document.getElementById('sheet-save').onclick=()=>updateDeal(id);document.getElementById('sheet-save').textContent='Save';document.getElementById('sheet-save').style.display='';openSheet();}
 function dealPayload(){return{name:g('fn'),location:g('fl'),formation:g('ff'),operator:g('fo'),api_number:g('fa'),status:g('fs'),target_depth:g('fd'),raise_target:parseFloat(g('ft'))||0,raise_committed:parseFloat(g('fc'))||0,notes:g('fno'),updated_at:new Date().toISOString()};}
 async function saveDeal(){const p=dealPayload();if(!p.name){toast('Name required.');return;}const{error}=await sb.from('deals').insert(p);if(error){toast('Error: '+error.message);return;}closeSheet();await loadDeals();renderDashboard();toast('✓ Deal created');}
-async function updateDeal(id){const p=dealPayload();const{error}=await sb.from('deals').update(p).eq('id',id);if(error){toast('Error: '+error.message);return;}closeSheet();await loadDeals();renderDashboard();toast('✓ Updated');}
-async function deleteDeal(id){if(!confirm('Delete this deal?'))return;await sb.from('deals').delete().eq('id',id);await loadDeals();renderDashboard();renderDealsList('all-deals-list',deals);toast('Deleted');}
+async function updateDeal(id){const p=dealPayload();const{error}=await sb.from('deals').update(p).eq('id',id);if(error){toast('Error: '+error.message);return;}closeSheet();await loadDeals();renderDashboard();if(document.getElementById('view-deals').classList.contains('active'))renderDealList('all-deals',deals);toast('✓ Updated');}
+async function deleteDeal(id){if(!confirm('Delete this deal and all its documents?'))return;const{data:docs}=await sb.from('documents').select('file_path').eq('deal_id',id);if(docs&&docs.length){const paths=docs.map(d=>d.file_path).filter(Boolean);if(paths.length)await sb.storage.from('documents').remove(paths);}await sb.from('deals').delete().eq('id',id);await loadDeals();renderDashboard();renderDealList('all-deals',deals);toast('Deleted');}
 
-// PROMOTERS
-function renderPromotersList(){
+// ── PROMOTERS ──
+function renderPromoters(){
   const el=document.getElementById('promoters-list');
   if(!promoters.length){el.innerHTML='<div class="empty">No promoters yet.</div>';return;}
-  el.innerHTML=`<div class="panel">${promoters.map((p,i)=>`<div class="promoter-row"><div class="promoter-avatar" style="background:${PC[i%PC.length]}">${(p.name||'?').slice(0,2).toUpperCase()}</div><div style="flex:1;overflow:hidden;"><div class="promoter-name">${p.name}</div><div class="promoter-meta">${p.company||''}</div><div class="promoter-meta">${p.email}</div></div><div class="promoter-actions"><div class="icon-btn" onclick="copyPromoterLink()">🔗</div><div class="icon-btn" onclick="openAssignDeals('${p.id}','${p.name}')" style="color:var(--accent);">🔑</div><div class="icon-btn" onclick="deletePromoter('${p.id}')" style="color:var(--red);">✕</div></div></div>`).join('')}</div>`;
+  el.innerHTML=`<div class="panel">${promoters.map((p,i)=>`<div class="prow"><div class="pavatar" style="background:${PC[i%PC.length]}">${(p.name||'?').slice(0,2).toUpperCase()}</div><div style="flex:1;overflow:hidden;"><div class="pname">${p.name}</div><div class="pmeta">${p.company||''}</div><div class="pmeta">${p.email}</div></div><div class="pactions"><div class="ibtn" onclick="copyLink()" title="Copy link" style="font-size:16px;">🔗</div><div class="ibtn" onclick="openAssign('${p.id}','${p.name.replace(/'/g,"\\'")}')">🔑</div><div class="ibtn" onclick="deletePromoter('${p.id}')" style="color:var(--red);">✕</div></div></div>`).join('')}</div>`;
 }
-async function renderAccessPanel(){
+async function renderAccess(){
   const{data:ar}=await sb.from('deal_access').select('deal_id,promoter_id,deals(name)');
-  const el=document.getElementById('access-panel');
+  const el=document.getElementById('access-panel');if(!el)return;
   if(!promoters.length){el.innerHTML='';return;}
   el.innerHTML=promoters.map((p,i)=>{
-    const asgn=(ar||[]).filter(a=>a.promoter_id===p.id);
-    return`<div class="access-card"><div class="access-card-head"><div style="display:flex;align-items:center;gap:10px;"><div class="promoter-avatar" style="background:${PC[i%PC.length]};width:32px;height:32px;font-size:12px;">${(p.name||'?').slice(0,2).toUpperCase()}</div><div><div style="font-weight:500;font-size:13px;">${p.name}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);">${asgn.length} deal${asgn.length!==1?'s':''}</div></div></div><button class="btn btn-ghost btn-sm" onclick="openAssignDeals('${p.id}','${p.name}')">Manage</button></div><div class="access-chips">${asgn.length?asgn.map(a=>`<div class="deal-chip">⬡ ${a.deals?.name||'Deal'}</div>`).join(''):'<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--muted);">No deals assigned</div>'}</div></div>`;
+    const a=(ar||[]).filter(x=>x.promoter_id===p.id);
+    return`<div class="acard"><div class="ahead"><div style="display:flex;align-items:center;gap:10px;"><div class="pavatar" style="background:${PC[i%PC.length]};width:32px;height:32px;font-size:12px;">${(p.name||'?').slice(0,2).toUpperCase()}</div><div><div style="font-weight:600;font-size:13px;color:var(--text);">${p.name}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);">${a.length} deal${a.length!==1?'s':''}</div></div></div><button class="btn btn-ghost btn-sm" onclick="openAssign('${p.id}','${p.name.replace(/'/g,"\\'")}')">Manage</button></div><div class="achips">${a.length?a.map(x=>`<div class="chip">⬡ ${x.deals?.name||'Deal'}</div>`).join(''):'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:var(--text2);">No deals assigned</span>'}</div></div>`;
   }).join('');
 }
 function openNewPromoter(){
   document.getElementById('sheet-title').textContent='Add Promoter';
-  document.getElementById('sheet-body').innerHTML=`<div class="field"><label>Full Name</label><input id="pn" placeholder="John Smith"/></div><div class="field"><label>Company</label><input id="pc" placeholder="Firm name"/></div><div class="field"><label>Email</label><input id="pe" type="email" placeholder="promoter@firm.com"/></div><div class="field"><label>Temporary Password</label><input id="pp" type="password" placeholder="Min 8 characters"/></div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.6;">Send them the promoter.html link — they'll sign up and only see assigned deals.</div>`;
-  document.getElementById('sheet-save-btn').onclick=savePromoter;
-  document.getElementById('sheet-save-btn').textContent='Add Promoter';
-  openSheet();
+  document.getElementById('sheet-body').innerHTML=`<div class="field"><label>Full Name</label><input id="pn" placeholder="John Smith"/></div><div class="field"><label>Company</label><input id="pc" placeholder="Firm name"/></div><div class="field"><label>Email Address</label><input id="pe" type="email" placeholder="promoter@firm.com"/></div><div class="field"><label>Temporary Password</label><input id="pp" type="password" placeholder="Min 8 characters"/></div><div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);line-height:1.7;">Send them the <strong style="color:var(--accent);">promoter.html</strong> link. They sign up and only see deals you assign.</div>`;
+  document.getElementById('sheet-save').onclick=savePromoter;document.getElementById('sheet-save').textContent='Add Promoter';document.getElementById('sheet-save').style.display='';openSheet();
 }
 async function savePromoter(){
   const name=g('pn'),company=g('pc'),email=g('pe'),pass=g('pp');
@@ -445,47 +652,43 @@ async function savePromoter(){
   const userId=sd?.user?.id||null;
   const{error}=await sb.from('promoters').insert({name,company,email,user_id:userId});
   if(error){toast('Error: '+error.message);return;}
-  closeSheet();await loadPromoters();renderPromotersList();renderAccessPanel();toast('✓ Promoter added');
+  closeSheet();await loadPromoters();renderPromoters();renderAccess();toast('✓ Promoter added');
 }
-async function deletePromoter(id){if(!confirm('Remove this promoter?'))return;await sb.from('deal_access').delete().eq('promoter_id',id);await sb.from('promoters').delete().eq('id',id);await loadPromoters();renderPromotersList();renderAccessPanel();toast('Removed');}
-async function openAssignDeals(pid,pname){
+async function deletePromoter(id){if(!confirm('Remove this promoter?'))return;await sb.from('deal_access').delete().eq('promoter_id',id);await sb.from('promoters').delete().eq('id',id);await loadPromoters();renderPromoters();renderAccess();toast('Removed');}
+async function openAssign(pid,pname){
   const{data:cur}=await sb.from('deal_access').select('deal_id').eq('promoter_id',pid);
   const asgnd=(cur||[]).map(a=>a.deal_id);
   document.getElementById('sheet-title').textContent=pname;
-  document.getElementById('sheet-body').innerHTML=`<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:14px;">Select deals this promoter can see.</div><div class="access-check-list">${deals.map(d=>`<div class="access-item${asgnd.includes(d.id)?' checked':''}" onclick="toggleAccess(this,'${d.id}')"><input type="checkbox" ${asgnd.includes(d.id)?'checked':''} onclick="event.stopPropagation()"/><div><div class="access-item-name">${d.name}</div><div class="access-item-loc">${d.location||''} · ${d.status}</div></div></div>`).join('')}</div>`;
-  document.getElementById('sheet-save-btn').onclick=()=>saveAccess(pid);
-  document.getElementById('sheet-save-btn').textContent='Save Access';
-  openSheet();
+  document.getElementById('sheet-body').innerHTML=`<div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin-bottom:16px;">Check deals this promoter can see in their portal.</div><div class="acheck-list">${deals.map(d=>`<div class="acheck-item${asgnd.includes(d.id)?' checked':''}" onclick="toggleCheck(this,'${d.id}')"><input type="checkbox" ${asgnd.includes(d.id)?'checked':''} onclick="event.stopPropagation()"/><div><div class="acheck-name">${d.name}</div><div class="acheck-loc">${d.location||''} · ${d.status}</div></div></div>`).join('')}</div>`;
+  document.getElementById('sheet-save').onclick=()=>saveAccess(pid);document.getElementById('sheet-save').textContent='Save Access';document.getElementById('sheet-save').style.display='';openSheet();
 }
-function toggleAccess(el){el.classList.toggle('checked');el.querySelector('input').checked=el.classList.contains('checked');}
+function toggleCheck(el){el.classList.toggle('checked');el.querySelector('input').checked=el.classList.contains('checked');}
 async function saveAccess(pid){
-  const items=document.querySelectorAll('.access-check-list .access-item');
+  const items=document.querySelectorAll('.acheck-list .acheck-item');
   const grant=[];
   items.forEach(item=>{if(item.classList.contains('checked')){const m=item.getAttribute('onclick').match(/'([a-f0-9-]{36})'/);if(m)grant.push(m[1]);}});
   await sb.from('deal_access').delete().eq('promoter_id',pid);
   if(grant.length)await sb.from('deal_access').insert(grant.map(did=>({deal_id:did,promoter_id:pid})));
-  closeSheet();renderAccessPanel();toast('✓ Access saved');
+  closeSheet();renderAccess();toast('✓ Access saved');
 }
 
-// UPDATE
-function selectUpdateType(el,type){updateType=type;document.querySelectorAll('.type-pill').forEach(p=>p.className='type-pill');const cls={drilling:'sel-drill',documents:'sel-doc',regulatory:'sel-reg',financial:'sel-fin'};el.classList.add(cls[type]||'sel-drill');}
+// ── POST UPDATE ──
+function setUpdateType(el,type){updateType=type;document.querySelectorAll('.tpill').forEach(p=>p.className='tpill');const cls={drilling:'sel-drill',documents:'sel-doc',regulatory:'sel-reg',financial:'sel-fin'};el.classList.add(cls[type]);}
 async function postUpdate(){
-  const dealId=document.getElementById('update-deal-select').value;
-  const message=document.getElementById('update-message').value.trim();
+  const dealId=g('update-deal'),message=document.getElementById('update-msg').value.trim();
   if(!dealId){toast('Select a deal.');return;}if(!message){toast('Enter a message.');return;}
   const{error}=await sb.from('updates').insert({deal_id:dealId,update_type:updateType,message});
   if(error){toast('Error: '+error.message);return;}
-  document.getElementById('update-message').value='';renderUpdatesHistory();renderRecentUpdates();toast('✓ Update posted');
+  document.getElementById('update-msg').value='';renderUpdatesHistory();renderRecentUpdates();toast('✓ Update posted');
 }
 async function deleteUpdate(id){if(!confirm('Delete?'))return;await sb.from('updates').delete().eq('id',id);renderUpdatesHistory();toast('Deleted');}
-function copyPromoterLink(){const base=window.location.href.replace('index.html','').replace(/\/$/,'');navigator.clipboard.writeText(base+'/promoter.html').catch(()=>{});toast('🔗 Link copied');}
+function copyLink(){const base=window.location.href.replace('index.html','').replace(/\/$/,'');navigator.clipboard.writeText(base+'/promoter.html').catch(()=>{});toast('🔗 Portal link copied');}
 
-// UTILS
+// ── SHEET / TABS / UTILS ──
 function openSheet(){document.getElementById('sheet-overlay').classList.add('open');}
 function closeSheet(){document.getElementById('sheet-overlay').classList.remove('open');}
-function switchTab(el,tid){el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById(tid).classList.add('active');}
-function g(id){const el=document.getElementById(id);return el?el.value:'';}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+function switchTab(el,tid){el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('#view-detail-tmp .tab-content').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById(tid).classList.add('active');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 
 sb.auth.getSession().then(({data:{session}})=>{if(session){user=session.user;showApp();}});
 </script>
