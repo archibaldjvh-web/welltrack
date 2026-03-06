@@ -10,74 +10,125 @@
 :root{--bg:#0a0d0f;--surface:#111518;--surface2:#181d21;--border:#222930;--border2:#2d3640;--accent:#e8a020;--adim:rgba(232,160,32,.12);--green:#4ade80;--gdim:rgba(74,222,128,.12);--blue:#38bdf8;--bdim:rgba(56,189,248,.12);--red:#f87171;--rdim:rgba(248,113,113,.12);--purple:#a855f7;--pdim:rgba(168,85,247,.12);--text:#e2e8f0;--text2:#94a3b8;--muted:#4a5568;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
+
+/* AUTH */
 .auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
 .auth-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px 28px;width:100%;max-width:380px;}
-.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px;color:var(--accent);line-height:1;}
+.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--accent);line-height:1;}
 .auth-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;margin-top:3px;}
 .auth-desc{font-size:12px;color:var(--text2);margin-bottom:24px;line-height:1.7;}
-.auth-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;}
-.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;margin-bottom:14px;transition:border-color .15s;-webkit-appearance:none;}
+.auth-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);display:block;margin-bottom:8px;font-weight:500;}
+.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;margin-bottom:14px;transition:border-color .15s;-webkit-appearance:none;}
 .auth-input:focus{border-color:var(--accent);}
-.auth-btn{width:100%;padding:15px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;margin-top:4px;}
-.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:12px;display:none;padding:10px;background:var(--rdim);border-radius:8px;line-height:1.5;}
+.auth-btn{width:100%;padding:15px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;margin-top:4px;}
+.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:12px;display:none;padding:12px;background:var(--rdim);border-radius:8px;line-height:1.5;}
 .auth-switch{text-align:center;margin-top:16px;font-size:12px;color:var(--muted);}
 .auth-switch span{color:var(--accent);cursor:pointer;}
+
+/* APP */
 .app{display:none;}
-.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;height:54px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
-.header-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--accent);}
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.header-logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:var(--accent);}
 .header-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
 .header-right{display:flex;align-items:center;gap:10px;}
 .header-user{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.logout-icon{width:34px;height:34px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:16px;}
+.logout-icon{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);font-size:16px;}
+
+/* CONTENT */
 .content{padding:16px;}
-.welcome-banner{background:linear-gradient(135deg,rgba(232,160,32,.12),rgba(232,160,32,.04));border:1px solid rgba(232,160,32,.2);border-radius:14px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden;}
-.welcome-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(232,160,32,.1),transparent 70%);border-radius:50%;}
-.welcome-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:4px;}
-.welcome-name{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;line-height:1.1;}
-.welcome-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:4px;}
-.deal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .2s;}
+
+/* WELCOME */
+.welcome-banner{background:linear-gradient(135deg,rgba(232,160,32,.14),rgba(232,160,32,.04));border:1px solid rgba(232,160,32,.25);border-radius:14px;padding:20px;margin-bottom:20px;position:relative;overflow:hidden;}
+.welcome-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:130px;height:130px;background:radial-gradient(circle,rgba(232,160,32,.12),transparent 70%);border-radius:50%;}
+.welcome-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:4px;font-weight:600;}
+.welcome-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;line-height:1.1;color:var(--text);}
+.welcome-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:5px;}
+
+/* DEAL CARDS */
+.deal-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;cursor:pointer;transition:transform .15s;}
 .deal-card:active{transform:scale(.98);}
-.deal-card-accent{height:3px;}
-.deal-card-body{padding:16px;}
-.dc-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;line-height:1.1;}
-.dc-loc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin:3px 0 14px;}
-.dc-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.dc-stat-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
-.dc-stat-value{font-size:13px;font-weight:500;}
-.progress-label{display:flex;justify-content:space-between;margin-bottom:5px;}
-.progress-bar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:2px;background:var(--accent);}
-.progress-pct{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);}
-.progress-amt{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);}
-.dc-updates{border-top:1px solid var(--border);padding:12px 16px;background:var(--surface2);}
-.dc-updates-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
-.dc-update-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px;font-size:11px;color:var(--text2);line-height:1.5;}
-.dc-update-row:last-child{margin-bottom:0;}
-.status-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;}
-.status-dot{width:5px;height:5px;border-radius:50%;}
+.deal-accent{height:3px;}
+.deal-body{padding:16px;}
+.deal-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;line-height:1.1;color:var(--text);}
+.deal-loc{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin:3px 0 14px;}
+.deal-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:4px;}
+.deal-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.ds-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:3px;font-weight:500;}
+.ds-value{font-size:13px;font-weight:500;color:var(--text);}
+.prog-label{display:flex;justify-content:space-between;margin-bottom:6px;}
+.prog-bar{height:5px;background:var(--border2);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:3px;background:var(--accent);}
+.prog-pct{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);font-weight:600;}
+.prog-amt{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);}
+.deal-footer{padding:12px 16px;border-top:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+
+/* COMMIT BUTTON */
+.commit-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;background:var(--accent);color:#000;}
+.commit-btn:active{opacity:.8;}
+
+/* UPDATES ON CARD */
+.deal-updates{border-top:1px solid var(--border);padding:12px 16px;background:var(--surface2);}
+.du-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:8px;font-weight:500;}
+.du-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px;font-size:11px;color:var(--text2);line-height:1.5;}
+.du-row:last-child{margin-bottom:0;}
+
+/* STATUS */
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;}
+.bdot{width:5px;height:5px;border-radius:50%;}
 .s-drilling{background:var(--gdim);color:var(--green);}
-.s-drilling .status-dot{background:var(--green);animation:blink 1.4s infinite;}
+.s-drilling .bdot{background:var(--green);animation:blink 1.4s infinite;}
 .s-fundraising{background:var(--adim);color:var(--accent);}
-.s-fundraising .status-dot{background:var(--accent);}
+.s-fundraising .bdot{background:var(--accent);}
 .s-permitted{background:var(--bdim);color:var(--blue);}
-.s-permitted .status-dot{background:var(--blue);}
-.s-completed{background:rgba(100,116,139,.12);color:#64748b;}
-.s-completed .status-dot{background:#64748b;}
+.s-permitted .bdot{background:var(--blue);}
+.s-completed{background:rgba(100,116,139,.15);color:#94a3b8;}
+.s-completed .bdot{background:#94a3b8;}
 .s-planning{background:var(--pdim);color:var(--purple);}
-.s-planning .status-dot{background:var(--purple);}
+.s-planning .bdot{background:var(--purple);}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
-.back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);cursor:pointer;margin-bottom:16px;padding:9px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface);}
+
+/* DETAIL */
+.back-btn{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2);cursor:pointer;margin-bottom:16px;padding:10px 14px;border:1px solid var(--border2);border-radius:10px;background:var(--surface);font-weight:500;}
 .deal-detail-header{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px;}
-.ddh-name{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;}
-.ddh-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin:4px 0 12px;}
-.ddh-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.tag{padding:4px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid var(--border);color:var(--text2);}
-.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;}
-.tab{padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;}
+.ddh-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--text);}
+.ddh-meta{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);margin:5px 0 14px;}
+.ddh-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.tag{padding:5px 10px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid var(--border2);color:var(--text2);}
+
+/* RAISE BOX */
+.raise-box{background:linear-gradient(135deg,rgba(232,160,32,.1),rgba(232,160,32,.03));border:1px solid rgba(232,160,32,.25);border-radius:12px;padding:16px;margin-bottom:16px;}
+.raise-box-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:600;}
+.raise-nums{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.raise-num-label{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin-bottom:4px;}
+.raise-num-val{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;line-height:1;}
+.raise-num-val.gold{color:var(--accent);}
+.raise-num-val.green{color:var(--green);}
+.raise-num-val.blue{color:var(--blue);}
+.raise-input-row{display:flex;gap:8px;align-items:flex-end;}
+.raise-input-wrap{flex:1;}
+.raise-input-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);display:block;margin-bottom:6px;font-weight:500;}
+.raise-input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;outline:none;-webkit-appearance:none;transition:border-color .15s;}
+.raise-input:focus{border-color:var(--accent);}
+.raise-submit{padding:13px 18px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.raise-submit:active{opacity:.8;}
+.raise-history{margin-top:14px;border-top:1px solid rgba(232,160,32,.15);padding-top:12px;}
+.raise-history-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text2);margin-bottom:8px;}
+.raise-log-item{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.raise-log-item:last-child{border-bottom:none;}
+.raise-log-amt{color:var(--accent);font-weight:600;}
+.raise-log-date{color:var(--text2);}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto;}
+.tab{padding:11px 16px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;white-space:nowrap;font-weight:500;}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent);}
 .tab-content{display:none;}
 .tab-content.active{display:block;}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+
+/* PANEL */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px;}
+
+/* UPDATE LOG */
 .uli{display:flex;gap:10px;padding:14px 0;border-bottom:1px solid var(--border);}
 .uli:last-child{border-bottom:none;}
 .uli-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
@@ -85,18 +136,38 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
 .u-doc{background:var(--bdim);}
 .u-reg{background:var(--pdim);}
 .u-fin{background:var(--adim);}
-.uli-type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;}
-.uli-text{font-size:13px;line-height:1.7;color:var(--text2);}
-.uli-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.uli-type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;font-weight:600;}
+.uli-text{font-size:13px;line-height:1.7;color:var(--text);}
+.uli-time{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:3px;}
+
+/* INFO ROWS */
 .info-row{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--border);}
 .info-row:last-child{border-bottom:none;}
-.info-label{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-.info-value{font-family:'IBM Plex Mono',monospace;font-size:12px;text-align:right;}
-.loading{display:flex;align-items:center;justify-content:center;padding:50px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;gap:10px;}
-.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+.info-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;}
+.info-val{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text);text-align:right;}
+
+/* DOC ROWS */
+.doc-row{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.doc-row:last-child{border-bottom:none;}
+.doc-ext{width:36px;height:42px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:10px;flex-shrink:0;}
+.ext-pdf{background:var(--rdim);color:var(--red);border:1px solid rgba(248,113,113,.25);}
+.ext-png,.ext-jpg,.ext-jpeg{background:var(--adim);color:var(--accent);border:1px solid rgba(232,160,32,.25);}
+.ext-xlsx,.ext-csv,.ext-kml{background:var(--gdim);color:var(--green);border:1px solid rgba(74,222,128,.25);}
+.ext-dwg,.ext-dxf{background:var(--bdim);color:var(--blue);border:1px solid rgba(56,189,248,.25);}
+.ext-other{background:var(--pdim);color:var(--purple);border:1px solid rgba(168,85,247,.25);}
+.doc-name{font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.doc-meta{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:2px;}
+
+/* MISC */
+.loading{display:flex;align-items:center;justify-content:center;padding:50px;color:var(--text2);font-family:'IBM Plex Mono',monospace;font-size:12px;gap:10px;}
+.spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.empty{padding:40px 16px;text-align:center;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2;}
-@media(min-width:600px){.content{padding:20px 24px;max-width:720px;margin:0 auto;}.dc-stats{grid-template-columns:repeat(4,1fr);}}
+.empty{padding:40px 16px;text-align:center;color:var(--text2);font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:2;}
+.toast{position:fixed;bottom:24px;left:16px;right:16px;background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:14px 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);z-index:300;transform:translateY(20px);opacity:0;transition:all .3s ease;text-align:center;font-weight:600;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{border-color:var(--green);color:var(--green);}
+
+@media(min-width:600px){.content{padding:20px 24px;max-width:720px;margin:0 auto;}.deal-stats{grid-template-columns:repeat(4,1fr);}.raise-nums{grid-template-columns:repeat(3,1fr);}}
 </style>
 </head>
 <body>
@@ -106,7 +177,7 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
   <div class="auth-card">
     <div class="auth-logo">WellTrack</div>
     <div class="auth-sub">Promoter Portal</div>
-    <div class="auth-desc" id="auth-desc">Sign in to view your assigned deals and updates.</div>
+    <div class="auth-desc" id="auth-desc">Sign in to view your assigned deals and report fundraising activity.</div>
     <div class="auth-error" id="auth-error"></div>
     <div id="login-form">
       <label class="auth-label">Email</label>
@@ -146,22 +217,24 @@ body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-ser
       <div class="welcome-banner">
         <div class="welcome-label">Welcome Back</div>
         <div class="welcome-name" id="welcome-name">Promoter</div>
-        <div class="welcome-sub">Your assigned deals — updated in real time</div>
+        <div class="welcome-sub" id="welcome-sub">Your assigned deals — tap any deal to report fundraising</div>
       </div>
       <div class="loading" id="deals-loading"><div class="spinner"></div>Loading your deals…</div>
       <div id="deals-list" style="display:none;"></div>
-      <div class="empty" id="no-deals" style="display:none;">No deals have been assigned yet.<br>Contact your deal lead.</div>
+      <div class="empty" id="no-deals" style="display:none;">No deals assigned yet.<br>Contact your deal lead.</div>
     </div>
-    <!-- DETAIL VIEW (injected dynamically) -->
   </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 const SB_URL='https://zeqaimztqcxcdpccksyw.supabase.co';
 const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InplcWFpbXp0cWN4Y2RwY2Nrc3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTg4OTIsImV4cCI6MjA4ODIzNDg5Mn0.rnoeOvHJaGxds1tT1q4QpLrLXxZn5Z5Hou6_02WGExQ';
 const sb=supabase.createClient(SB_URL,SB_KEY);
-let user=null,myPromoter=null;
+let user=null,myPromoter=null,myDeals=[];
 
+// ── AUTH ──
 async function doLogin(){
   const e=document.getElementById('le').value.trim(),p=document.getElementById('lp').value;
   clearErr();if(!e||!p){showErr('Enter email and password.');return;}
@@ -169,7 +242,6 @@ async function doLogin(){
   if(error){showErr(error.message);return;}
   user=data.user;await loadApp();
 }
-
 async function doSignup(){
   const e=document.getElementById('se').value.trim(),p=document.getElementById('sp').value;
   clearErr();if(!e||!p){showErr('Enter email and password.');return;}
@@ -177,23 +249,25 @@ async function doSignup(){
   const{data,error}=await sb.auth.signUp({email:e,password:p});
   if(error){showErr(error.message);return;}
   if(data.user){await sb.from('promoters').update({user_id:data.user.id}).eq('email',e).is('user_id',null);}
-  document.getElementById('auth-desc').textContent='Account created! Check your email to confirm, then sign in.';
+  document.getElementById('auth-desc').textContent='Account created! Sign in below.';
   showLogin();
 }
-
 function showSignup(){document.getElementById('login-form').style.display='none';document.getElementById('signup-form').style.display='block';clearErr();}
 function showLogin(){document.getElementById('signup-form').style.display='none';document.getElementById('login-form').style.display='block';clearErr();}
 function showErr(m){const e=document.getElementById('auth-error');e.textContent=m;e.style.display='block';}
 function clearErr(){document.getElementById('auth-error').style.display='none';}
 async function doLogout(){await sb.auth.signOut();document.getElementById('app').style.display='none';document.getElementById('auth-screen').style.display='flex';}
 
+// ── APP ──
 async function loadApp(){
   document.getElementById('auth-screen').style.display='none';
   document.getElementById('app').style.display='block';
   document.getElementById('header-user').textContent=user.email;
   const{data:p}=await sb.from('promoters').select('*').eq('user_id',user.id).single();
   myPromoter=p;
-  if(myPromoter)document.getElementById('welcome-name').textContent=myPromoter.name+(myPromoter.company?' · '+myPromoter.company:'');
+  if(myPromoter){
+    document.getElementById('welcome-name').textContent=myPromoter.name+(myPromoter.company?' · '+myPromoter.company:'');
+  }
   await loadDeals();
 }
 
@@ -201,85 +275,216 @@ async function loadDeals(){
   document.getElementById('deals-loading').style.display='flex';
   document.getElementById('deals-list').style.display='none';
   document.getElementById('no-deals').style.display='none';
-  if(!myPromoter){document.getElementById('deals-loading').style.display='none';document.getElementById('no-deals').style.display='block';document.getElementById('no-deals').textContent='Your account is not linked to a promoter profile yet.\nContact your deal lead.';return;}
+  if(!myPromoter){
+    document.getElementById('deals-loading').style.display='none';
+    document.getElementById('no-deals').style.display='block';
+    document.getElementById('no-deals').textContent='Your account is not linked to a promoter profile.\nContact your deal lead.';
+    return;
+  }
   const{data:deals}=await sb.from('deals').select('*').order('updated_at',{ascending:false});
   document.getElementById('deals-loading').style.display='none';
   if(!deals||!deals.length){document.getElementById('no-deals').style.display='block';return;}
+  myDeals=deals;
   document.getElementById('deals-list').style.display='block';
-  await renderDeals(deals);
+  renderDealCards(deals);
 }
 
-async function renderDeals(deals){
+async function renderDealCards(deals){
   const ids=deals.map(d=>d.id);
   const{data:updates}=await sb.from('updates').select('*').in('deal_id',ids).order('created_at',{ascending:false});
   const colors={planning:'var(--purple)',fundraising:'var(--accent)',permitted:'var(--blue)',drilling:'var(--green)',completed:'#64748b'};
   const icons={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
   const tColors={drilling:'var(--green)',documents:'var(--blue)',regulatory:'var(--purple)',financial:'var(--accent)'};
+
   document.getElementById('deals-list').innerHTML=deals.map(d=>{
     const p=d.raise_target>0?Math.min(100,Math.round((d.raise_committed/d.raise_target)*100)):0;
+    const remaining=Math.max(0,(d.raise_target||0)-(d.raise_committed||0));
     const du=(updates||[]).filter(u=>u.deal_id===d.id).slice(0,2);
     const color=colors[d.status]||'var(--muted)';
     return`<div class="deal-card" onclick="openDetail('${d.id}')">
-      <div class="deal-card-accent" style="background:${color};"></div>
-      <div class="deal-card-body">
-        <div class="dc-name">${d.name}</div>
-        <div class="dc-loc">${d.location||''}</div>
-        <div class="dc-stats">
-          <div><div class="dc-stat-label">Status</div>${sBadge(d.status)}</div>
-          <div><div class="dc-stat-label">Depth</div><div class="dc-stat-value" style="font-family:'IBM Plex Mono',monospace;font-size:11px;">${d.target_depth||'—'}</div></div>
-          <div><div class="dc-stat-label">Raise Target</div><div class="dc-stat-value" style="font-family:'IBM Plex Mono',monospace;font-size:11px;">${fmt(d.raise_target)}</div></div>
-          <div><div class="dc-stat-label">Committed</div><div class="dc-stat-value" style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:11px;">${fmt(d.raise_committed)}</div></div>
+      <div class="deal-accent" style="background:${color};"></div>
+      <div class="deal-body">
+        <div class="deal-row"><div class="deal-name">${d.name}</div>${badge(d.status)}</div>
+        <div class="deal-loc">${d.location||''}</div>
+        <div class="deal-stats">
+          <div><div class="ds-label">Raise Target</div><div class="ds-value" style="font-family:'IBM Plex Mono',monospace;font-size:12px;">${fmt(d.raise_target)}</div></div>
+          <div><div class="ds-label">Committed</div><div class="ds-value" style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;">${fmt(d.raise_committed)}</div></div>
+          <div><div class="ds-label">Remaining</div><div class="ds-value" style="color:var(--blue);font-family:'IBM Plex Mono',monospace;font-size:12px;">${fmt(remaining)}</div></div>
+          <div><div class="ds-label">Progress</div><div class="ds-value" style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;">${p}%</div></div>
         </div>
-        <div class="progress-label"><span class="progress-amt">${fmt(d.raise_committed)} raised</span><span class="progress-pct">${p}%</span></div>
-        <div class="progress-bar"><div class="progress-fill" style="width:${p}%"></div></div>
+        <div class="prog-label"><span class="prog-amt">${fmt(d.raise_committed)} raised</span><span class="prog-pct">${p}%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${p}%"></div></div>
       </div>
-      ${du.length?`<div class="dc-updates"><div class="dc-updates-label">Latest Updates</div>${du.map(u=>`<div class="dc-update-row"><span style="color:${tColors[u.update_type]||'var(--muted)'};">${icons[u.update_type]||'•'}</span><span>${u.message.length>80?u.message.slice(0,80)+'…':u.message}</span></div>`).join('')}</div>`:''}
+      <div class="deal-footer">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);">${d.target_depth||'—'}</span>
+        <button class="commit-btn" onclick="event.stopPropagation();openDetail('${d.id}',true)">💰 Update Funds</button>
+      </div>
+      ${du.length?`<div class="deal-updates"><div class="du-label">Latest Updates</div>${du.map(u=>`<div class="du-row"><span style="color:${tColors[u.update_type]||'var(--muted)'};">${icons[u.update_type]||'•'}</span><span>${u.message.length>80?u.message.slice(0,80)+'…':u.message}</span></div>`).join('')}</div>`:''}
     </div>`;
   }).join('');
 }
 
-async function openDetail(dealId){
+// ── DEAL DETAIL ──
+async function openDetail(dealId, focusFunds=false){
   document.getElementById('deals-view').style.display='none';
   const old=document.getElementById('detail-view');if(old)old.remove();
   const div=document.createElement('div');div.id='detail-view';
   div.innerHTML='<div class="loading"><div class="spinner"></div>Loading…</div>';
   document.getElementById('app-content').appendChild(div);
   window.scrollTo(0,0);
+
   const{data:d}=await sb.from('deals').select('*').eq('id',dealId).single();
   const{data:updates}=await sb.from('updates').select('*').eq('deal_id',dealId).order('created_at',{ascending:false});
   const{data:docs}=await sb.from('documents').select('*').eq('deal_id',dealId).order('created_at',{ascending:false});
+
   const p=d.raise_target>0?Math.min(100,Math.round((d.raise_committed/d.raise_target)*100)):0;
+  const remaining=Math.max(0,(d.raise_target||0)-(d.raise_committed||0));
+
   const tColors={drilling:'var(--green)',documents:'var(--blue)',regulatory:'var(--purple)',financial:'var(--accent)'};
   const tLabels={drilling:'Drilling Progress',documents:'New Documents',regulatory:'Regulatory',financial:'Financial'};
   const icons={drilling:'▲',documents:'⊟',regulatory:'◎',financial:'$'};
   const cls={drilling:'u-drill',documents:'u-doc',regulatory:'u-reg',financial:'u-fin'};
-  const updateHTML=updates&&updates.length?updates.map(u=>`<div class="uli"><div class="uli-icon ${cls[u.update_type]||''}" style="color:${tColors[u.update_type]||'var(--muted)'};">${icons[u.update_type]||'•'}</div><div><div class="uli-type" style="color:${tColors[u.update_type]||'var(--muted)'};">${tLabels[u.update_type]||u.update_type}</div><div class="uli-text">${u.message}</div><div class="uli-time">${new Date(u.created_at).toLocaleString()}</div></div></div>`).join(''):'<div class="empty">No updates posted yet.</div>';
+
+  const updateHTML=updates&&updates.length
+    ?updates.map(u=>`<div class="uli"><div class="uli-icon ${cls[u.update_type]||''}" style="color:${tColors[u.update_type]||'var(--text2)'};">${icons[u.update_type]||'•'}</div><div><div class="uli-type" style="color:${tColors[u.update_type]||'var(--text2)'};">${tLabels[u.update_type]||u.update_type}</div><div class="uli-text">${u.message}</div><div class="uli-time">${new Date(u.created_at).toLocaleString()}</div></div></div>`).join('')
+    :'<div class="empty">No updates yet.</div>';
+
+  const docHTML=docs&&docs.length
+    ?docs.map(doc=>{const ext=(doc.file_type||doc.name.split('.').pop()||'file').toLowerCase();const extColors={pdf:'var(--red)',png:'var(--accent)',jpg:'var(--accent)',xlsx:'var(--green)',csv:'var(--green)',kml:'var(--green)',dwg:'var(--blue)',dxf:'var(--blue)'};return`<div class="doc-row"><div class="doc-ext ext-${ext}">${ext.toUpperCase()}</div><div style="flex:1;overflow:hidden;"><div class="doc-name">${doc.name}</div><div class="doc-meta">${doc.doc_type||''} · ${new Date(doc.created_at).toLocaleDateString()}</div></div>${doc.url?`<a href="${doc.url}" target="_blank" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);margin-left:8px;white-space:nowrap;font-weight:600;">↓ Open</a>`:''}</div>`;}).join('')
+    :'<div class="empty">No documents uploaded yet.</div>';
+
   div.innerHTML=`
     <div class="back-btn" onclick="backToDeals()">← All Deals</div>
+
     <div class="deal-detail-header">
       <div class="ddh-name">${d.name}</div>
       <div class="ddh-meta">${d.location||''} ${d.api_number?'· API# '+d.api_number:''} ${d.operator?'· '+d.operator:''}</div>
-      <div class="ddh-tags">${d.formation?`<span class="tag">${d.formation}</span>`:''}${sBadge(d.status)}${d.target_depth?`<span class="tag">TD: ${d.target_depth}</span>`:''}</div>
-      <div class="progress-label"><span class="progress-amt">${fmt(d.raise_committed)} of ${fmt(d.raise_target)}</span><span class="progress-pct">${p}%</span></div>
-      <div class="progress-bar" style="height:5px;"><div class="progress-fill" style="width:${p}%"></div></div>
+      <div class="ddh-tags">${d.formation?`<span class="tag">${d.formation}</span>`:''}${badge(d.status)}${d.target_depth?`<span class="tag">TD: ${d.target_depth}</span>`:''}</div>
+      <div class="prog-label"><span class="prog-amt">${fmt(d.raise_committed)} of ${fmt(d.raise_target)}</span><span class="prog-pct">${p}%</span></div>
+      <div class="prog-bar" style="height:6px;"><div class="prog-fill" style="width:${p}%"></div></div>
     </div>
-    <div class="tabs"><div class="tab active" onclick="switchTab(this,'dtab-updates')">Updates</div><div class="tab" onclick="switchTab(this,'dtab-info')">Deal Info</div>${docs&&docs.length?'<div class="tab" onclick="switchTab(this,\'dtab-docs\')">Documents</div>':''}</div>
-    <div class="tab-content active" id="dtab-updates">${updateHTML}</div>
-    <div class="tab-content" id="dtab-info">
-      <div class="panel">
-        ${[['Deal Name',d.name],['Location',d.location||'—'],['Formation',d.formation||'—'],['Operator',d.operator||'—'],['API Number',d.api_number||'—'],['Target Depth',d.target_depth||'—'],['Raise Target',fmt(d.raise_target)],['Committed',fmt(d.raise_committed)]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-value">${v}</span></div>`).join('')}
-        ${d.notes?`<div style="padding:14px 16px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">Notes</div><div style="font-size:13px;line-height:1.7;color:var(--text2);">${d.notes}</div></div>`:''}
+
+    <!-- FUNDRAISING BOX -->
+    <div class="raise-box" id="raise-box">
+      <div class="raise-box-title">💰 Fundraising Status</div>
+      <div class="raise-nums">
+        <div>
+          <div class="raise-num-label">Target</div>
+          <div class="raise-num-val blue">${fmt(d.raise_target)}</div>
+        </div>
+        <div>
+          <div class="raise-num-label">Committed</div>
+          <div class="raise-num-val gold" id="committed-display">${fmt(d.raise_committed)}</div>
+        </div>
+        <div>
+          <div class="raise-num-label">Remaining</div>
+          <div class="raise-num-val green" id="remaining-display">${fmt(remaining)}</div>
+        </div>
+      </div>
+      <div class="raise-input-row">
+        <div class="raise-input-wrap">
+          <label class="raise-input-label">Update committed amount ($)</label>
+          <input class="raise-input" type="number" id="new-committed" value="${d.raise_committed||0}" placeholder="0" inputmode="numeric"/>
+        </div>
+        <button class="raise-submit" onclick="submitCommitted('${d.id}','${d.raise_target}')">Update</button>
+      </div>
+      <div class="raise-history" id="raise-history-wrap" style="display:none;">
+        <div class="raise-history-label">Recent Changes</div>
+        <div id="raise-history-list"></div>
       </div>
     </div>
-    ${docs&&docs.length?`<div class="tab-content" id="dtab-docs"><div class="panel">${docs.map(doc=>{const ext=(doc.file_type||doc.name.split('.').pop()||'file').toLowerCase();const extColors={pdf:'var(--red)',png:'var(--accent)',xlsx:'var(--green)',kml:'var(--green)',dwg:'var(--blue)'};return`<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;"><div style="width:36px;height:42px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:10px;color:${extColors[ext]||'var(--text2)'};background:rgba(255,255,255,.05);border:1px solid var(--border);flex-shrink:0;">${ext.toUpperCase()}</div><div style="flex:1;overflow:hidden;"><div style="font-size:12px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${doc.name}</div><div style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px;">${new Date(doc.created_at).toLocaleDateString()}</div></div>${doc.url?`<a href="${doc.url}" target="_blank" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--blue);white-space:nowrap;">↓ Get</a>`:''}</div>`;}).join('')}</div></div>`:''}
-  `;
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab(this,'dtab-updates')">Updates</div>
+      <div class="tab" onclick="switchTab(this,'dtab-docs')">Documents</div>
+      <div class="tab" onclick="switchTab(this,'dtab-info')">Deal Info</div>
+    </div>
+
+    <div class="tab-content active" id="dtab-updates">${updateHTML}</div>
+
+    <div class="tab-content" id="dtab-docs">
+      <div class="panel">${docHTML}</div>
+    </div>
+
+    <div class="tab-content" id="dtab-info">
+      <div class="panel">
+        ${[['Deal Name',d.name],['Location',d.location||'—'],['Formation',d.formation||'—'],['Operator',d.operator||'—'],['API Number',d.api_number||'—'],['Target Depth',d.target_depth||'—'],['Raise Target',fmt(d.raise_target)],['Committed',fmt(d.raise_committed)],['Status',d.status]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-val">${v}</span></div>`).join('')}
+        ${d.notes?`<div style="padding:14px 16px;"><div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;">Notes</div><div style="font-size:13px;line-height:1.7;color:var(--text);">${d.notes}</div></div>`:''}
+      </div>
+    </div>`;
+
+  if(focusFunds){
+    setTimeout(()=>{
+      const box=document.getElementById('raise-box');
+      if(box)box.scrollIntoView({behavior:'smooth',block:'center'});
+      const inp=document.getElementById('new-committed');
+      if(inp)inp.focus();
+    },200);
+  }
 }
 
-function backToDeals(){const d=document.getElementById('detail-view');if(d)d.remove();document.getElementById('deals-view').style.display='block';window.scrollTo(0,0);}
-function switchTab(el,tid){el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById(tid).classList.add('active');}
-function fmt(n){if(!n)return'$0';if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1000)return'$'+Math.round(n/1000)+'K';return'$'+n;}
-function sBadge(s){const m={drilling:['Drilling','s-drilling'],fundraising:['Fundraising','s-fundraising'],permitted:['Permitted','s-permitted'],completed:['Completed','s-completed'],planning:['Planning','s-planning']};const[l,c]=m[s]||['Unknown',''];return`<span class="status-badge ${c}"><span class="status-dot"></span>${l}</span>`;}
+async function submitCommitted(dealId, raiseTarget){
+  const input=document.getElementById('new-committed');
+  const newVal=parseFloat(input.value)||0;
+  const target=parseFloat(raiseTarget)||0;
 
+  if(newVal<0){toast('Amount cannot be negative.');return;}
+  if(newVal>target){toast('Amount exceeds raise target of '+fmt(target)+'.');return;}
+
+  const{error}=await sb.from('deals').update({
+    raise_committed:newVal,
+    updated_at:new Date().toISOString()
+  }).eq('id',dealId);
+
+  if(error){toast('Error: '+error.message);return;}
+
+  // Update display
+  const remaining=Math.max(0,target-newVal);
+  const committedEl=document.getElementById('committed-display');
+  const remainingEl=document.getElementById('remaining-display');
+  if(committedEl)committedEl.textContent=fmt(newVal);
+  if(remainingEl)remainingEl.textContent=fmt(remaining);
+
+  // Log to raise history locally
+  const histList=document.getElementById('raise-history-list');
+  const histWrap=document.getElementById('raise-history-wrap');
+  if(histList&&histWrap){
+    histWrap.style.display='block';
+    const item=document.createElement('div');
+    item.className='raise-log-item';
+    item.innerHTML=`<span class="raise-log-amt">${fmt(newVal)}</span><span class="raise-log-date">${new Date().toLocaleString()}</span>`;
+    histList.prepend(item);
+  }
+
+  // Update local deals cache
+  const d=myDeals.find(x=>x.id===dealId);
+  if(d)d.raise_committed=newVal;
+
+  toastSuccess('✓ Committed amount updated — admin notified');
+}
+
+function backToDeals(){
+  const d=document.getElementById('detail-view');if(d)d.remove();
+  document.getElementById('deals-view').style.display='block';
+  // Refresh deal cards to show updated numbers
+  renderDealCards(myDeals);
+  window.scrollTo(0,0);
+}
+
+function switchTab(el,tid){
+  el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#detail-view .tab-content').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById(tid).classList.add('active');
+}
+
+// ── HELPERS ──
+function fmt(n){if(!n)return'$0';if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1000)return'$'+Math.round(n/1000)+'K';return'$'+n;}
+function badge(s){const m={drilling:['Drilling','s-drilling'],fundraising:['Fundraising','s-fundraising'],permitted:['Permitted','s-permitted'],completed:['Completed','s-completed'],planning:['Planning','s-planning']};const[l,c]=m[s]||['Unknown',''];return`<span class="badge ${c}"><span class="bdot"></span>${l}</span>`;}
+function toast(msg){const t=document.getElementById('toast');t.className='toast';t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+function toastSuccess(msg){const t=document.getElementById('toast');t.className='toast success';t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+
+// ── INIT ──
 sb.auth.getSession().then(({data:{session}})=>{if(session){user=session.user;loadApp();}});
 sb.auth.onAuthStateChange((event)=>{if(event==='SIGNED_OUT'){document.getElementById('app').style.display='none';document.getElementById('auth-screen').style.display='flex';}});
 </script>
