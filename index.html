@@ -690,7 +690,18 @@ function closeSheet(){document.getElementById('sheet-overlay').classList.remove(
 function switchTab(el,tid){el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('#view-detail-tmp .tab-content').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById(tid).classList.add('active');}
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 
-sb.auth.getSession().then(({data:{session}})=>{if(session){user=session.user;showApp();}});
+sb.auth.getSession().then(async({data:{session}})=>{
+  if(!session){return;}
+  // Must verify admin — never auto-login without this check
+  const{data:a}=await sb.from('admin_users').select('id').single();
+  if(!a){
+    await sb.auth.signOut();
+    window.location.href='promoter.html';
+    return;
+  }
+  user=session.user;
+  showApp();
+});
 </script>
 </body>
 </html>
