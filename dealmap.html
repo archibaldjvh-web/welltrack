@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>WellTrack — Deal Map</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0d0f;--surface:#111518;--surface2:#181d21;--border:#222930;--border2:#2d3640;--accent:#e8a020;--adim:rgba(232,160,32,.12);--green:#4ade80;--gdim:rgba(74,222,128,.12);--blue:#38bdf8;--bdim:rgba(56,189,248,.12);--red:#f87171;--rdim:rgba(248,113,113,.12);--purple:#a855f7;--text:#e2e8f0;--text2:#94a3b8;--muted:#4a5568;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;overflow-x:hidden;}
+
+/* AUTH */
+.auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;}
+.auth-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px 28px;width:100%;max-width:380px;}
+.auth-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:3px;color:var(--accent);line-height:1;}
+.auth-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:28px;margin-top:3px;}
+.auth-label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);display:block;margin-bottom:8px;font-weight:500;}
+.auth-input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;margin-bottom:14px;-webkit-appearance:none;transition:border-color .15s;}
+.auth-input:focus{border-color:var(--accent);}
+.auth-btn{width:100%;padding:15px;background:var(--accent);color:#000;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:10px;cursor:pointer;}
+.auth-error{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:11px;margin-bottom:12px;display:none;padding:12px;background:var(--rdim);border-radius:8px;}
+
+/* APP */
+.app{display:none;min-height:100vh;flex-direction:column;}
+.app.ready{display:flex;}
+
+/* HEADER */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;position:sticky;top:0;z-index:100;}
+.header-left{display:flex;align-items:center;gap:12px;}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);cursor:pointer;padding:7px 12px;border:1px solid var(--border2);border-radius:8px;background:var(--surface2);text-decoration:none;font-weight:500;}
+.deal-title-block{}
+.deal-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--text);line-height:1;}
+.deal-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px;}
+.header-right{display:flex;gap:8px;align-items:center;}
+.hbtn{padding:8px 14px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;font-weight:600;display:inline-flex;align-items:center;gap:6px;}
+.hbtn-accent{background:var(--accent);color:#000;}
+.hbtn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text2);}
+.hbtn-red{background:var(--rdim);border:1px solid var(--red);color:var(--red);}
+.icon-btn{width:36px;height:36px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;}
+
+/* DEAL SELECTOR */
+.deal-selector{padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.deal-selector label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;white-space:nowrap;font-weight:500;}
+.deal-selector select{flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;outline:none;-webkit-appearance:none;}
+
+/* MAP TOOLBAR */
+.map-toolbar{padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.map-label-input{background:var(--surface);border:1px solid var(--border2);border-radius:8px;padding:7px 12px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:11px;outline:none;width:180px;}
+.map-label-input:focus{border-color:var(--accent);}
+.toolbar-sep{width:1px;height:24px;background:var(--border2);margin:0 4px;}
+
+/* PLACING BANNER */
+.placing-banner{background:linear-gradient(135deg,var(--adim),rgba(232,160,32,.04));border-bottom:1px solid rgba(232,160,32,.3);padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:10px;}
+.placing-banner.active{display:flex;}
+.placing-text{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--accent);font-weight:700;}
+.placing-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:2px;}
+
+/* MAP CONTAINER */
+.map-wrap{flex:1;position:relative;overflow:hidden;background:#0d1117;}
+.map-container{position:relative;width:100%;overflow:auto;-webkit-overflow-scrolling:touch;}
+.map-image-wrap{position:relative;display:inline-block;min-width:100%;}
+.map-img{display:block;max-width:100%;height:auto;user-select:none;pointer-events:none;}
+.map-img.placing{cursor:crosshair !important;}
+
+/* EMPTY STATE */
+.map-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:55vh;padding:32px 20px;text-align:center;}
+.map-empty-icon{font-size:52px;margin-bottom:14px;opacity:.5;}
+.map-empty-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;margin-bottom:8px;}
+.map-empty-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);line-height:1.8;margin-bottom:20px;}
+.upload-zone{border:2px dashed var(--border2);border-radius:14px;padding:24px 20px;text-align:center;cursor:pointer;transition:all .2s;background:var(--surface);max-width:360px;width:100%;}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--accent);background:var(--adim);}
+.upload-zone-icon{font-size:32px;margin-bottom:8px;}
+.upload-zone-label{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);line-height:1.8;}
+.upload-zone-label span{color:var(--accent);}
+
+/* PINS */
+.well-pin{position:absolute;transform:translate(-50%,-100%);cursor:pointer;z-index:20;transition:transform .15s;}
+.well-pin:hover,.well-pin:active{transform:translate(-50%,-100%) scale(1.25);}
+.pin-marker{position:relative;display:flex;flex-direction:column;align-items:center;}
+.pin-circle{width:22px;height:22px;border-radius:50%;border:3px solid rgba(255,255,255,.9);box-shadow:0 2px 10px rgba(0,0,0,.6),0 0 0 2px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;}
+.pin-pulse{position:absolute;top:0;left:0;width:22px;height:22px;border-radius:50%;animation:pulse 2s infinite;}
+.pin-stem{width:2px;height:10px;background:rgba(255,255,255,.7);}
+.pin-tip{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:8px solid rgba(255,255,255,.7);}
+.pin-tag{margin-top:4px;background:rgba(10,13,15,.9);border:1px solid var(--border2);border-radius:6px;padding:3px 8px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;color:var(--text);white-space:nowrap;max-width:120px;overflow:hidden;text-overflow:ellipsis;pointer-events:none;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.6;}50%{transform:scale(1.8);opacity:0;}}
+
+/* POPUP */
+.well-popup{position:absolute;z-index:50;background:var(--surface);border:1px solid var(--border2);border-radius:14px;min-width:220px;max-width:270px;box-shadow:0 10px 40px rgba(0,0,0,.8);pointer-events:all;}
+.popup-header{padding:14px 16px 0;}
+.popup-type{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px;font-weight:600;}
+.popup-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;line-height:1.1;padding-right:24px;}
+.popup-close{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer;padding:2px 6px;}
+.popup-details{padding:10px 16px;}
+.popup-detail-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);}
+.popup-detail-row:last-child{border-bottom:none;}
+.popup-detail-label{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;}
+.popup-detail-val{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text);font-weight:600;text-align:right;}
+.popup-notes{padding:0 16px 10px;font-size:12px;color:var(--text2);line-height:1.6;}
+.popup-footer{padding:10px 16px 14px;display:flex;gap:8px;}
+.popup-btn{flex:1;padding:10px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;text-align:center;}
+.popup-btn-primary{background:var(--accent);color:#000;}
+.popup-btn-danger{background:var(--rdim);border:1px solid var(--red);color:var(--red);}
+
+/* SHEET */
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .25s;backdrop-filter:blur(6px);}
+.sheet-overlay.open{opacity:1;pointer-events:all;}
+.sheet{background:var(--surface);border-radius:24px 24px 0 0;width:100%;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);}
+.sheet-overlay.open .sheet{transform:translateY(0);}
+.sheet-handle{width:40px;height:4px;background:var(--border2);border-radius:2px;margin:14px auto 0;}
+.sheet-head{padding:16px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.sheet-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;}
+.sheet-x{background:none;border:none;color:var(--text2);font-size:22px;cursor:pointer;}
+.sheet-body{padding:20px;}
+.sheet-footer{padding:14px 20px;border-top:1px solid var(--border);display:flex;gap:10px;}
+.sheet-footer .hbtn{flex:1;justify-content:center;padding:13px;}
+
+/* FIELDS */
+.field{margin-bottom:16px;}
+.field label{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text2);display:block;margin-bottom:8px;font-weight:500;}
+.field input,.field select,.field textarea{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:16px;outline:none;-webkit-appearance:none;transition:border-color .15s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);}
+.field textarea{resize:vertical;min-height:70px;font-size:14px;}
+.field-hint{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:5px;}
+
+/* WELL COLOR PICKER */
+.color-row{display:flex;gap:8px;flex-wrap:wrap;}
+.color-dot{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s;}
+.color-dot.selected{border-color:white;transform:scale(1.15);}
+
+/* PIN LIST */
+.pin-list-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;}
+.pin-list-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+.pin-list-label{flex:1;font-size:13px;font-weight:500;}
+.pin-list-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);margin-top:2px;}
+.pin-list-actions{display:flex;gap:6px;}
+.pibtn{width:30px;height:30px;border-radius:7px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;color:var(--text2);}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;padding:50px;color:var(--text2);font-family:'IBM Plex Mono',monospace;font-size:12px;gap:10px;}
+.spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.toast{position:fixed;bottom:20px;left:16px;right:16px;background:var(--surface);border:1px solid var(--accent);border-radius:12px;padding:14px 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);z-index:500;transform:translateY(20px);opacity:0;transition:all .3s ease;text-align:center;font-weight:600;}
+.toast.show{transform:translateY(0);opacity:1;}
+.no-deal{display:flex;align-items:center;justify-content:center;min-height:40vh;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--text2);text-align:center;padding:30px;}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div class="auth-screen" id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">WellTrack</div>
+    <div class="auth-sub">Deal Map</div>
+    <div class="auth-error" id="auth-error"></div>
+    <label class="auth-label">Email</label>
+    <input class="auth-input" type="email" id="le" placeholder="your@email.com" autocomplete="email"/>
+    <label class="auth-label">Password</label>
+    <input class="auth-input" type="password" id="lp" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="auth-btn" onclick="doLogin()">Sign In</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+  <div class="header">
+    <div class="header-left">
+      <a class="back-link" id="back-link" href="index.html">← Back</a>
+      <div class="deal-title-block">
+        <div class="deal-name" id="deal-name-header">Select a Deal</div>
+        <div class="deal-sub" id="map-label-display">Deal Map</div>
+      </div>
+    </div>
+    <div class="header-right" id="header-right">
+      <div class="icon-btn" onclick="doLogout()">⎋</div>
+    </div>
+  </div>
+
+  <!-- DEAL SELECTOR -->
+  <div class="deal-selector">
+    <label>Deal</label>
+    <select id="deal-select" onchange="loadDealMap(this.value)">
+      <option value="">— Choose a deal —</option>
+    </select>
+  </div>
+
+  <!-- ADMIN TOOLBAR -->
+  <div class="map-toolbar" id="map-toolbar" style="display:none;">
+    <input class="map-label-input" id="map-label-input" placeholder="Map label e.g. Structure Map" onchange="updateMapLabel()"/>
+    <div class="toolbar-sep"></div>
+    <button class="hbtn hbtn-accent" onclick="startPlacing()" id="add-pin-btn">📍 Add Pin</button>
+    <button class="hbtn hbtn-ghost" onclick="openPinList()" id="pin-list-btn">☰ Pins</button>
+    <button class="hbtn hbtn-ghost" onclick="document.getElementById('map-file-input').click()">🗺 Upload Map</button>
+    <input type="file" id="map-file-input" accept="image/*" style="display:none;" onchange="uploadMap(this)"/>
+  </div>
+
+  <!-- PLACING BANNER -->
+  <div class="placing-banner" id="placing-banner">
+    <div>
+      <div class="placing-text">📍 Tap the map to place a pin</div>
+      <div class="placing-sub">Tap anywhere on the map where this well is located</div>
+    </div>
+    <button class="hbtn hbtn-red" onclick="cancelPlacing()">Cancel</button>
+  </div>
+
+  <!-- MAP -->
+  <div class="map-wrap" id="map-wrap">
+    <div class="loading" id="map-loading" style="display:none;"><div class="spinner"></div>Loading…</div>
+
+    <div class="map-empty" id="map-empty" style="display:none;">
+      <div class="map-empty-icon">🗺</div>
+      <div class="map-empty-title" id="empty-title">Select a Deal</div>
+      <div class="map-empty-sub" id="empty-sub">Choose a deal above to view or build its map.</div>
+      <div class="upload-zone" id="upload-zone" style="display:none;" onclick="document.getElementById('map-file-input').click()" ondragover="ev.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="dropMap(event)">
+        <div class="upload-zone-icon">📁</div>
+        <div class="upload-zone-label">Tap to upload map image<br><span>JPG, PNG, GIF, WEBP supported</span></div>
+      </div>
+    </div>
+
+    <div class="map-container" id="map-container" style="display:none;">
+      <div class="map-image-wrap" id="map-image-wrap">
+        <img class="map-img" id="map-img" src="" alt="Deal Map" draggable="false"/>
+        <!-- pins injected here -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- PIN SHEET -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-head">
+      <div class="sheet-title" id="sheet-title">Add Pin</div>
+      <button class="sheet-x" onclick="closeSheet()">✕</button>
+    </div>
+    <div class="sheet-body" id="sheet-body"></div>
+    <div class="sheet-footer" id="sheet-footer">
+      <button class="hbtn hbtn-ghost" onclick="closeSheet()">Cancel</button>
+      <button class="hbtn hbtn-accent" id="sheet-save">Save Pin</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SB_URL='https://zeqaimztqcxcdpccksyw.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InplcWFpbXp0cWN4Y2RwY2Nrc3l3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI2NTg4OTIsImV4cCI6MjA4ODIzNDg5Mn0.rnoeOvHJaGxds1tT1q4QpLrLXxZn5Z5Hou6_02WGExQ';
+const sb=supabase.createClient(SB_URL,SB_KEY);
+
+let user=null,isAdmin=false,allDeals=[],currentDealId=null,currentMap=null,placingMode=false,pendingX=null,pendingY=null;
+const WELL_COLORS=['#e8a020','#4ade80','#38bdf8','#f87171','#a855f7','#fb923c','#ffffff','#94a3b8'];
+let selectedColor=WELL_COLORS[0];
+
+// ── AUTH ──
+async function doLogin(){
+  const e=document.getElementById('le').value.trim(),p=document.getElementById('lp').value;
+  clearErr();if(!e||!p){showErr('Enter email and password.');return;}
+  const{data,error}=await sb.auth.signInWithPassword({email:e,password:p});
+  if(error){showErr(error.message);return;}
+  user=data.user;await loadApp();
+}
+function showErr(m){const e=document.getElementById('auth-error');e.textContent=m;e.style.display='block';}
+function clearErr(){document.getElementById('auth-error').style.display='none';}
+async function doLogout(){await sb.auth.signOut();location.reload();}
+
+// ── INIT ──
+async function loadApp(){
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').classList.add('ready');
+  const{data:a}=await sb.from('admin_users').select('id').single();
+  isAdmin=!!a;
+  if(isAdmin){
+    document.getElementById('map-toolbar').style.display='flex';
+    document.getElementById('back-link').href='index.html';
+  } else {
+    document.getElementById('back-link').href='promoter.html';
+  }
+  await loadDeals();
+  // Check for ?deal= param
+  const params=new URLSearchParams(window.location.search);
+  const dealParam=params.get('deal');
+  if(dealParam){
+    document.getElementById('deal-select').value=dealParam;
+    await loadDealMap(dealParam);
+  } else {
+    showEmpty('Select a Deal','Choose a deal above to view its map.');
+  }
+}
+
+async function loadDeals(){
+  const{data}=await sb.from('deals').select('*').order('name');
+  allDeals=data||[];
+  const sel=document.getElementById('deal-select');
+  sel.innerHTML='<option value="">— Choose a deal —</option>'+allDeals.map(d=>`<option value="${d.id}">${d.name}</option>`).join('');
+}
+
+// ── LOAD MAP ──
+async function loadDealMap(dealId){
+  if(!dealId){showEmpty('Select a Deal','Choose a deal above.');return;}
+  currentDealId=dealId;
+  const deal=allDeals.find(d=>d.id===dealId);
+  document.getElementById('deal-name-header').textContent=deal?.name||'Deal Map';
+
+  document.getElementById('map-loading').style.display='flex';
+  document.getElementById('map-empty').style.display='none';
+  document.getElementById('map-container').style.display='none';
+
+  const{data:mapRow}=await sb.from('deal_maps').select('*').eq('deal_id',dealId).maybeSingle();
+  document.getElementById('map-loading').style.display='none';
+  currentMap=mapRow;
+
+  if(mapRow?.map_image_url){
+    document.getElementById('map-label-display').textContent=mapRow.map_label||'Deal Map';
+    if(isAdmin)document.getElementById('map-label-input').value=mapRow.map_label||'';
+    showMapImage(mapRow.map_image_url,mapRow.pins||[]);
+  } else {
+    if(isAdmin){
+      showEmpty('No Map Yet','Upload a map image for this deal — structure map, lease map, isopach, anything.');
+      document.getElementById('upload-zone').style.display='block';
+    } else {
+      showEmpty('No Map Available','Your deal lead hasn\'t uploaded a map for this deal yet.');
+    }
+  }
+}
+
+function showEmpty(title,sub){
+  document.getElementById('map-container').style.display='none';
+  document.getElementById('map-empty').style.display='flex';
+  document.getElementById('empty-title').textContent=title;
+  document.getElementById('empty-sub').textContent=sub;
+  if(!isAdmin)document.getElementById('upload-zone').style.display='none';
+}
+
+function showMapImage(url,pins){
+  document.getElementById('map-container').style.display='block';
+  document.getElementById('map-empty').style.display='none';
+  const img=document.getElementById('map-img');
+  img.src=url;
+  img.onload=()=>renderPins(pins);
+  // Click handler
+  document.getElementById('map-image-wrap').onclick=(e)=>{
+    if(!placingMode||!isAdmin)return;
+    const wrap=document.getElementById('map-image-wrap');
+    const rect=wrap.getBoundingClientRect();
+    pendingX=Math.round(((e.clientX-rect.left)/rect.width)*10000)/100;
+    pendingY=Math.round(((e.clientY-rect.top)/rect.height)*10000)/100;
+    cancelPlacing();
+    openAddPinSheet();
+  };
+}
+
+// ── UPLOAD MAP ──
+async function uploadMap(input){
+  const file=input.files[0];if(!file||!currentDealId)return;
+  toast('Uploading…');
+  const path=`deal-maps/${currentDealId}/${Date.now()}.${file.name.split('.').pop()}`;
+  const{error}=await sb.storage.from('documents').upload(path,file,{upsert:true});
+  if(error){toast('Upload failed: '+error.message);return;}
+  const{data:u}=sb.storage.from('documents').getPublicUrl(path);
+  const url=u.publicUrl;
+  const existingPins=currentMap?.pins||[];
+  await upsertMap({map_image_url:url,pins:existingPins});
+  toast('✓ Map uploaded');
+}
+
+function dropMap(e){
+  e.preventDefault();
+  document.getElementById('upload-zone').classList.remove('dragover');
+  const f=e.dataTransfer.files[0];
+  if(f){const inp=document.getElementById('map-file-input');const dt=new DataTransfer();dt.items.add(f);inp.files=dt.files;uploadMap(inp);}
+}
+
+async function upsertMap(fields){
+  if(currentMap){
+    const{data}=await sb.from('deal_maps').update({...fields,updated_at:new Date().toISOString()}).eq('id',currentMap.id).select().single();
+    currentMap=data;
+  } else {
+    const{data}=await sb.from('deal_maps').insert({deal_id:currentDealId,...fields}).select().single();
+    currentMap=data;
+  }
+  if(currentMap?.map_image_url)showMapImage(currentMap.map_image_url,currentMap.pins||[]);
+}
+
+async function updateMapLabel(){
+  const label=document.getElementById('map-label-input').value;
+  document.getElementById('map-label-display').textContent=label||'Deal Map';
+  await upsertMap({map_label:label,map_image_url:currentMap?.map_image_url,pins:currentMap?.pins||[]});
+}
+
+// ── PLACING MODE ──
+function startPlacing(){
+  placingMode=true;
+  document.getElementById('map-img').classList.add('placing');
+  document.getElementById('placing-banner').classList.add('active');
+  closePopup();
+}
+function cancelPlacing(){
+  placingMode=false;
+  document.getElementById('map-img').classList.remove('placing');
+  document.getElementById('placing-banner').classList.remove('active');
+}
+
+// ── ADD PIN SHEET ──
+function openAddPinSheet(existingPin=null){
+  const isEdit=!!existingPin;
+  document.getElementById('sheet-title').textContent=isEdit?'Edit Pin':'New Well Pin';
+  document.getElementById('sheet-body').innerHTML=`
+    <div class="field"><label>Well Name / Label</label><input id="pin-label" value="${existingPin?.label||''}" placeholder="e.g. Horizontal #1, SWD Well, Offset #3"/></div>
+    <div class="field"><label>Well Type</label>
+      <select id="pin-type">
+        ${['Proposed','Horizontal Producer','Vertical Producer','Salt Water Disposal','Injection','Offset','Monitor','Other'].map(t=>`<option${existingPin?.type===t?' selected':''}>${t}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field"><label>API Number</label><input id="pin-api" value="${existingPin?.api||''}" placeholder="XX-XXX-XXXXX (optional)"/></div>
+    <div class="field"><label>Depth / TVD</label><input id="pin-depth" value="${existingPin?.depth||''}" placeholder="e.g. 9,200 ft TVD (optional)"/></div>
+    <div class="field"><label>Notes</label><textarea id="pin-notes" placeholder="Any notes visible when pin is tapped…">${existingPin?.notes||''}</textarea></div>
+    <div class="field"><label>Pin Color</label>
+      <div class="color-row">
+        ${WELL_COLORS.map(c=>`<div class="color-dot${(existingPin?.color||selectedColor)===c?' selected':''}" style="background:${c};" onclick="pickColor('${c}',this)"></div>`).join('')}
+      </div>
+    </div>`;
+  selectedColor=existingPin?.color||WELL_COLORS[0];
+  document.getElementById('sheet-save').textContent=isEdit?'Save Changes':'Place Pin';
+  document.getElementById('sheet-save').onclick=isEdit?()=>saveEditPin(existingPin.id):savePinFromSheet;
+  openSheet();
+}
+
+function pickColor(c,el){
+  selectedColor=c;
+  document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+async function savePinFromSheet(){
+  const label=document.getElementById('pin-label').value.trim();
+  if(!label){toast('Enter a well name.');return;}
+  const newPin={id:Date.now().toString(),label,type:document.getElementById('pin-type').value,api:document.getElementById('pin-api').value,depth:document.getElementById('pin-depth').value,notes:document.getElementById('pin-notes').value,color:selectedColor,x:pendingX,y:pendingY};
+  const pins=[...(currentMap?.pins||[]),newPin];
+  await upsertMap({map_image_url:currentMap?.map_image_url,map_label:currentMap?.map_label||'',pins});
+  closeSheet();
+  toast('✓ Pin placed — '+label);
+}
+
+async function saveEditPin(pinId){
+  const label=document.getElementById('pin-label').value.trim();
+  if(!label){toast('Enter a well name.');return;}
+  const pins=(currentMap?.pins||[]).map(p=>p.id===pinId?{...p,label,type:document.getElementById('pin-type').value,api:document.getElementById('pin-api').value,depth:document.getElementById('pin-depth').value,notes:document.getElementById('pin-notes').value,color:selectedColor}:p);
+  await upsertMap({map_image_url:currentMap?.map_image_url,map_label:currentMap?.map_label||'',pins});
+  closeSheet();
+  toast('✓ Pin updated');
+}
+
+async function deletePin(pinId){
+  if(!confirm('Remove this pin?'))return;
+  const pins=(currentMap?.pins||[]).filter(p=>p.id!==pinId);
+  await upsertMap({map_image_url:currentMap?.map_image_url,map_label:currentMap?.map_label||'',pins});
+  closePopup();
+  toast('Pin removed');
+}
+
+// ── RENDER PINS ──
+function renderPins(pins){
+  document.querySelectorAll('.well-pin,.well-popup').forEach(el=>el.remove());
+  const wrap=document.getElementById('map-image-wrap');if(!wrap)return;
+  (pins||[]).forEach(pin=>{
+    const el=document.createElement('div');
+    el.className='well-pin';
+    el.style.left=pin.x+'%';
+    el.style.top=pin.y+'%';
+    el.dataset.pinId=pin.id;
+    el.innerHTML=`<div class="pin-marker">
+      <div style="position:relative;">
+        <div class="pin-circle" style="background:${pin.color||'#e8a020'};"></div>
+        <div class="pin-pulse" style="background:${pin.color||'#e8a020'};"></div>
+      </div>
+      <div class="pin-stem"></div>
+      <div class="pin-tip"></div>
+      <div class="pin-tag">${pin.label}</div>
+    </div>`;
+    el.onclick=(e)=>{e.stopPropagation();showPopup(pin);};
+    wrap.appendChild(el);
+  });
+}
+
+// ── POPUP ──
+function showPopup(pin){
+  closePopup();
+  const wrap=document.getElementById('map-image-wrap');
+  const popup=document.createElement('div');
+  popup.className='well-popup';
+  popup.id='active-popup';
+  // Smart positioning
+  const leftPos=pin.x>55?'auto':pin.x+'%';
+  const rightPos=pin.x>55?(100-pin.x)+'%':'auto';
+  popup.style.left=leftPos;
+  popup.style.right=rightPos;
+  popup.style.top=Math.max(0,pin.y-2)+'%';
+  popup.style.transform='translateY(-100%)';
+
+  const rows=[];
+  if(pin.type)rows.push(['Type',pin.type]);
+  if(pin.api)rows.push(['API#',pin.api]);
+  if(pin.depth)rows.push(['Depth',pin.depth]);
+
+  popup.innerHTML=`
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div class="popup-header">
+      <div class="popup-type" style="color:${pin.color||'var(--accent)'};">Well Pin</div>
+      <div class="popup-name">${pin.label}</div>
+    </div>
+    ${rows.length?`<div class="popup-details">${rows.map(([l,v])=>`<div class="popup-detail-row"><span class="popup-detail-label">${l}</span><span class="popup-detail-val">${v}</span></div>`).join('')}</div>`:''}
+    ${pin.notes?`<div class="popup-notes">${pin.notes}</div>`:''}
+    <div class="popup-footer">
+      ${isAdmin?`<button class="popup-btn popup-btn-danger" onclick="deletePin('${pin.id}')">Remove</button><button class="popup-btn popup-btn-primary" onclick="closePopup();openAddPinSheet(${JSON.stringify(pin).replace(/"/g,'&quot;')})">Edit</button>`:'<div style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:var(--text2);padding:2px 0;">Contact your deal lead for more details.</div>'}
+    </div>`;
+
+  // Fix edit button JSON passing
+  if(isAdmin){
+    popup.querySelector('.popup-btn-primary').onclick=()=>{closePopup();openAddPinSheet(pin);};
+  }
+  wrap.appendChild(popup);
+}
+
+function closePopup(){document.getElementById('active-popup')?.remove();}
+
+// ── PIN LIST SHEET ──
+function openPinList(){
+  const pins=currentMap?.pins||[];
+  document.getElementById('sheet-title').textContent='All Pins';
+  document.getElementById('sheet-body').innerHTML=pins.length
+    ?pins.map(pin=>`<div class="pin-list-item"><div class="pin-list-dot" style="background:${pin.color||'var(--accent)'}"></div><div style="flex:1;"><div class="pin-list-label">${pin.label}</div><div class="pin-list-sub">${pin.type||''} ${pin.depth?'· '+pin.depth:''}</div></div><div class="pin-list-actions"><div class="pibtn" onclick="closeSheet();openAddPinSheet(pins_cache['${pin.id}'])">✎</div><div class="pibtn" style="color:var(--red);" onclick="deletePin('${pin.id}');closeSheet()">✕</div></div></div>`).join('')
+    :'<div style="text-align:center;font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:var(--text2);padding:24px;">No pins yet.<br>Tap 📍 Add Pin to place your first well.</div>';
+  // Cache pins for edit access
+  window.pins_cache={};(pins||[]).forEach(p=>window.pins_cache[p.id]=p);
+  // Edit buttons
+  document.getElementById('sheet-footer').innerHTML=`<button class="hbtn hbtn-ghost" onclick="closeSheet()" style="flex:1;justify-content:center;">Close</button>`;
+  openSheet();
+  // Re-wire edit buttons after render
+  setTimeout(()=>{
+    document.querySelectorAll('[onclick*="pins_cache"]').forEach(el=>{
+      const pinId=el.getAttribute('onclick').match(/'([^']+)'/)?.[1];
+      if(pinId&&window.pins_cache[pinId])el.onclick=()=>{closeSheet();openAddPinSheet(window.pins_cache[pinId]);};
+    });
+  },50);
+}
+
+// ── UTILS ──
+function openSheet(){document.getElementById('sheet-overlay').classList.add('open');}
+function closeSheet(){document.getElementById('sheet-overlay').classList.remove('open');}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+// ── SESSION ──
+sb.auth.getSession().then(({data:{session}})=>{if(session){user=session.user;loadApp();}});
+</script>
+</body>
+</html>
